@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<?rfc toc="yes" ?>
+<?rfc tocompact="yes" ?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes" ?>
+<?rfc comments="yes" ?>
+<?rfc inline="yes" ?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY rfc3315 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3315.xml">
+<!ENTITY rfc3633 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3633.xml">
+<!ENTITY rfc6204 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6204.xml">
+]>
+
+<rfc category="info" docName="draft-troan-dhc-dhcpv6-stateful-issues-00.txt"
+     ipr="trust200902">
+  <front>
+    <title abbrev="Multiple Stateful Option">
+    Issues with multiple stateful DHCPv6 options</title>
+
+    <author fullname="Ole Troan" initials="O" surname="Troan">
+      <organization abbrev="">cisco</organization>
+      <address>
+        <postal>
+          <street></street>
+          <city>Oslo</city>
+          <region></region>
+          <code></code>
+          <country>Norway</country>
+        </postal>
+        <email>ot@cisco.com</email>
+      </address>
+    </author>
+    <author fullname="Bernie Volz" initials="B" surname="Volz">
+      <organization abbrev="">cisco</organization>
+      <address>
+        <postal>
+          <street></street>
+          <city>Out in the Woods somewhere</city>
+          <region></region>
+          <code></code>
+          <country>US of A</country>
+        </postal>
+        <email>volz@cisco.com</email>
+      </address>
+    </author>
+
+    <date year="2012" />
+
+    <area>Internet</area>
+
+    <workgroup>Network Working Group</workgroup>
+
+    <!--  SECTION 0:  Abstract                      -->
+
+    <abstract>
+      <t><xref target="RFC3315"/> was not written with the expectation
+      that other stateful DHCPv6 options would be developed. <xref
+      target="RFC3633"/> shoe-horned the new options for Prefix
+      Delegation options for DHCPv6 into DHCPv6. Implementation
+      experience of the CPE model described in <xref
+      target="RFC6204"/> has shown multiple issues with the DHCPv6
+      protocol in supporting multiple stateful options.</t>
+    </abstract>
+  </front>
+
+  <middle>
+    <!--  SECTION 1:  Introduction                  -->
+
+    <section title="Introduction">
+      <t><xref target="RFC3315"/> was not written with the expectation
+      that other stateful DHCPv6 options would be developed. <xref
+      target="RFC3633"/> shoe-horned the new options for Prefix
+      Delegation options for DHCPv6 into DHCPv6. Implementation
+      experience of the CPE model described in <xref
+      target="RFC6204"/> has shown multiple issues with the DHCPv6
+      protocol in supporting multiple stateful options.</t>
+
+      <t>This document describes a number of problems encountered when
+      introducing multiple IA_ options into DHCP. The document also
+      suggest solutions with suggested edits to the protocol
+      specification.</t>
+
+      <t>The intention of this work is to modify the DHCP protocol
+      specification to support multiple IA_ options within a single
+      DHCP session. This problem can also be solved by implementing a
+      separate DHCP session (separate client state machine) per IA_
+      option. This latter approach has a number of issues. Addition
+      DHCP protocol traffic, 'collisions' between stateless options
+      also included with the IA_ options, divergence in that each IA_
+      option specification basically specifies its own version of the
+      DHCP protocol...</t>
+
+    </section>
+
+    <!--  SECTION 2: REQUIREMENTS LANGUAGE                                         -->
+
+    <section anchor="sec:conventions" title="Conventions">
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+      document are to be interpreted as described in RFC 2119 <xref
+      target="RFC2119"></xref>.</t>
+    </section>
+
+    <!-- conventions -->
+
+    <!--  SECTION 3: DESCRIPTION                                                   -->
+
+    <section title="Handling of multiple IA_* options">
+      <t>DHCPv6 was written with the assumption that the only stateful
+      options where for assigning addresses. DHCPv6 PD describes how
+      to extend the DHCPv6 protocol to handle prefix delegation, but
+      RFC3633 did not consider how DHCP address assignment and prefix
+      delegation could co-exist.</t>
+
+      <section title="Advertisement message">
+	<t>RFC3315 specifies that a client must ignore an Advertise
+	message if a server will not assign any addresses to a
+	client. A client requesting both IA_NA and IA_PD, with a
+	server that only offers one of them, is not supported in the
+	current protocol specification.</t>
+
+	<t>Proposed solution: a client should accept Advertise messages,
+	even when not all IA_ options are being offered. A client
+	should ignore an Advertise message when no IA_ options at all
+	are being offered.</t>
+
+	<t>Replace Section 17.1.3: (existing errata)</t>
+	<t><artwork>
+   The client MUST ignore any Advertise message that includes a Status
+   Code option containing the value NoAddrsAvail, with the exception
+   that the client MAY display the associated status message to the
+   user.
+	</artwork></t>
+	<t>With:</t>
+	<t><artwork>
+   The client MUST ignore any IAs in an Advertise message that
+   includes a Status Code option containing the value NoAddrsAvail,
+   with the exception that the client MAY display the associated
+   status message to the user. An Advertise message without any IA
+   options MUST be ignored.
+	</artwork></t>
+
+	<t>It is important to note that the receipt of a Advertisement
+	without any IA options, does not imply that the client should
+	restart the Solicit retransmissions timers. Doing so would
+	lead to a Solicit/Advertisement storm.</t>
+
+      </section>
+
+      <section title="Placement of Status codes">
+	<t>In Reply messages IA specific status codes (NoAddrsAvail,
+	NotOnlink, NoBinding) are encapsulated in the IA option. In
+	Advertisement messages the Status code option with the
+	NoAddrsAvail code is in the "global" scope. That makes sense
+	when the failure case is fatal. With the introduction of
+	multiple IA options, there might be a case where a server is
+	not willing to offer addresses, but might be willing to offer
+	other options.</t>
+
+	<t>While a Status Code option is implicitly bound to a
+	specific type of IA. E.g. NoPrefixAvail is only applicable to
+	IA_PD, and NoAddrsAvail is only applicable to IA_NA/IA_TA, it
+	may be problematic to make this assumption for all status
+	codes. If so the Status Code must be embedded in the IA_
+	option for all DHCP messages. This makes Advertisement
+	messages equal to Reply messages.</t>
+
+	<t>Proposed solution: Embedding the Status code option in the
+	specific IA. For backwards compatibility, the IA_NA status
+	code can be kept in the global scope.</t>
+
+	<t>Replace Section 17.2.2: (existing errata)</t>
+
+	<t><artwork>
+   If the server will not assign any addresses to any IAs in a
+   subsequent Request from the client, the server MUST send an
+   Advertise message to the client that includes only a Status Code
+   option with code NoAddrsAvail and a status message for the user, a
+   Server Identifier option with the server's DUID, and a Client
+   Identifier option with the client's DUID.
+	</artwork></t>
+	<t>With:</t>
+	<t><artwork>
+   If the server will not assign any addresses to an IA in a
+   subsequent Request from the client, the server MUST send an
+   Advertise message to the client that includes the IA containing a
+   Status Code option with status code NoAddrsAvail and a status
+   message for the user, a Server Identifier option with the server's
+   DUID, and a Client Identifier option with the client's DUID. The
+   server SHOULD include other stateful IA options (like IA_PD) and
+   other configuration options in the Advertise message.
+	</artwork></t>
+
+      </section>
+
+      <section title="T1/T2 timers">
+	<t>The T1 and T2 timers determine when the client will contact
+	the server to extend lifetimes of information received in an
+	IA. How should a client handle the case where multiple IA_
+	options have different T1 and T2 timers?</t>
+
+	<t>In a multiple IA_ options model, the T1/T2 timers are
+	protocol timers, that should be independent of the IA_ options
+	themselves. If we were to redo the DHCP protocol from scratch
+	the T1/T2 timers should be carried in a separate DHCP
+	option.</t>
+
+	<t>Proposed solution: The server should set the T1/T2 timers
+	in all IA_* to the same value. To deal with the case where
+	servers have not yet been updated to do that, clients must use
+	the shortest T1/T2 timer (larger than 0) in any IA_
+	option. Longer T1/T2 timers are ignored.</t>
+
+      </section>
+
+      <section title="Confirm message">
+	<t>The Confirm message is specific to address assignment. It
+	lets a server without a binding to reply to the message, under
+	the assumption that the server has knowledge of the prefix on
+	the link, while not having the binding, can inform the client
+	that the address is likely valid. This message is sent when
+	e.g. the client has moved and needs to validate its
+	addresses. Not all IA_ options can be validated by servers
+	without the binding.</t>
+
+	<t>Note: Confirm has a specific meaning and doesn't overload
+	Renew/Rebind. It also is lower processing cost as the server
+	does NOT need to extend lease times or otherwise send back
+	options.</t>
+
+	<t>Proposed solution: Allow and specify the Confirm message
+	for other IA options. It is encouraged to use Renew instead of
+	Confirm.</t>
+
+      </section>
+
+      <section title="Release / Decline messages">
+	<t>A client can release any individual lease at any time. A
+	client can get "back" a lease by using a Renew message. It MAY
+	do this at any time, though must avoid creating a Renew
+	storm. E.g. wait until T1.</t>
+      </section>
+
+      <section title="Unanswered options">
+	<t>If a client requests multiple IA_ options, but the server
+	is willing to only offer a subset of them, the client could
+	react in several ways. Reset the state machine and continue to
+	send Solicit messages, create separate DHCP sessions for each
+	IA and continue to Solicit for the missing options, or it
+	could continue with the single session, and include the
+	missing options on subsequent messages to the server.</t>
+
+	<t>Proposed solution: the client should keep a single session
+	with the server. The client should continue with the IA_
+	options received, while continuing to request the other IA
+	options in subsequent messages to the server. That means
+	continue to include the empty unanswered IAs in subsequent
+	Renew and Rebind messages.</t>
+
+	<t>For the IAs that the server has no binding for, it must
+	reply using the same behaviour as for a Request message. That
+	is with a "NoAddrsAvail" status. (As opposed to the currently
+	specified NoBinding). This behaviour will not require the
+	server to remember the IAs that it is not willing to
+	server. I.e. the change is to allow the client to include IAs
+	(bindings) in Renew/Rebind messages which it has not received
+	(yet).</t>
+
+      </section>
+
+
+      <section title="Multiple provisioning domains">
+	<t>Out of scope for this set of proposed changes to RFC3315/RFC3633.</t>
+      </section>
+
+    </section>
+
+    <!--  SECTION 4:  IANA Considerations           -->
+
+    <section title="IANA Considerations">
+      <t>This specification does not require any IANA actions.</t>
+    </section>
+
+    <!--  SECTION 5:  Security Considerations      	-->
+
+    <section title="Security Considerations">
+      <t>There are no new security considerations pertaining to this
+      document.</t>
+    </section>
+
+    <!--  SECTION 6:  Acknowledgements     			-->
+
+    <section title="Acknowledgements">
+    </section>
+  </middle>
+
+  <back>
+    <!--  SECTION 8.1:  Normative References		-->
+
+    <references title="Normative References">
+      &rfc2119;
+      &rfc3315;
+      &rfc3633;
+      &rfc6204;
+    </references>
+
+    <references title="Informative References">
+    </references>
+
+    <!--  SECTION 8.2:  Informative References		-->
+  </back>
+</rfc>
+
