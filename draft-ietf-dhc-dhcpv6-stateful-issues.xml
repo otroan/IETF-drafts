@@ -15,18 +15,18 @@
 <!ENTITY rfc6204 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6204.xml">
 ]>
 
-<rfc category="info" docName="draft-ietf-dhc-dhcpv6-stateful-issues-00.txt"
+<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-00.txt"
      ipr="trust200902">
   <front>
     <title abbrev="Multiple Stateful Option">
     Issues with multiple stateful DHCPv6 options</title>
 
     <author fullname="Ole Troan" initials="O" surname="Troan">
-      <organization abbrev="">cisco</organization>
+      <organization abbrev="">Cisco Systems, Inc.</organization>
       <address>
         <postal>
-          <street></street>
-          <city>Oslo</city>
+          <street>Philip Pedersens vei 20</street>
+          <city>N-1324 Lysaker</city>
           <region></region>
           <code></code>
           <country>Norway</country>
@@ -57,13 +57,14 @@
     <!--  SECTION 0:  Abstract                      -->
 
     <abstract>
-      <t><xref target="RFC3315"/> was not written with the expectation
-      that other stateful DHCPv6 options would be developed. <xref
-      target="RFC3633"/> shoe-horned the new options for Prefix
-      Delegation options for DHCPv6 into DHCPv6. Implementation
-      experience of the CPE model described in <xref
-      target="RFC6204"/> has shown multiple issues with the DHCPv6
-      protocol in supporting multiple stateful options.</t>
+      <t>Dynamic Host Configuration Protocol for IPv6 (DHCPv6) was not
+      written with the expectation that additional stateful DHCPv6
+      options would be developed. IPv6 Prefix Options for Dynamic Host
+      Configuration Protocol (DHCP) version 6 shoe-horned the new
+      options for Prefix Delegation into DHCPv6. Implementation
+      experience of the CPE model described in has shown multiple
+      issues with the DHCPv6 protocol in supporting multiple stateful
+      options.</t>
     </abstract>
   </front>
 
@@ -71,27 +72,31 @@
     <!--  SECTION 1:  Introduction                  -->
 
     <section title="Introduction">
-      <t><xref target="RFC3315"/> was not written with the expectation
-      that other stateful DHCPv6 options would be developed. <xref
-      target="RFC3633"/> shoe-horned the new options for Prefix
-      Delegation options for DHCPv6 into DHCPv6. Implementation
-      experience of the CPE model described in <xref
-      target="RFC6204"/> has shown multiple issues with the DHCPv6
-      protocol in supporting multiple stateful options.</t>
+      <t>DHCPv6 <xref target="RFC3315"/> was not written with the
+      expectation that additional stateful DHCPv6 options would be
+      developed. DHCPv6 Prefix Delegation <xref target="RFC3633"/>
+      shoe-horned the new options for Prefix Delegation into
+      DHCPv6. Implementation experience of the CPE model described in
+      <xref target="RFC6204"/> has shown multiple issues with the
+      DHCPv6 protocol in supporting multiple stateful options.</t>
 
-      <t>This document describes a number of problems encountered when
-      introducing multiple IA option types into DHCP. The document also
-      suggest solutions with edits to the protocol specification.</t>
+      <t>This document describes a number of problems encountered with
+      multiple IA option types into DHCP and recommended changes to
+      the DHCPv6 protocol specifications.</t>
 
       <t>The intention of this work is to modify the DHCP protocol
-      specification to support multiple IA option types within a single
-      DHCP session. This problem can also be solved by implementing a
-      separate DHCP session (separate client state machine) per IA
-      option type. This latter approach has a number of issues. Addition
-      DHCP protocol traffic, 'collisions' between stateless options
-      also included with the IA options, divergence in that each IA
-      option type specification basically specifies its own version of the
-      DHCP protocol.</t>
+      specification to support multiple IA option types within a
+      single DHCP session. This problem can also be solved by
+      implementing a separate DHCP session (separate client state
+      machine) per IA option type. This latter approach has a number
+      of issues: additional DHCP protocol traffic, 'collisions'
+      between stateless options also included with the IA options,
+      divergence in that each IA option type specification specifies
+      its 'own' version of the DHCP protocol.</t>
+
+      <t>The changes described in this document will be incorporated
+      in a new revision of the DHCPv6 protocol specification <xref
+      target="RFC3315"/>.</t>
 
     </section>
 
@@ -107,6 +112,27 @@
     <!-- conventions -->
 
     <!--  SECTION 3: DESCRIPTION                                                   -->
+
+    <section title="Terminology">
+      <t><list hangIndent="28" style="hanging">
+
+	<t hangText="Stateful options">
+	  Options that require dynamic binding state per client on the
+	  server.</t>
+
+	<t hangText="Identity association (IA):">
+	  A collection of stateful options assigned to a client. Each
+	  IA has an associated IAID. A client may have more than one
+	  IA assigned to it; for example, one for each of its
+	  interfaces. Each IA holds one type of IA option; for example,
+	  an identity association for temporary addresses (IA_TA)
+	  holds temporary addresses (see "identity association for
+	  temporary addresses"). Throughout this document, "IA" is
+	  used to refer to an identity association without identifying
+	  the type of stateful option in the IA.</t>
+
+	</list></t>
+    </section>
 
     <section title="Handling of multiple IA options types">
       <t>DHCPv6 was written with the assumption that the only stateful
@@ -128,33 +154,33 @@
 	are being offered.</t>
 
 	<t>Replace Section 17.1.3: (existing errata)</t>
-	<artwork>
+	<figure><artwork>
    The client MUST ignore any Advertise message that includes a Status
    Code option containing the value NoAddrsAvail, with the exception
    that the client MAY display the associated status message(s) to the
    user.
-	</artwork>
+	</artwork></figure>
 	<t>With:</t>
-	<artwork>
+	<figure><artwork>
    The client MUST ignore any Advertise message that contains no
    bindings (if only IA_NA and/or IA_TA options were requested,
    this is a message that includes a Status Code option containing the
    value NoAddrsAvail), with the exception that the client MAY display
    the associated status message(s) to the user.
-	</artwork>
+	</artwork></figure>
 
         <t>And, replace:</t>
-        <artwork>
+        <figure><artwork>
    -  The client MAY choose a less-preferred server if that server has a
       better set of advertised parameters, such as the available
       addresses advertised in IAs.
-        </artwork>
+        </artwork></figure>
         <t>With:</t>
-        <artwork>
+        <figure><artwork>
    -  The client MAY choose a less-preferred server if that server has a
       better set of advertised parameters, such as the available
-      bindings advertised in IAs.
-        </artwork>
+      options advertised in IAs.
+        </artwork></figure>
 
         <t>It is important to note that the receipt of a Advertisement
 	without any bindings does not imply that the client should
@@ -171,7 +197,7 @@
 	when the failure case is fatal. With the introduction of
 	multiple IA option types, there might be a case where a server is
 	not willing to offer addresses, but might be willing to offer
-	other binding types.</t>
+	other stateful option types.</t>
 
 	<t>While a Status Code option is implicitly bound to a
 	specific type of IA, e.g. NoPrefixAvail is only applicable to
@@ -272,19 +298,19 @@
         is renewing.</t>
 
         <t>Replace Section 18.2.3:</t>
-        <artwork>
+        <figure><artwork>
    If the server cannot find a client entry for the IA the server
    returns the IA containing no addresses with a Status Code option set
    to NoBinding in the Reply message.
-        </artwork>
+        </artwork></figure>
         <t>With:</t>
-        <artwork>
+        <figure><artwork>
    If the server cannot find a client entry for the IA but has one or more
    bindings for the client, the server SHOULD treat this like a Request
    message for the IA. If the server has no other bindings for the client,
    the server SHOULD return the IA containing no bindings with a Status
    Code option set to NoBinding in the Reply message.
-        </artwork>
+        </artwork></figure>
 
       </section>
 
@@ -333,9 +359,10 @@
       &rfc6204;
     </references>
 
+<!--
     <references title="Informative References">
     </references>
-
+-->
     <!--  SECTION 8.2:  Informative References		-->
   </back>
 </rfc>
