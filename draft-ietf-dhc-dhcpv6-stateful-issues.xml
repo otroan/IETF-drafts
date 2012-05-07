@@ -102,7 +102,7 @@
 
     <!--  SECTION 2: REQUIREMENTS LANGUAGE                                         -->
 
-    <section anchor="sec:conventions" title="Conventions">
+    <section title="Conventions">
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
       document are to be interpreted as described in RFC 2119 <xref
@@ -171,15 +171,15 @@
 
         <t>And, replace:</t>
         <figure><artwork>
-   -  The client MAY choose a less-preferred server if that server has a
-      better set of advertised parameters, such as the available
-      addresses advertised in IAs.
+   -  The client MAY choose a less-preferred server if that server
+      has a better set of advertised parameters, such as the
+      available addresses advertised in IAs.
         </artwork></figure>
         <t>With:</t>
         <figure><artwork>
-   -  The client MAY choose a less-preferred server if that server has a
-      better set of advertised parameters, such as the available
-      options advertised in IAs.
+   -  The client MAY choose a less-preferred server if that server
+      has a better set of advertised parameters, such as the
+      available options advertised in IAs.
         </artwork></figure>
 
         <t>It is important to note that the receipt of a Advertisement
@@ -305,11 +305,11 @@
         </artwork></figure>
         <t>With:</t>
         <figure><artwork>
-   If the server cannot find a client entry for the IA but has one or more
-   bindings for the client, the server SHOULD treat this like a Request
-   message for the IA. If the server has no other bindings for the client,
-   the server SHOULD return the IA containing no bindings with a Status
-   Code option set to NoBinding in the Reply message.
+   If the server cannot find a client entry for the IA but has one or
+   more bindings for the client, the server SHOULD treat this like a
+   Request message for the IA. If the server has no other bindings for
+   the client, the server SHOULD return the IA containing no bindings
+   with a Status Code option set to NoBinding in the Reply message.
         </artwork></figure>
 
       </section>
