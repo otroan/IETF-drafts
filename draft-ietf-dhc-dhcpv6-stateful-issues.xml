@@ -15,8 +15,8 @@
 <!ENTITY rfc6204 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6204.xml">
 ]>
 
-<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-00.txt"
-     ipr="trust200902">
+<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-01.txt"
+     ipr="trust200902" updates="3315,3633">
   <front>
     <title abbrev="Multiple Stateful Option">
     Issues with multiple stateful DHCPv6 options</title>
@@ -136,24 +136,37 @@
 
     <section title="Handling of multiple IA options types">
       <t>DHCPv6 was written with the assumption that the only stateful
-      options where for assigning addresses. DHCPv6 PD describes how
+      options were for assigning addresses. DHCPv6 PD describes how
       to extend the DHCPv6 protocol to handle prefix delegation, but
-      RFC3633 did not consider how DHCP address assignment and prefix
-      delegation could co-exist.</t>
+      <xref target="RFC3633"/> did not consider how DHCP address
+      assignment and prefix delegation could co-exist.</t>
+
+      <t>If a client requests multiple IA option types, but the server
+      is configured to only offer a subset of them, the client could
+      react in several ways. Reset the state machine and continue to
+      send Solicit messages, create separate DHCP sessions for each
+      IA option type and continue to Solicit for the missing options,
+      or it could continue with the single session, and include the
+      missing options on subsequent messages to the server.</t>
+
+      <t>Proposed solution: the client should keep a single session
+      with the server and include the missing options on subsequent
+      messages (Request, Renew, and Rebind) to the server.</t>
 
       <section title="Advertisement message">
-	<t>RFC3315 specifies that a client must ignore an Advertise
+	<t><xref target="RFC3315"/> specifies that a client must ignore an Advertise
 	message if a server will not assign any addresses to a
 	client. A client requesting both IA_NA and IA_PD, with a
 	server that only offers one of them, is not supported in the
 	current protocol specification.</t>
 
-	<t>Proposed solution: a client should accept Advertise messages,
+	<t>Proposed solution: a client SHOULD accept Advertise messages,
 	even when not all IA option types are being offered. A client
-	should ignore an Advertise message when no bindings at all
-	are being offered.</t>
+	SHOULD ignore an Advertise message when no bindings at all
+	are being offered. The client SHOULD include the not offered
+	IA option types in its Request.</t>
 
-	<t>Replace Section 17.1.3: (existing errata)</t>
+	<t>Replace Section 17.1.3 of <xref target="RFC3315"/>: (existing errata)</t>
 	<figure><artwork>
    The client MUST ignore any Advertise message that includes a Status
    Code option containing the value NoAddrsAvail, with the exception
@@ -169,18 +182,18 @@
    the associated status message(s) to the user.
 	</artwork></figure>
 
-        <t>And, replace:</t>
-        <figure><artwork>
+	<t>And, replace:</t>
+	<figure><artwork>
    -  The client MAY choose a less-preferred server if that server
       has a better set of advertised parameters, such as the
       available addresses advertised in IAs.
-        </artwork></figure>
-        <t>With:</t>
-        <figure><artwork>
+	</artwork></figure>
+	<t>With:</t>
+ 	<figure><artwork>
    -  The client MAY choose a less-preferred server if that server
       has a better set of advertised parameters, such as the
       available options advertised in IAs.
-        </artwork></figure>
+	</artwork></figure>
 
         <t>It is important to note that the receipt of a Advertisement
 	without any bindings does not imply that the client should
@@ -236,6 +249,85 @@
 
       </section>
 
+
+      <section title="Renew and Rebind messages">
+        <t>The Renew message, as described in <xref target="RFC3315"/>,
+        allows a client to only renew bindings assigned via a Request
+        message. The Rebind message, as described in <xref target="RFC3315"/>
+        does not explicitly specify what a server should do when an IA
+        option which contains no addresses is present.</t>
+
+	<t>In a multiple IA option type model, the Renew does not support
+	the ability for the client to renew one IA option type while
+	requesting bindings for other IA option types that were not
+	available when the client sent the Request.</t>
+
+	<t>Proposed solution: The client should continue with the IA
+	options received, while continuing to include the other IA
+	options in subsequent messages to the server. The client
+	and server processing need to be modified. Note that this
+	change makes the server's IA processing of Renew and Rebind
+	similar to the Request processing.</t>
+
+	<t>Replace Section 18.1.3 of <xref target="RFC3315"/>:</t>
+	<figure><artwork>
+   At time T1 for an IA, the client initiates a Renew/Reply message
+   exchange to extend the lifetimes on any addresses in the IA.  The
+   client includes an IA option with all addresses currently assigned
+   to the IA in its Renew message.
+	</artwork></figure>
+	<t>With:</t>
+	<figure><artwork>
+   At time T1 for an IA, the client initiates a Renew/Reply message
+   exchange to extend the lifetimes on any addresses in the IA.  The
+   client includes an IA option with all addresses currently assigned
+   to the IA in its Renew message. The client also includes an IA
+   option for each binding it desires but has been unable to obtain.
+	</artwork></figure>
+
+	<t>Replace Section 18.2.3 of <xref target="RFC3315"/>:</t>
+	<figure><artwork>
+   If the server cannot find a client entry for the IA the server
+   returns the IA containing no addresses with a Status Code option
+   set to NoBinding in the Reply message.
+	</artwork></figure>
+	<t>With:</t>
+	<figure><artwork>
+   If the server cannot find a client entry for the IA the server
+   creates the bindings for that client according to the server's
+   policy and configuration information and records the IAs and
+   other information requested by the client.
+	</artwork></figure>
+
+   <t>Note that clients that communicate with servers that do not
+   support this updated Renew processing will receive the NoBinding status
+   for the IA which had no bindings. The client MUST continue
+   to process the other IAs in the Reply. The client MAY attempt a
+   Solicit/Advertise/Request/Reply sequence periodically to obtain
+   bindings for these IAs. However, it MUST limit the frequency at
+   which is does this to no more often than the renewal frequency.</t>
+
+	<t>Replace Section 18.1.4 of <xref target="RFC3315"/>:</t>
+	<figure><artwork>
+   At time T2 for an IA (which will only be reached if the server to
+   which the Renew message was sent at time T1 has not responded), the
+   client initiates a Rebind/Reply message exchange with any available
+   server.  The client includes an IA option with all addresses
+   currently assigned to the IA in its Rebind message.
+	</artwork></figure>
+	<t>With:</t>
+	<figure><artwork>
+   At time T2 for an IA (which will only be reached if the server to
+   which the Renew message was sent at time T1 has not responded), the
+   client initiates a Rebind/Reply message exchange with any available
+   server.  The client includes an IA option with all addresses
+   currently assigned to the IA in its Rebind message.  The client
+   also includes an IA option for each binding it desires but has been
+   unable to obtain.
+	</artwork></figure>
+
+      </section>
+
       <section title="Confirm message">
 	<t>The Confirm message, as described in <xref target="RFC3315"/>,
         is specific to address assignment. It lets a server without a
@@ -254,78 +346,63 @@
 	other configuration options.</t>
 
 	<t>Proposed solution: Allow and specify the Confirm message
-	for other IA option types. A server SHOULD respond to a
-        Confirm message only if it has definitive knowledge, based on
-        the network configuration and not the specific client's bindings,
-        that the client is still on-link or not on-link.</t>
+	for other IA option types. The server performs the same test
+     as for addresses on the delegated prefixes (see
+     <xref target="RFC3315"/>, section 18.2.2).</t>
+
+	<t>Replace Section 12.1 of <xref target="RFC3633"/>:</t>
+	<figure><artwork>
+   If such verification is needed the requesting router MUST initiate
+   a Rebind/Reply message exchange as described in section 18.1.4,
+   "Creation and Transmission of Rebind Messages" of RFC 3315, with
+   the exception that the retransmission parameters should be set as
+   for the Confirm message, described in section 18.1.2, "Creation and
+   Transmission of Confirm Messages" of RFC 3315.  The requesting
+   router includes any IA_PDs, along with prefixes associated with
+   those IA_PDs in its Rebind message.
+
+   ...
+
+   The Confirm and Decline message types are not used with Prefix
+   Delegation.
+	</artwork></figure>
+	<t>With:</t>
+	<figure><artwork>
+   If such verification is needed the requesting router MUST initiate
+   a Confirm message exchange as described in section 18.1.2,
+   "Creation and Transmission of Confirm Messages" of RFC 3315. The
+   requesting router includes any IA_PDs, along with prefixes
+   associated with those IA_PDs in its Confirm message.
+
+   ...
+
+   The Decline message type is not used with Prefix Delegation.
+	</artwork></figure>
 
       </section>
+
 
       <section title="Release messages">
 	<t>A client can release any individual lease at any time. A
 	client can get "back" a lease by using a Renew message. It MAY
 	do this at any time, though must avoid creating a Renew
 	storm. E.g. wait until T1.</t>
-      </section>
-
-      <section title="Unanswered options">
-	<t>If a client requests multiple IA option types, but the server
-	is willing to only offer a subset of them, the client could
-	react in several ways. Reset the state machine and continue to
-	send Solicit messages, create separate DHCP sessions for each
-	IA option type and continue to Solicit for the missing options,
-        or it could continue with the single session, and include the
-	missing options on subsequent messages to the server.</t>
-
-	<t>Proposed solution: the client should keep a single session
-	with the server. The client should continue with the IA
-	options received, while continuing to request the other IA
-	options in subsequent messages to the server. That means to
-	continue to include the empty unanswered IAs in subsequent
-	Renew and Rebind messages.</t>
-
-	<t>For the IAs that the server will not offer a binding, it must
-	reply using the same behaviour as for a Request message. That
-	is not with the currently specified NoBinding status). This
-        behaviour will not require the server to remember the IAs that
-        it is not willing to serve. I.e. the change is to allow the
-        client to include IAs in Renew/Rebind messages for which
-        it has not received bindings (yet).</t>
-
-        <t>A client can only use the Renew (or Rebind) to request
-        new IA options if it already has one or more bindings. A client
-        MUST NOT use Renew (or Rebind) if it has no valid bindings it
-        is renewing.</t>
-
-        <t>Replace Section 18.2.3:</t>
-        <figure><artwork>
-   If the server cannot find a client entry for the IA the server
-   returns the IA containing no addresses with a Status Code option set
-   to NoBinding in the Reply message.
-        </artwork></figure>
-        <t>With:</t>
-        <figure><artwork>
-   If the server cannot find a client entry for the IA but has one or
-   more bindings for the client, the server SHOULD treat this like a
-   Request message for the IA. If the server has no other bindings for
-   the client, the server SHOULD return the IA containing no bindings
-   with a Status Code option set to NoBinding in the Reply message.
-        </artwork></figure>
 
       </section>
-
 
       <section title="Multiple provisioning domains">
-          <t>This document has assumed that all DHCP servers on a network are
-          in a single provisioning domain and thus should be "equal" in the
-          service that they offer.</t>
+          <t>This document has assumed that all DHCP servers on a
+          network are in a single provisioning domain and thus should be
+          "equal" in the service that they offer. This was also assumed
+          by <xref target="RFC3315"/> and <xref target="RFC3633"/>.</t>
           
           <t>One could envision a network where the DHCP servers are in multiple
-          provisioning domains, and it may be desireable to have the DHCP client
+          provisioning domains, and it may be desirable to have the DHCP client
           obtain different IA types from different provisioning domains. How a
           client detects the multiple provisioning domains and how it would
           interact with the multiple servers in these different domains is outside
           the scope of this document and an area for future work.</t>
+
       </section>
 
     </section>
