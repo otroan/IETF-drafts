@@ -134,6 +134,8 @@
 	</list></t>
     </section>
 
+    <!--  SECTION 4: Handling of multiple IA options types                         -->
+
     <section title="Handling of multiple IA options types">
       <t>DHCPv6 was written with the assumption that the only stateful
       options were for assigning addresses. DHCPv6 PD describes how
@@ -347,8 +349,8 @@
 
 	<t>Proposed solution: Allow and specify the Confirm message
 	for other IA option types. The server performs the same test
-     as for addresses on the delegated prefixes (see
-     <xref target="RFC3315"/>, section 18.2.2).</t>
+	as for addresses on the delegated prefixes (see
+	<xref target="RFC3315"/>, section 18.2.2).</t>
 
 	<t>Replace Section 12.1 of <xref target="RFC3633"/>:</t>
 	<figure><artwork>
@@ -356,8 +358,8 @@
    a Rebind/Reply message exchange as described in section 18.1.4,
    "Creation and Transmission of Rebind Messages" of RFC 3315, with
    the exception that the retransmission parameters should be set as
-   for the Confirm message, described in section 18.1.2, "Creation and
-   Transmission of Confirm Messages" of RFC 3315.  The requesting
+   for the Confirm message, described in section 18.1.2, "Creation
+   and Transmission of Confirm Messages" of RFC 3315.  The requesting
    router includes any IA_PDs, along with prefixes associated with
    those IA_PDs in its Rebind message.
 
@@ -407,20 +409,20 @@
 
     </section>
 
-    <!--  SECTION 4:  IANA Considerations           -->
+    <!--  SECTION 5:  IANA Considerations           -->
 
     <section title="IANA Considerations">
       <t>This specification does not require any IANA actions.</t>
     </section>
 
-    <!--  SECTION 5:  Security Considerations      	-->
+    <!--  SECTION 6:  Security Considerations      	-->
 
     <section title="Security Considerations">
       <t>There are no new security considerations pertaining to this
       document.</t>
     </section>
 
-    <!--  SECTION 6:  Acknowledgements     			-->
+    <!--  SECTION 7:  Acknowledgements     			-->
 
     <section title="Acknowledgements">
     </section>
@@ -433,13 +435,13 @@
       &rfc2119;
       &rfc3315;
       &rfc3633;
+    </references>
+
+    <!--  SECTION 8.2:  Informative References		-->
+
+    <references title="Informative References">
       &rfc6204;
     </references>
 
-<!--
-    <references title="Informative References">
-    </references>
--->
-    <!--  SECTION 8.2:  Informative References		-->
   </back>
 </rfc>
