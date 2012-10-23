@@ -15,7 +15,7 @@
 <!ENTITY rfc6204 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6204.xml">
 ]>
 
-<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-02.txt"
+<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-03.txt"
      ipr="trust200902" updates="3315,3633">
   <front>
     <title abbrev="Multiple Stateful Option">
@@ -228,12 +228,11 @@
         messages. Other IA option types MUST encapsulate the Status
         Code option within the IA option.</t>
 
-        <t>To clarify further: the expected Advertise message from a
-        server when a client requests both address assignment (IA_NA)
-        and prefix delegation (IA_PD) and the server can only delegate
-        prefixes, is a Status Code Option with the NoAddrsAvail status
-        code, no IA_NA option(s), and the IA_PD option(s) with IAPREFIX
-        option(s).</t>
+        <t>To clarify further: when a client requests both IA_NA and
+        IA_PD, and the server can offer IA_PD but not IA_NA, the server
+        sends an Advertise response containing no IA_NA option, a
+        status code option of NoAddrsAvail, and one or more IA_PD
+        options containing IAPREFIX options.</t>
 
       </section>
 
