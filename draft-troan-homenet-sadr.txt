@@ -3,11 +3,14 @@
 
 Network Working Group                                           O. Troan
 Internet-Draft                                             Cisco Systems
-Intended status: Informational                         February 13, 2013
-Expires: August 17, 2013
+Intended status: Informational                                L. Colitti
+Expires: August 18, 2013                                          Google
+                                                                J. Arkko
+                                                                Ericsson
+                                                       February 14, 2013
 
 
-         Homenet Simple Source Address Dependent Routing (SADR)
+     IPv6 Multi Homing with Source Address Dependent Routing (SADR)
                       draft-troan-homenet-sadr-00
 
 Abstract
@@ -17,6 +20,11 @@ Abstract
    filtering.  This document describes how routers in the network uses
    source address dependent routing to ensure that traffic is sent out
    the correct exit given the packets source address.
+
+   LC: Current multihoming solutions for IPv6 require either provider-
+   independent address space, extension headers or address translation.
+   This document presents an approach to multihoming using provider-
+   aggregatable space.
 
 Status of This Memo
 
@@ -33,12 +41,23 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 17, 2013.
+   This Internet-Draft will expire on August 18, 2013.
 
 Copyright Notice
 
    Copyright (c) 2013 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
+
+
+
+
+
+
+
+Troan, et al.           Expires August 18, 2013                 [Page 1]
+
+Internet-Draft                    SADR                     February 2013
+
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
@@ -53,23 +72,25 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  2
-
-Troan                   Expires August 17, 2013                 [Page 1]
-
-Internet-Draft                    SADR                     February 2013
-
-   2.  Conventions  . . . . . . . . . . . . . . . . . . . . . . . . .  2
+   2.  Conventions  . . . . . . . . . . . . . . . . . . . . . . . . .  3
    3.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . . .  3
-   4.  Source Address Dependent Routing in the Home Network . . . . .  3
-   5.  Routing considerations . . . . . . . . . . . . . . . . . . . .  4
-     5.1.  Routing protocol requirements  . . . . . . . . . . . . . .  4
-   6.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . .  5
-   7.  Security Considerations  . . . . . . . . . . . . . . . . . . .  5
-   8.  Acknowledgements . . . . . . . . . . . . . . . . . . . . . . .  5
-   9.  References . . . . . . . . . . . . . . . . . . . . . . . . . .  5
-     9.1.  Normative References . . . . . . . . . . . . . . . . . . .  5
-     9.2.  Informative References . . . . . . . . . . . . . . . . . .  5
-   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   4.  Background . . . . . . . . . . . . . . . . . . . . . . . . . .  3
+   5.  Target networks  . . . . . . . . . . . . . . . . . . . . . . .  3
+   6.  Goals  . . . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   7.  Non-goals  . . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   8.  Basic design . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   9.  Limitations  . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   10. List section . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   11. Source Address Dependent Routing in the Home Network . . . . .  5
+   12. Routing considerations . . . . . . . . . . . . . . . . . . . .  6
+     12.1.  Routing protocol requirements . . . . . . . . . . . . . .  6
+   13. IANA Considerations  . . . . . . . . . . . . . . . . . . . . .  6
+   14. Security Considerations  . . . . . . . . . . . . . . . . . . .  6
+   15. Acknowledgements . . . . . . . . . . . . . . . . . . . . . . .  7
+   16. References . . . . . . . . . . . . . . . . . . . . . . . . . .  7
+     16.1.  Normative References  . . . . . . . . . . . . . . . . . .  7
+     16.2.  Informative References  . . . . . . . . . . . . . . . . .  7
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  7
 
 1.  Introduction
 
@@ -87,6 +108,15 @@ Internet-Draft                    SADR                     February 2013
    router must not only forward packets based on the destination address
    but also the source address.  This we call source address dependent
    routing (SADR).
+
+
+
+
+
+Troan, et al.           Expires August 18, 2013                 [Page 2]
+
+Internet-Draft                    SADR                     February 2013
+
 
    A border router has one or more WAN interfaces connecting it to one
    or more Service Providers.  The interfaces may be "real" or "virtual"
@@ -111,14 +141,6 @@ Internet-Draft                    SADR                     February 2013
    of a home network that is using OSPFv3 prefix assignment as described
    in [I-D.arkko-homenet-prefix-assignment].
 
-
-
-
-
-Troan                   Expires August 17, 2013                 [Page 2]
-
-Internet-Draft                    SADR                     February 2013
-
 2.  Conventions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -137,12 +159,98 @@ Internet-Draft                    SADR                     February 2013
                            matching lookups.  Each entry points to one
                            or more next-hops.
 
-4.  Source Address Dependent Routing in the Home Network
+4.  Background
+
+   Current multihoming solutions for IPv6 require either provider-
+   independent address space, changing to existing hosts (e.g.,
+   [RFC5533]), or NPT66.  This draft presents an approach to multihoming
+   using provider-aggregatable space.
+
+5.  Target networks
+
+   Small or medium networks which only have provider-aggregatable space
+   and where upstreams perform ingress filtering.  Example networks are:
+
+
+Troan, et al.           Expires August 18, 2013                 [Page 3]
+
+Internet-Draft                    SADR                     February 2013
+
+
+   o  Homenet networks.
+
+   o  Small enterprises that use IPv4+NAT multihoming today.
+
+6.  Goals
+
+   o  Provide multihoming equivalent to IPv4+NAT.
+
+   o  Require no host changes.
+
+7.  Non-goals
+
+   o  Connection survivability.
+
+8.  Basic design
+
+   Multihoming is handled by routers.  Route distribution is handled as
+   follows:
+
+   o  A router with an external link (e.g.  an ISP uplink) injects
+      external routes into the routing protocol.
+
+   o  Each external route is associated with an *acceptable source
+      prefix* which specifies which source addresses will be accepted.
+
+   o  For an ISP uplink, the route will typically be the default route.
+      The acceptable source prefix will typically be the address space
+      assigned by that ISP.
+
+   Forwarding is handled as follows:
+
+   o  Internal network routes use standard destination-based shortest-
+      path routing
+
+   o  External routes use source+destination routing.
+
+   o  When forwarding a packet, a router does a lookup as follows:
+
+      1.  Internal routes.
+
+      2.  Match external routes for which the source address of the
+          packet matches the route's acceptable source prefix.
+
+      3.  Other routes.
+
+   o  A router originating packets may use simple destination-based
+      routing.  This allows it to simply perform source address
+      selection using [RFC6724].
+
+   Route announcement to hosts is handled as follows:
+
+9.  Limitations
+
+
+Troan, et al.           Expires August 18, 2013                 [Page 4]
+
+Internet-Draft                    SADR                     February 2013
+
+
+   o  Traffic originated by a border router may be sent to the wrong
+      upstream if multiple upstreams are on the same interface.
+
+10.  List section
+
+   o  foo.
+
+   o  bar.
+
+11.  Source Address Dependent Routing in the Home Network
 
    In a destination based routing table, an entry in the routing table
    can be shown as "D -> NH".  That is, to get to a destination D, use
    next-hop NH.  For a source constrained routing table we propose the
-   following notation.  (Source network, Destination network) -> Next-
+   following notation.  (Destination network, Source network) -> Next-
    hop.  (S,D) -> NH.  A route that is not source constrained can be
    represented as (D, *) -> NH.
 
@@ -166,19 +274,6 @@ Internet-Draft                    SADR                     February 2013
    and ISP B also offers a more specific route to a walled garden
    service.
 
-
-
-
-
-
-
-
-
-Troan                   Expires August 17, 2013                 [Page 3]
-
-Internet-Draft                    SADR                     February 2013
-
-
    
     (2001:db8::/56, ::/0) -> ISP_A          # Default route to ISP A
     (2001:db9::/56, ::/0) -> ISP_B          # Default route to ISP B
@@ -192,6 +287,14 @@ Internet-Draft                    SADR                     February 2013
 
                     Figure 1: Example Routing Table
 
+
+
+
+Troan, et al.           Expires August 18, 2013                 [Page 5]
+
+Internet-Draft                    SADR                     February 2013
+
+
    A packet with the SA,DA of 2001:db8::1, 2001:dead:beef::1 would be
    forwarded to ISP A, likewise a packet with SA, DA 2001:db9::1,
    2001:dead:beef::1 would be forward to ISP B. An packet with SA,DA
@@ -201,7 +304,7 @@ Internet-Draft                    SADR                     February 2013
    2001:db8::1,2001:420::1 would be dropped with an ICMP unreachable
    message being sent back.
 
-5.  Routing considerations
+12.  Routing considerations
 
    Now that we have described the function of the source constrained
    routing table.  How does the table get populated?  The generic answer
@@ -229,14 +332,7 @@ Internet-Draft                    SADR                     February 2013
    Routes that are not associcated with a border router or is not AS-
    External do not have source constrained paths.
 
-5.1.  Routing protocol requirements
-
-
-
-Troan                   Expires August 17, 2013                 [Page 4]
-
-Internet-Draft                    SADR                     February 2013
-
+12.1.  Routing protocol requirements
 
    1.  Routing protocol must flood all information to all routers in the
        home network.
@@ -247,17 +343,22 @@ Internet-Draft                    SADR                     February 2013
    3.  A router must be uniquely identified (router-id) so that router
        advertisements and prefix assignment can be tied together
 
-6.  IANA Considerations
+13.  IANA Considerations
 
    This specification does not require any IANA actions.
 
-7.  Security Considerations
+14.  Security Considerations
 
-8.  Acknowledgements
+Troan, et al.           Expires August 18, 2013                 [Page 6]
+
+Internet-Draft                    SADR                     February 2013
 
-9.  References
 
-9.1.  Normative References
+15.  Acknowledgements
+
+16.  References
+
+16.1.  Normative References
 
    [I-D.arkko-homenet-prefix-assignment]
               Arkko, J., Lindem, A., and B. Paterson, "Prefix Assignment
@@ -275,27 +376,21 @@ Internet-Draft                    SADR                     February 2013
    [RFC5340]  Coltun, R., Ferguson, D., Moy, J., and A. Lindem, "OSPF
               for IPv6", RFC 5340, July 2008.
 
-9.2.  Informative References
+   [RFC6724]  Thaler, D., Draves, R., Matsumoto, A., and T. Chown,
+              "Default Address Selection for Internet Protocol Version 6
+              (IPv6)", RFC 6724, September 2012.
+
+16.2.  Informative References
 
    [I-D.ietf-homenet-arch]
               Chown, T., Arkko, J., Brandt, A., Troan, O., and J. Weil,
               "Home Networking Architecture for IPv6", draft-ietf-
               homenet-arch-06 (work in progress), October 2012.
 
-   [RFC6724]  Thaler, D., Draves, R., Matsumoto, A., and T. Chown,
-              "Default Address Selection for Internet Protocol Version 6
-              (IPv6)", RFC 6724, September 2012.
+   [RFC5533]  Nordmark, E. and M. Bagnulo, "Shim6: Level 3 Multihoming
+              Shim Protocol for IPv6", RFC 5533, June 2009.
 
-Author's Address
-
-
-
-
-
-Troan                   Expires August 17, 2013                 [Page 5]
-
-Internet-Draft                    SADR                     February 2013
-
+Authors' Addresses
 
    Ole Troan
    Cisco Systems
@@ -306,6 +401,16 @@ Internet-Draft                    SADR                     February 2013
    Email: ot@cisco.com
 
 
+   Lorenzo Colitti
+   Google
+
+
+   Jari Arkko
+   Ericsson
+
+Troan, et al.           Expires August 18, 2013                 [Page 7]
+
+Internet-Draft                    SADR                     February 2013
 
 
 
@@ -350,4 +455,15 @@ Internet-Draft                    SADR                     February 2013
 
 
 
-Troan                   Expires August 17, 2013                 [Page 6]
+
+
+
+
+
+
+
+
+
+
+
+Troan, et al.           Expires August 18, 2013                 [Page 8]

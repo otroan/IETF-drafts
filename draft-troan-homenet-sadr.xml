@@ -5,6 +5,7 @@
 <!ENTITY RFC2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY RFC6724 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6724.xml">
 <!ENTITY RFC5340 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5340.xml">
+<!ENTITY RFC5533 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5533.xml">
 <!ENTITY I-D.arkko-homenet-prefix-assignment SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.arkko-homenet-prefix-assignment.xml">
 <!ENTITY I-D.ietf-ospf-ospfv3-autoconfig SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-ospf-ospfv3-autoconfig.xml">
 <!ENTITY I-D.ietf-homenet-arch SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-homenet-arch.xml">
@@ -21,7 +22,7 @@
 <?rfc inline="yes" ?>
 <rfc category="info" docName="draft-troan-homenet-sadr-00" ipr="trust200902">
   <front>
-    <title abbrev="SADR">Homenet Simple Source Address Dependent Routing (SADR)</title>
+    <title abbrev="SADR">IPv6 Multi Homing with Source Address Dependent Routing (SADR)</title>
 
     <author fullname="Ole Troan" initials="O" surname="Troan">
       <organization>Cisco Systems</organization>
@@ -34,6 +35,12 @@
         </postal>
         <email>ot@cisco.com</email>
       </address>
+    </author>
+    <author initials='L' surname="Colitti" fullname='Lorenzo Colitti'>
+      <organization>Google</organization>
+    </author>
+    <author initials='J' surname="Arkko" fullname='Jari Arkko'>
+      <organization>Ericsson</organization>
     </author>
 
     <date year="2013" />
@@ -49,6 +56,10 @@
       the network uses source address dependent routing to ensure that
       traffic is sent out the correct exit given the packets source
       address.</t>
+
+<t>LC: Current multihoming solutions for IPv6 require either provider-independent
+address space, extension headers or address translation. This document presents an approach to multihoming using provider-aggregatable space.</t>
+
     </abstract>
   </front>
 
@@ -127,12 +138,106 @@
 
     <!--  SECTION 3: DESCRIPTION                   -->
 
+        <section title="Background">
+          <t>Current multihoming solutions for IPv6 require either
+          provider-independent address space, changing to existing
+          hosts (e.g., <xref target="RFC5533"/>), or NPT66. This draft
+          presents an approach to multihoming using
+          provider-aggregatable space.</t>
+        </section>
+
+        <section title="Target networks">
+        <t>Small or medium networks which only have
+        provider-aggregatable space and where upstreams perform
+        ingress filtering. Example networks are:<list style="symbols">
+	      <t>Homenet networks.</t>
+	      <t>Small enterprises that use IPv4+NAT multihoming today.</t>
+            </list></t>
+        </section>
+
+        <section title="Goals">
+          <t><list style="symbols">
+	      <t>Provide multihoming equivalent to IPv4+NAT.</t>
+	      <t>Require no host changes.</t>
+            </list></t>
+        </section>
+
+        <section title="Non-goals">
+          <t>
+            <list style="symbols">
+              <t>Connection survivability.</t>
+            </list>
+          </t>
+        </section>
+
+        <section title="Basic design">
+          <t>Multihoming is handled by routers.
+	  Route distribution is handled as follows:
+
+            <list style="symbols">
+	      <t>A router with an external link (e.g. an ISP uplink)
+	      injects external routes into the routing protocol.</t>
+	      <t>Each external route is associated with an *acceptable
+	      source prefix* which specifies which source addresses
+	      will be accepted.</t>
+	      <t>For an ISP uplink, the route will typically be the
+	      default route. The acceptable source prefix will
+	      typically be the address space assigned by that ISP.</t>
+            </list>
+
+	    Forwarding is handled as follows:
+
+            <list style="symbols">
+	      <t>Internal network routes use standard
+	      destination-based shortest-path routing</t>
+	      <t>External routes use source+destination routing.</t>
+	      <t>When forwarding a packet, a router does a lookup as
+	      follows:
+            <list style="numbers">
+	      <t>Internal routes.</t>
+	      <t>Match external routes for which the source address of
+	      the packet matches the route's acceptable source
+	      prefix.</t>
+	      <t>Other routes.</t>
+            </list>
+	      </t>
+
+	      <t>A router originating packets may use simple
+	      destination-based routing. This allows it to simply
+	      perform source address selection using <xref
+	      target="RFC6724"/>.</t>
+            </list>
+
+	    Route announcement to hosts is handled as follows:
+
+          </t>
+        </section>
+
+        <section title="Limitations">
+          <t>
+            <list style="symbols">
+	      <t>Traffic originated by a border router may be sent to
+	      the wrong upstream if multiple upstreams are on the same
+	      interface.</t>
+            </list>
+          </t>
+        </section>
+
+        <section title="List section">
+          <t>
+            <list style="symbols">
+	      <t>foo.</t>
+	      <t>bar.</t>
+            </list>
+          </t>
+        </section>
+
     <section title="Source Address Dependent Routing in the Home Network">
       <t>In a destination based routing table, an entry in the routing
       table can be shown as "D -> NH". That is, to get to a
       destination D, use next-hop NH. For a source constrained routing
-      table we propose the following notation. (Source network,
-      Destination network) -> Next-hop. (S,D) -> NH. A route that is
+      table we propose the following notation. (Destination network,
+      Source network) -> Next-hop. (S,D) -> NH. A route that is
       not source constrained can be represented as (D, *) -> NH.</t>
 
       <t>For convenience this document shows the routing table as a
@@ -254,15 +359,14 @@
       &I-D.arkko-homenet-prefix-assignment;
       &I-D.ietf-ospf-ospfv3-autoconfig;
       &RFC5340;
+      &RFC6724;
     </references>
 
     <!--  SECTION 8.2:  Informative References		-->
 
     <references title="Informative References">
-      &RFC6724;
       &I-D.ietf-homenet-arch;
-
-
+      &RFC5533;
     </references>
 
   </back>
