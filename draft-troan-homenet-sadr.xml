@@ -3,13 +3,15 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 
 <!ENTITY RFC2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC4443 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4443.xml">
+<!ENTITY RFC2827 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2827.xml">
 <!ENTITY RFC6724 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6724.xml">
 <!ENTITY RFC5340 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5340.xml">
-<!ENTITY RFC5533 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5533.xml">
 <!ENTITY I-D.arkko-homenet-prefix-assignment SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.arkko-homenet-prefix-assignment.xml">
 <!ENTITY I-D.ietf-ospf-ospfv3-autoconfig SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-ospf-ospfv3-autoconfig.xml">
 <!ENTITY I-D.ietf-homenet-arch SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-homenet-arch.xml">
-
+<!ENTITY I-D.baker-ipv6-ospf-dst-src-routing SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.baker-ipv6-ospf-dst-src-routing.xml">
+<!ENTITY I-D.baker-ipv6-isis-dst-src-routing SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.baker-ipv6-isis-dst-src-routing.xml">
 ]>
 
 <?rfc toc="yes" ?>
@@ -22,7 +24,7 @@
 <?rfc inline="yes" ?>
 <rfc category="info" docName="draft-troan-homenet-sadr-00" ipr="trust200902">
   <front>
-    <title abbrev="SADR">IPv6 Multi Homing with Source Address Dependent Routing (SADR)</title>
+    <title abbrev="SADR">IPv6 Multihoming with Source Address Dependent Routing (SADR)</title>
 
     <author fullname="Ole Troan" initials="O" surname="Troan">
       <organization>Cisco Systems</organization>
@@ -38,28 +40,30 @@
     </author>
     <author initials='L' surname="Colitti" fullname='Lorenzo Colitti'>
       <organization>Google</organization>
-    </author>
-    <author initials='J' surname="Arkko" fullname='Jari Arkko'>
-      <organization>Ericsson</organization>
+      <address>
+        <postal>
+          <street>Roppongi Hills Mori Tower PO box 22</street>
+          <city>Minato</city>
+          <region>Tokyo</region>
+          <code>106-6126</code>
+          <country>Japan</country>
+        </postal>
+        <email>lorenzo@google.com</email>
+      </address>
     </author>
 
     <date year="2013" />
     <area>Internet</area>
-    <workgroup>Network Working Group</workgroup>
+    <workgroup>Homenet working Group</workgroup>
 
     <!--  SECTION 0:  Abstract                      -->
 
     <abstract>
-      <t>A network is multi-homed to several providers. Each provider
-      assigns provider aggregated addresses to the network and apply
-      BCP38 inbound filtering. This document describes how routers in
-      the network uses source address dependent routing to ensure that
-      traffic is sent out the correct exit given the packets source
-      address.</t>
-
-<t>LC: Current multihoming solutions for IPv6 require either provider-independent
-address space, extension headers or address translation. This document presents an approach to multihoming using provider-aggregatable space.</t>
-
+      <t>A multihomed network using provider aggregatable addresses
+      must send the packet out the right path to avoid violating the
+      provider's ingress filtering. This memo suggests a mechanism
+      called Source Address Dependent Routing to solve that
+      problem.</t>
     </abstract>
   </front>
 
@@ -67,45 +71,28 @@ address space, extension headers or address translation. This document presents 
     <!--  SECTION 1:  Introduction                  -->
 
     <section title="Introduction">
-      <t>In a multi-homed homenet like the one in section 3.2.2.2 of
-      <xref target="I-D.ietf-homenet-arch"/>, a network may be
-      numbered with provider aggregated addresses. If each of the
-      network providers employ BCP38 filtering, then traffic must be
-      sent out the correct exit, given the packet's source address. In
-      such a scenario each host has multiple addresses from each of
-      the providers the network is connected to. The host chooses with
-      provider to use based on which source address it selects.</t>
+      <t>IPv6 is designed to support multiple addresses on an
+      interface, and the intention was to use this feature to support
+      multihoming with provider aggregatable addresses.</t>
 
-      <t>In a network with an arbitrary topology of multiple border
-      routers connected to external providers, and multiple internal
-      routers, a router must not only forward packets based on the
-      destination address but also the source address. This we call
-      source address dependent routing (SADR).</t>
+      <t>One difficulty of multihoming with provider-aggregatable
+      space is that providers typically employ <xref
+      target="RFC2827">BCP38</xref> filtering. If a network sends
+      traffic to its upstream provider using a source address that was
+      not assigned by that provider, the traffic will be
+      dropped. Thus, if a network is multihomed to multiple providers,
+      it must ensure that traffic is sent out the correct exit for the
+      packet's source address.</t>
 
-      <t>A border router has one or more WAN interfaces connecting it
-      to one or more Service Providers. The interfaces may be "real"
-      or "virtual" in the case of tunneling technology. The border
-      router receives one or more delegated prefixes, each associated
-      with one or more WAN interfaces.</t>
-
-      <t>WAN interfaces are used to send ingress traffic from the
-      Internet to the End-User, and egress traffic from the End-User
-      network to the Internet. Ingress traffic may be received on any
-      active interface at any time. Egress traffic follows a set of
-      rules within the router in order to choose the proper WAN
-      interface. This is important not only in order to choose the
-      best path, but also because the networks that the router are
-      connected to typically employ source address verification
-      mechanisms.</t>
-
-      <t>SADR is similar to policy based routing, and this memo
-      proposes a simple extension to the destination based longest
-      match algorithm to constrain it to source address.</t>
-
-      <t>This document describes a solution to the SADR problem in the
-      context of a home network that is using OSPFv3 prefix assignment
-      as described in <xref
-      target="I-D.arkko-homenet-prefix-assignment"/>.</t>
+      <t>As long as upstream traffic is sent to the correct provider,
+      hosts inside the network are free to use source addresses
+      assigned by any of the network's upstream providers. In such a
+      scenario, each host has multiple addresses, one or more from
+      each provider the network is connected to. The network ensures
+      that packets are sent to the correct upstream by forwarding
+      packets based on the destination address and the source address.
+      This we call source address dependent routing (SADR). This memo
+      shows how SADR can be used to implement multihoming.</t>
 
     </section>
 
@@ -121,140 +108,90 @@ address space, extension headers or address translation. This document presents 
     <!-- conventions -->
 
     <section title="Terminology">
+
       <t><list hangIndent="24" style="hanging">
-          <t hangText="Border Router">A Source Address Routing Information
-          Base containing an entry per delegated prefix. Each entry
-          points to one or more Destination Address Routing Tables
-          (DRIB).</t>
+          <t hangText="Service Provider">An entity that provides the
+          network with external connectivity, e.g. to the Internet.</t>
 
-          <t hangText="Internal Router">A Destination Address Routing Information
-          Base used for destination address longest matching
-          lookups. Each entry points to one or more next-hops.</t>
+          <t hangText="WAN Interface">An interface connected to a
+          Service Providers. WAN interfaces may either be physical
+          links or virtual interfaces such as tunnels. WAN interfaces
+          are used to send ingress traffic from the Internet to the
+          End-User, and egress traffic from the End-User network to
+          the Internet. Ingress traffic may be received on any active
+          interface at any time. Egress traffic follows a set of rules
+          within the router in order to choose the proper WAN
+          interface.</t>
 
-	  <t hangText="Source Address Dependent Routing Table"></t>
+          <t hangText="Border Router">A border router has one or more
+          external interfaces connecting it to one or more Service
+          Providers. The border router receives one or more delegated
+          prefixes, each associated with one or more WAN interfaces.
+          </t>
+
+          <t hangText="External Route">A route that is learned from a
+          Service Provider. Each External Route has an Acceptable
+          Source Prefix which determines which source addresses may use
+          that route.</t>
+
+          <t hangText="Internal Router">A router that is not a Border
+          Router.</t>
+
+          <t hangText="Internal Route">A route to a destination inside the
+          network.</t>
 
         </list></t>
     </section>
 
     <!--  SECTION 3: DESCRIPTION                   -->
 
-        <section title="Background">
-          <t>Current multihoming solutions for IPv6 require either
-          provider-independent address space, changing to existing
-          hosts (e.g., <xref target="RFC5533"/>), or NPT66. This draft
-          presents an approach to multihoming using
-          provider-aggregatable space.</t>
-        </section>
 
-        <section title="Target networks">
-        <t>Small or medium networks which only have
-        provider-aggregatable space and where upstreams perform
-        ingress filtering. Example networks are:<list style="symbols">
-	      <t>Homenet networks.</t>
-	      <t>Small enterprises that use IPv4+NAT multihoming today.</t>
-            </list></t>
-        </section>
+    <section title="Using SADR for multihoming">
+      <t>SADR is similar to policy based routing. This memo
+      proposes a simple extension to the destination based longest
+      match algorithm to constrain it to source address.</t>
 
-        <section title="Goals">
-          <t><list style="symbols">
-	      <t>Provide multihoming equivalent to IPv4+NAT.</t>
-	      <t>Require no host changes.</t>
-            </list></t>
-        </section>
+      <t>In order to support ingress filtering by upstream networks,
+      the network MUST treat external routes specially. Ingress
+      filtering MAY also be used internally, by installing (S,D)
+      routes for locally assigned prefixes, where the source prefix
+      would be the aggregatable prefix. If no ingress filtering is
+      performed inside the network, then normal non-source constrained
+      forwarding is used.</t>
+    </section>
 
-        <section title="Non-goals">
-          <t>
-            <list style="symbols">
-              <t>Connection survivability.</t>
-            </list>
-          </t>
-        </section>
+    <section title="A Conceptual Forwarding Algorithm">
+      <t>This section describes a conceptual forwarding algorithm. An
+      implementation might implement this differently, e.g. with
+      multiple tables, as long as the external behaviour is as
+      described.</t>
 
-        <section title="Basic design">
-          <t>Multihoming is handled by routers.
-	  Route distribution is handled as follows:
+      <t>First a longest match lookup is done in the routing table for
+      the destination address, then for the resulting set a longest
+      matching lookup is done for the source address.</t>
 
-            <list style="symbols">
-	      <t>A router with an external link (e.g. an ISP uplink)
-	      injects external routes into the routing protocol.</t>
-	      <t>Each external route is associated with an *acceptable
-	      source prefix* which specifies which source addresses
-	      will be accepted.</t>
-	      <t>For an ISP uplink, the route will typically be the
-	      default route. The acceptable source prefix will
-	      typically be the address space assigned by that ISP.</t>
-            </list>
-
-	    Forwarding is handled as follows:
-
-            <list style="symbols">
-	      <t>Internal network routes use standard
-	      destination-based shortest-path routing</t>
-	      <t>External routes use source+destination routing.</t>
-	      <t>When forwarding a packet, a router does a lookup as
-	      follows:
-            <list style="numbers">
-	      <t>Internal routes.</t>
-	      <t>Match external routes for which the source address of
-	      the packet matches the route's acceptable source
-	      prefix.</t>
-	      <t>Other routes.</t>
-            </list>
-	      </t>
-
-	      <t>A router originating packets may use simple
-	      destination-based routing. This allows it to simply
-	      perform source address selection using <xref
-	      target="RFC6724"/>.</t>
-            </list>
-
-	    Route announcement to hosts is handled as follows:
-
-          </t>
-        </section>
-
-        <section title="Limitations">
-          <t>
-            <list style="symbols">
-	      <t>Traffic originated by a border router may be sent to
-	      the wrong upstream if multiple upstreams are on the same
-	      interface.</t>
-            </list>
-          </t>
-        </section>
-
-        <section title="List section">
-          <t>
-            <list style="symbols">
-	      <t>foo.</t>
-	      <t>bar.</t>
-            </list>
-          </t>
-        </section>
-
-    <section title="Source Address Dependent Routing in the Home Network">
       <t>In a destination based routing table, an entry in the routing
       table can be shown as "D -> NH". That is, to get to a
       destination D, use next-hop NH. For a source constrained routing
-      table we propose the following notation. (Destination network,
-      Source network) -> Next-hop. (S,D) -> NH. A route that is
-      not source constrained can be represented as (D, *) -> NH.</t>
+      table we propose the following notation. (Source Network,
+      Destination network) -> Next-hop. (S, D) -> NH. A route that is
+      not source constrained can be represented as (*, D) -> NH.</t>
 
       <t>For convenience this document shows the routing table as a
       single destination based routing table, with source address
       constrained paths. This does not preclude other implementations,
       as long as the external behaviour is the same.</t>
 
-      <t>A router forwarding a packet does a longest match lookup on
-      the destination address. If this is a (D,*) entry, it forwards
+      <t>A router forwarding a packet does a longest match look-up on
+      the destination address. If this is a (*, D) entry, it forwards
       the packet out the best next-hop as before (doing equal cost
-      multi path load balancing etc). If the lookup results in a (D,
-      S) entry, the lookup function does a longest match on the source
-      address among the set of (D, S) paths. If there is a match the
-      packet is forwarded out the given next-hop, if not an ICMP
-      destination address unreachable message is returned. A routing
-      entry may have both (D,S) paths and (D,*) paths. The longest
-      match wins.</t>
+      multi path load balancing etc). If the look-up results in a (S,
+      D) entry, the look-up function does a longest match on the
+      source address among the set of (S, D) paths. If there is a
+      match the packet is forwarded out the given next-hop, if not an
+      ICMP destination address unreachable message, code 5 is returned
+      <xref target="RFC4443"/>. A routing entry may have both (S, D)
+      paths and (*, D) paths. The longest match wins.</t>
 
       <t>The following example show the routing table of a network
       connected to two ISPs, ISP A and ISP B. Both ISPs offer default
@@ -277,7 +214,7 @@ address space, extension headers or address translation. This document presents 
         ]]></artwork>
       </figure>
 
-      <t>A packet with the SA,DA of 2001:db8::1, 2001:dead:beef::1
+      <t>A packet with the SA, DA of 2001:db8::1, 2001:dead:beef::1
       would be forwarded to ISP A, likewise a packet with SA, DA
       2001:db9::1, 2001:dead:beef::1 would be forward to ISP B. An
       packet with SA,DA 2001:db8::1, 2001:db9::1 would be forwarded
@@ -290,46 +227,74 @@ address space, extension headers or address translation. This document presents 
 
     <section title="Routing considerations">
       <t>Now that we have described the function of the source
-      constrained routing table. How does the table get populated? The
-      generic answer is that the routing protocol used in the network
-      has to be extended to support (D,S) routes.</t>
+      constrained routing table. How does the table get populated?</t>
 
-      <t>In the home network it is possible to take advantage of the
-      fact that the source constrained prefix is available as part of
-      the prefix assignment mechanism. An internal router can combine
-      the information learnt from prefix assignment with the External
-      routes being learnt in the routing protocol
-      advertisements.</t>
-
-      <t>All routers are running OSPFv3 with the extensions for
-      auto-configuration and prefix assignment. A border router
-      typically advertises a default route and any other external
-      routes that it has learnt (e.g. with RFC4191) into the OSPFv3
-      domain. These routes are advertised in an AS-External LSA, <xref
-      target="RFC5340"/>.</t>
-
-      <t>An internal router when receiving a AS-External LSA route
-      will install that in the routing table as normal. When the
-      internal router receives a usable prefix as part of prefix
-      assignment, the router shall add source constrained entries to
-      all the AS-External routes received from the same border router
-      (matching router-ID).</t>
-
-      <t>Routes that are not associcated with a border router or is
-      not AS-External do not have source constrained paths.</t>
-
-      <section title="Routing protocol requirements">
-	<t><list style="numbers">
-	  <t>Routing protocol must flood all information to all routers in the home network.</t>
-	  <t>Prefix assignment and unicast routing must be done in the same protocol.</t>
-	  <t>A router must be uniquely identified (router-id) so that
-	  router advertisements and prefix assignment can be tied
-	  together</t>
-	</list></t>
+      <section title="Routing Protocol extensions">
+      <t>The generic answer is that the routing protocol used in the
+      network has to be extended to support (S, D)
+      routes. Specifically, the routing protocol should distribute,
+      for each External Route, the Acceptable Source Prefix(es) for
+      that route. This may be done, for example, using <xref
+      target="I-D.baker-ipv6-ospf-dst-src-routing"/> or <xref
+      target="I-D.baker-ipv6-isis-dst-src-routing"/>. In the case of
+      OSPFv3, for example, external routes are advertised in an
+      AS-External-prefix LSA, <xref target="RFC5340"/>
+      </t>
       </section>
 
+      <section title="Simplified SADR in home networks">
+        <t>In a home network using a dynamic prefix assignment mechanism
+        such as <xref target="I-D.arkko-homenet-prefix-assignment"/> it
+        may be known that a particular Border Router is announcing both
+        an External Route and a Usable Prefix (for example, if the
+        same router ID is announcing both). In this case, interior routers
+        may assume that the Acceptable Source Prefix of the External Route
+        announced by that Border Router is in fact the Usable Prefix
+        announced by that Border Router.</t>
+
+        <t>An internal router when receiving a AS-External LSA route
+        will install that in the routing table as normal. When the
+        internal router receives a usable prefix as part of prefix
+        assignment, the router shall add source constrained entries to
+        all the AS-External routes received from the same border router
+        (matching router-ID).</t>
+
+        <t>Routes that are not associated with a border router or are
+        not AS-External do not have source constrained paths.</t>
+
+        <t>The routing protocol requirements for simplified SADR in
+        the home network are:
+        <list style="numbers">
+        <t>Routing protocol must flood all information to all routers in
+        the home network. (Single area).</t>
+        <t>Prefix assignment and unicast routing must be done in the same
+        protocol.</t>
+        <t>A router must be uniquely identified (router-id) so that
+        router advertisements and prefix assignment can be tied
+        together</t>
+        </list></t>
+      </section>
     </section>
 
+    <section title="Interaction between routers and hosts">
+      <t>Generally, hosts need not be aware that SADR is in use in the
+      network. Hosts simply choose source addresses and the network
+      will deliver the traffic to the appropriate upstream.
+
+      One exception is when an Acceptable Source Prefix becomes invalid
+      (e.g., if the Border Router which announced it crashes, or
+      its WAN link goes down). In this case, current hosts will continue
+      to use source addresses in that Acceptable Source Prefix without
+      knowing that all communication outside the network is likely to
+      fail. In this case, interior routers can improve responsiveness
+      by deprecating the addresses in that Acceptable Source Prefix.
+      </t>
+
+      <t>ICMP <xref target="RFC4443"/> includes a Destination
+      unreachable code 5 - "Source address failed ingress/egress
+      policy". Hosts MUST adhered to this message, and based on the
+      unreachable message try another source address.</t>
+    </section>
 
     <!--  SECTION 4:  IANA Considerations           -->
 
@@ -348,6 +313,8 @@ address space, extension headers or address translation. This document presents 
     <!--  SECTION 7:  Acknowledgements     			-->
 
     <section title="Acknowledgements">
+      <t>The authors would like to thank Jari Arkko and Andrew
+      Yourtchenko for their ideas and review.</t>
     </section>
   </middle>
 
@@ -358,15 +325,18 @@ address space, extension headers or address translation. This document presents 
       &RFC2119;
       &I-D.arkko-homenet-prefix-assignment;
       &I-D.ietf-ospf-ospfv3-autoconfig;
+      &RFC2827;
       &RFC5340;
       &RFC6724;
+      &RFC4443;
     </references>
 
     <!--  SECTION 8.2:  Informative References		-->
 
     <references title="Informative References">
       &I-D.ietf-homenet-arch;
-      &RFC5533;
+      &I-D.baker-ipv6-ospf-dst-src-routing;
+      &I-D.baker-ipv6-isis-dst-src-routing;
     </references>
 
   </back>
