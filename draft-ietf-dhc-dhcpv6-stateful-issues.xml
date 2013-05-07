@@ -15,7 +15,7 @@
 <!ENTITY rfc6204 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6204.xml">
 ]>
 
-<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-03.txt"
+<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-04.txt"
      ipr="trust200902" updates="3315,3633">
   <front>
     <title abbrev="Multiple Stateful Option">
@@ -48,7 +48,7 @@
       </address>
     </author>
 
-    <date year="2012" />
+    <date year="2013" />
 
     <area>Internet</area>
 
@@ -62,9 +62,9 @@
       options would be developed. IPv6 Prefix Options for Dynamic Host
       Configuration Protocol (DHCP) version 6 shoe-horned the new
       options for Prefix Delegation into DHCPv6. Implementation
-      experience of the CPE model described in has shown multiple
-      issues with the DHCPv6 protocol in supporting multiple stateful
-      options.</t>
+      experience of the CPE model described in <xref target="RFC6204"/>
+      has shown multiple issues with the DHCPv6 protocol in supporting
+      multiple stateful options.</t>
     </abstract>
   </front>
 
@@ -205,8 +205,8 @@
       </section>
 
       <section title="Placement of Status codes">
-	<t>In Reply messages IA specific status codes (NoAddrsAvail,
-	NotOnlink, NoBinding) are encapsulated in the IA option. In
+	<t>In Reply messages IA specific status codes (i.e., NoAddrsAvail,
+	NotOnlink, NoBinding, NoPrefixAvail) are encapsulated in the IA option. In
 	Advertisement messages the Status Code option with the
 	NoAddrsAvail code is in the "global" scope. That makes sense
 	when the failure case is fatal. With the introduction of
@@ -338,8 +338,8 @@
 
       <section title="Confirm message">
 	<t>The Confirm message, as described in <xref target="RFC3315"/>,
-        is specific to address assignment. It lets a server without a
-        binding to reply to the message, under the assumption that the
+        is specific to address assignment. It allows a server without a
+        binding reply to the message, under the assumption that the
         server only needs knowledge about the prefix(es) on the link,
         to inform the client that the address is likely valid or not.
         This message is sent when e.g. the client has moved and needs
