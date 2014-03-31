@@ -10,12 +10,14 @@
 <?rfc inline="yes" ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 <!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY rfc3041 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3041.xml">
 <!ENTITY rfc3315 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3315.xml">
 <!ENTITY rfc3633 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3633.xml">
 <!ENTITY rfc6204 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6204.xml">
+<!ENTITY rfc7083 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7083.xml">
 ]>
 
-<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-05.txt"
+<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-06.txt"
      ipr="trust200902" updates="3315,3633">
   <front>
     <title abbrev="Multiple Stateful Option">
@@ -79,21 +81,30 @@
       shoe-horned the new options for Prefix Delegation into
       DHCPv6. Implementation experience of the CPE model described in
       <xref target="RFC6204"/> has shown multiple issues with the
-      DHCPv6 protocol in supporting multiple stateful options.</t>
+      DHCPv6 protocol in supporting multiple stateful option types,
+      in paritcular IA_NA and IA_PD.</t>
 
       <t>This document describes a number of problems encountered with
-      multiple IA option types into DHCP and recommended changes to
+      multiple IA option types and recommended changes to
       the DHCPv6 protocol specifications.</t>
 
       <t>The intention of this work is to modify the DHCP protocol
-      specification to support multiple IA option types within a
-      single DHCP session. This problem can also be solved by
-      implementing a separate DHCP session (separate client state
+      specification to support multiple IA option types within a single
+      DHCP session. This problem can also be solved by implementing
+      a separate DHCP session (separate client state
       machine) per IA option type. This latter approach has a number
       of issues: additional DHCP protocol traffic, 'collisions'
       between stateless options also included with the IA options,
       divergence in that each IA option type specification specifies
       its 'own' version of the DHCP protocol.</t>
+
+      <t>Note that while IA_TA options may be included with other IA
+      option type requests, these generally are not renewed (there
+      are no T1/T2 times) and have a separate life cycle from IA_NA 
+      and IA_PD option types. IA_TA also has limited value when DHCPv6
+      is used for address assignment, as the privacy issues identified
+      for IPv6 stateless address assignment (<xref target="RFC3041"/>)
+      do not apply to DHCPv6 assignments.</t>
 
       <t>The changes described in this document will be incorporated
       in a new revision of the DHCPv6 protocol specification <xref
@@ -157,6 +168,11 @@
       with the server and include the missing options on subsequent
       messages (Request, Renew, and Rebind) to the server.</t>
 
+      <t>The RFC3315 replacement text in the sections that follow is written
+      without referencing IA_PD or prefix delegation explicitly, as these
+      did not exist when RFC3315 was written. "IA option types" is used to
+      generally mean IA_NA and/or IA_PD; and may also include IA_TA.</t>
+
       <section title="Advertise Message">
 	<t><xref target="RFC3315"/> specifies that a client must ignore an Advertise
 	message if a server will not assign any addresses to a
@@ -177,13 +193,15 @@
   that the client MAY display the associated status message(s) to the
   user.
 	</artwork></figure>
-	<t>With:</t>
+	<t>With (this includes the changes made by <xref target="RFC7083"/>):</t>
 	<figure><artwork>
   The client MUST ignore any Advertise message that contains no
-  bindings (if only IA_NA and/or IA_TA options were requested,
-  this is a message that includes a Status Code option containing the
-  value NoAddrsAvail), with the exception that the client MAY display
-  the associated status message(s) to the user.
+  bindings (if only IA_NA and/or IA_TA options were requested,  this
+  is a message that includes a Status Code option containing the
+  value NoAddrsAvail), with the exception that the client MUST
+  process an included SOL_MAX_RT option, MUST process an included
+  INF_MAX_RT option, and MAY display the associated status message to
+  the user.
 	</artwork></figure>
 
 	<t>And, replace:</t>
@@ -302,7 +320,7 @@
 	<figure><artwork>
   If the server cannot find a client entry for the IA the server
   creates the bindings for that client according to the server's
-  policy and configuration information and records the IAs and
+  policy and configuration information and returns the IAs and
   other information requested by the client.
 	</artwork></figure>
 
@@ -312,7 +330,7 @@
    to process the other IAs in the Reply. The client MAY attempt a
    Solicit/Advertise/Request/Reply sequence periodically to obtain
    bindings for these IAs. However, it MUST limit the frequency at
-   which is does this to no more often than the renewal frequency.</t>
+   which it does this to no more often than the renewal frequency.</t>
 
       </section>
 
@@ -467,11 +485,15 @@
 
       </section>
 
-      <section title="Release Message">
-	<t>A client can release any individual lease at any time. A
-	client can get "back" a lease by using a Renew message. It MAY
-	do this at any time, though must avoid creating a Renew
-	storm. E.g. wait until T1.</t>
+      <section title="Decline should not unnecessary trigger a Release">
+
+      <t>Some clients will send a Release message for other bindings
+      they may have received after they determine a conflict and have
+      correctly sent a Decline message for the conflicting address(es).
+      It is recommended that a client SHOULD NOT send a Release
+      message for other bindings it may have received just because it
+      sent a Decline message. The client should retain the non-conflicting
+      bindings.</t>
 
       </section>
 
@@ -508,6 +530,11 @@
     <!--  SECTION 7:  Acknowledgements     			-->
 
     <section title="Acknowledgements">
+
+    <t>Thanks to many people that contributed to identify the issues in this
+    document, including Ralph Droms, John, Brzozowski, Ted Lemon, Hemant Singh,
+    Wes Beebee, Gaurau Halwasia, Bud Millword, and Tim Winters.</t>
+
     </section>
   </middle>
 
@@ -518,11 +545,13 @@
       &rfc2119;
       &rfc3315;
       &rfc3633;
+      &rfc7083;
     </references>
 
     <!--  SECTION 8.2:  Informative References		-->
 
     <references title="Informative References">
+      &rfc3041;
       &rfc6204;
     </references>
 
