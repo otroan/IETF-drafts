@@ -49,6 +49,19 @@
         <email>volz@cisco.com</email>
       </address>
     </author>
+    <author fullname="Marcin Siodelski" initials="M" surname="Siodelski">
+      <organization abbrev="">ISC</organization>
+      <address>
+        <postal>
+          <street>950 Charter Street</street>
+          <city>Redwood City</city>
+          <region>CA</region>
+          <code>94063</code>
+          <country>USA</country>
+        </postal>
+        <email>msiodelski@gmail.com</email>
+      </address>
+    </author>
 
     <date year="2014" />
 
@@ -294,6 +307,15 @@
 	change makes the server's IA processing of Renew and Rebind
 	similar to the Request processing.</t>
 
+    <t>The first two subsections contain the required updates to
+    <xref target="RFC3315"/> and <xref target="RFC3633"/>
+    to accommodate this behavior on the client and the server. The
+    remaining two subsections propose a "unified" text to be included
+    in the <xref target="I-D.dhcwg-dhc-rfc3315bis"/>, describing
+    the client's and server's behavior for renewing both addresses
+    and prefixes.</t>
+
+    <section title="Updates to RFC3315">
 	<t>Replace Section 18.1.3 of <xref target="RFC3315"/>:</t>
 	<figure><artwork>
   At time T1 for an IA, the client initiates a Renew/Reply message
@@ -331,8 +353,157 @@
    Solicit/Advertise/Request/Reply sequence periodically to obtain
    bindings for these IAs. However, it MUST limit the frequency at
    which it does this to no more often than the renewal frequency.</t>
-
       </section>
+
+      <section title="Updates to RFC3633">
+        <t>Replace Section 12.2 of <xref target="RFC3633"/>:</t>
+	    <t><list style="hanging" hangIndent='20'>
+	      <t hangText="Renew message:">If the delegating router cannot
+	      find a binding for the requesting router's IA_PD the
+	      delegating router returns the IA_PD containing no prefixes
+	      with a Status Code option set to NoBinding in the Reply
+	      message.</t>
+        </list></t>
+        <t>With:</t>
+	    <t><list style="hanging" hangIndent='20'>
+	      <t hangText="Renew message:">If the delegating router cannot
+	      find a binding for the requesting router's IA_PD the
+	      delegating router creates the bindings for that client
+          according to the server's policy and configuration
+          information and returns the IAs and other information requested
+          by the client.</t>
+        </list></t>
+      </section>
+
+      <section title="Creation and Transmission of Renew Messages (unified text)">
+        <t>To extend the valid and preferred lifetimes for the addresses
+        and prefixes associated with IAs, the client sends a Renew message
+        to the server from which the client obtained the addresses and
+        prefixes.</t>
+
+        <t>The server controls the time at which the client contacts the
+        server to extend the lifetimes on client's bindings through the
+        T1 and T2 parameters assigned to IAs. The server SHOULD assign the
+        same T1 and T2 value to each binding assigned to the client. In this
+        case the client uses the common T1 or T2 value returned in the IAs
+        to determine the time when it should send Renew or Rebind message
+        to the server. If the server sends different T1/T2 values for
+        different IAs, the client uses the shortest T1/T2 value (larger than
+        0). T1/T2 values in other IA options are ignored.</t>
+
+        <t>If T1 or T2 is set to 0 by the server for all IA_NA and IA_PD
+        options, or there are no T1 or T2 times (for an IA_TA), the client
+        may send Renew or Rebind message, respectively, on the client's
+        discretion.</t>
+
+        <t>At time T1, the client that initiates a Renew/Reply message exchange,
+        includes IA options for all bindings for which it desires to
+        extend lifetimes in its Renew message. For each IA being included,
+        the client stores all addresses or prefixes currently associated
+        with the IA.</t>
+
+        <t>The client also includes IA option for each binding it desires
+        but has been unable to obtain. For example: a client which has
+        non-temporary addresses assigned but hasn't been delegated a prefix,
+        may include an IA_PD option (in addition to the IA_NA option) in the
+        Renew message to request prefix delegation.
+        </t>
+
+        <t>The client constructing a Renew message SHOULD NOT include
+        addresses or prefixes that the client does not have, in IA options. If
+        the client included an address or prefix it does not have and the
+        server does not allocate this address or prefix for the client, the
+        server will return the IA Address or IA Prefix option with the
+        lifetimes set to 0. This is a signal to the client to not use this
+        address or prefix. The server MAY allocate a different address or
+        prefix to the client and send it in the same IA.</t>
+
+        <t>The client sets "msg-type" field to RENEW. The client generates
+        a transaction ID and inserts this value in the "transaction-id"
+        field.</t>
+
+        <t>The client places the identifier of the destination server in a
+        Server Identifier option.</t>
+
+        <t>The client MUST include a Client Identifier option to identify
+        itself to the server. The client adds any appropriate options,
+        including one or more IA options.</t>
+
+        <t>The client MUST include an Option Request option to indicate
+        the options the client is interested in receiving. The client MAY
+        include options with data values as hints to the server about
+        parameter values the client would to have returned</t>
+
+        <t>The client transmits the message according to section 14, using
+        the following parameters:
+
+        <list hangIndent="11" style="hanging">
+
+          <t hangText="   IRT"> REN_TIMEOUT</t>
+
+          <t hangText="   MRT"> REN_MAX_RT</t>
+
+          <t hangText="   MRC"> 0</t>
+
+          <t hangText="   MRD"> Remaining time until T2</t>
+
+        </list></t>
+
+        <t>If the server finds that any address or prefix sent by the
+        client is not appropriate, according to the server's configuration
+        information, the server sends back the IA with the corresponding IA
+        Address (for inappropriate address) or IA Prefix option (for inapropriate
+        prefix) with lifetimes set to 0. The client which receives the IA Address
+        or IA Prefix option with lifetimes set to 0 MUST NOT use the
+        corresponding address or prefix.</t>
+
+        <t>The message exchange is terminated
+        when time T2 is reached (see section 18.1.4), at which time the
+        client begins a Rebind message exchange.</t>
+      </section>
+
+      <section title="Receipt of Renew Messages (unified text)">
+          <t>When the server receives a Renew message via unicast from a
+          client to which the server has not sent a unicast option, the server
+          discards the Renew message and responds with a Reply message
+          containing a Status Code option with the value UseMulticast, a
+          Server Identifier option containing the server's DUID, the Client
+          Identifier option from the client message, and no other options.</t>
+
+          <t>When the server receives a Renew message that contains an IA option
+          from a client, it locates the client's binding and verifies that the
+          information in the IA from the client matches the information
+          stored for the client.</t>
+
+          <t>If the server cannot find a client entry for the IA, the server
+          creates the bindings for that client according to the server's policy
+          and configuration information and returns the IAs and other information
+          requested by the client. For each IA for which the server will not
+          create a binding (e.g. when address or prefix pool is exhausted),
+          the server returns an IA option containing a Status Code option in the
+          Reply message. The Status Code option contains the NoPrefixAvail status
+          code when it is encapsulated in the IA_PD option and NoAddrsAvail for
+          other IA types.</t>
+
+          <t>If the server finds that any address or prefix sent by
+          the client is not appropriate, according to the server's configuration
+          information, the server sends back the IA with the corresponding IA Address
+          (for invalid address) or IA Prefix option (for invalid prefix) with
+          lifetimes set to 0.</t>
+
+          <t>The server constructs a Reply message by setting the "msg-type"
+          field to REPLY, and copying the transaction ID from the Renew
+          message into the transaction-id field.</t>
+
+          <t>The server MUST include a Server Identifier option containing the
+          server's DUID and the Client Identifier option from the Renew
+          message in the Reply message.</t>
+
+          <t>The server includes other options containing configuration
+          information to be returned to the client as described in
+          <xref target='RFC3315'/>.</t>
+      </section>
+    </section>
 
      <section title="Rebind Message">
         <t>The Rebind message, as described in <xref target="RFC3315"/>
@@ -553,6 +724,7 @@
     <references title="Informative References">
       &rfc3041;
       &rfc6204;
+      <?rfc include="reference.I-D.dhcwg-dhc-rfc3315bis" ?>
     </references>
 
   </back>
