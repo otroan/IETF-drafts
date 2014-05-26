@@ -9,12 +9,12 @@
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-<!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY rfc3041 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3041.xml">
-<!ENTITY rfc3315 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3315.xml">
-<!ENTITY rfc3633 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3633.xml">
-<!ENTITY rfc6204 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6204.xml">
-<!ENTITY rfc7083 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7083.xml">
+<!ENTITY rfc2119 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY rfc3041 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3041.xml">
+<!ENTITY rfc3315 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3315.xml">
+<!ENTITY rfc3633 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3633.xml">
+<!ENTITY rfc6204 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6204.xml">
+<!ENTITY rfc7083 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7083.xml">
 ]>
 
 <rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-06.txt"
@@ -238,34 +238,92 @@
       </section>
 
       <section title="Placement of Status Codes">
-	<t>In Reply messages IA specific status codes (i.e., NoAddrsAvail,
-	NotOnlink, NoBinding, NoPrefixAvail) are encapsulated in the IA option. In
-	Advertisement messages the Status Code option with the
-	NoAddrsAvail code is in the "global" scope. That makes sense
-	when the failure case is fatal. With the introduction of
-	multiple IA option types, there might be a case where a server is
-	not willing to offer addresses, but might be willing to offer
-	other stateful option types.</t>
+	<t>
+	In Reply messages IA specific status codes (i.e., NoAddrsAvail,
+	NotOnlink, NoBinding, NoPrefixAvail) are encapsulated in the IA
+	option.  In Advertisement messages the Status Code option with
+	the NoAddrsAvail code is in the "global" scope.  That makes
+	sense when the failure case is fatal.  With the introduction of
+	multiple IA option types, there might be a case where a server
+	is not willing to offer addresses, but might be willing to offer
+	other stateful option types.
+	</t>
 
-	<t>While a Status Code option is implicitly bound to a
-	specific type of IA, e.g. NoPrefixAvail is only applicable to
-	IA_PD and NoAddrsAvail is only applicable to IA_NA/IA_TA, it
-	may be problematic to make this assumption for all status
-	codes. Ideally the Status Code option should be encapsulated in
-        the IA option for all DHCP messages. This makes Advertisement
-	messages equal to Reply messages.</t>
+	<t>
+	While a Status Code option is implicitly bound to a specific type
+	of IA, e.g. NoPrefixAvail is only applicable to IA_PD and
+	NoAddrsAvail is only applicable to IA_NA/IA_TA, it may be
+	problematic to make this assumption for all status codes.
+	Ideally the Status Code option should be encapsulated in the IA
+	option for all DHCP messages. This makes Advertisement messages
+	equal to Reply messages.
+	</t>
 
-	<t>Proposed solution: No change. For backwards compatibility,
-        the NoAddrsAvail Status Code option when no addresses are
-        available will be kept in the global scope for Advertise
-        messages. Other IA option types MUST encapsulate the Status
-        Code option within the IA option.</t>
+	<t>
+	However, how a server formats the Advertise message when
+	addresses are not available has been a point of some confusion
+	and implementations seem to vary.
+	</t>
 
-        <t>To clarify further: when a client requests both IA_NA and
-        IA_PD, and the server can offer IA_PD but not IA_NA, the server
-        sends an Advertise response containing no IA_NA option, a
-        status code option of NoAddrsAvail, and one or more IA_PD
-        options containing IAPREFIX options.</t>
+	<t>
+	Therefore, the Proposed solution is:
+	</t>
+
+	<t>
+	Clients MUST be prepared to handle each of the following Advertise
+	messages formats when there are no addresses available (even when
+	no IA_PD was in the Solicit):
+	<list style="numbers">
+	<t>
+	Advertise containing just a global scope status code option (of
+	NoAddrsAvail) and no IA_NAs/IA_TAs.
+	</t>
+	<t>
+	Advertise containing the IA_NAs and/or IA_TAs with encapsulated
+	status code option (of NoAddrsAvail) and no global scope status
+	code option.
+	</t>
+	<t>
+	Advertise containing a global scope status code option (of
+	NoAddrsAvail) and IA_NAs and/or IA_TAs with a status code option
+	(of NoAddrsAvail).
+	</t>
+	</list>
+	</t>
+
+	<t>
+	Servers MUST use the encapsulated status code option (of
+	NoAddrsAvail) in an IA_NA/IA_TA and not a global scope status
+	code option (of NoAddrsAvail) when no addresses will be assigned
+	(2 in the above list). This means that the Advertise response
+	matches the Reply response with respect to the handling of the
+	NoAddrsAvail status.
+	</t>
+
+	<t>
+	Replace the following paragraph in RFC 3315, section 17.2.2:
+	</t>
+
+<figure><artwork>
+   If the server will not assign any addresses to any IAs in a
+   subsequent Request from the client, the server MUST send an
+   Advertise message to the client that includes only a Status
+   Code option with code NoAddrsAvail and a status message for
+   the user, a Server Identifier option with the server's DUID,
+   and a Client Identifier option with the client's DUID.
+</artwork></figure>
+
+	<t>
+	With:
+	</t>
+
+<figure><artwork>
+   If the server will not assign any addresses to an IA in a
+   subsequent Request from the client, the server MUST include
+   the IA in the Advertise message with no addresses in the IA
+   and a Status Code option in the IA containing status code
+   NoAddrsAvail.
+</artwork></figure>
 
       </section>
 
