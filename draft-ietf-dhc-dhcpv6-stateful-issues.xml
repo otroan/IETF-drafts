@@ -139,7 +139,7 @@
     <!--  SECTION 3: DESCRIPTION                                                   -->
 
     <section title="Terminology">
-      <t><list hangIndent="28" style="hanging">
+      <t><list hangIndent="32" style="hanging">
 
 	<t hangText="Stateful options">
 	  Options that require dynamic binding state per client on the
@@ -155,6 +155,15 @@
 	  temporary addresses"). Throughout this document, "IA" is
 	  used to refer to an identity association without identifying
 	  the type of stateful option in the IA.</t>
+
+      <t hangText="Allocated Resource (resource):">
+        A value (or a collection of values) dynamically assigned to the
+        client by the server and being carried in the stateful options.
+        An example of the allocated resources are: IPv6 address or an
+        IPv6 prefix. Information about an allocated resource is transported
+        in options such as IA_NA Address or IA_PD Prefix. In the future,
+        other types of allocated resources may be defined.
+      </t>
 
 	</list></t>
     </section>
@@ -490,7 +499,7 @@
         <t>The client MUST include an Option Request option to indicate
         the options the client is interested in receiving. The client MAY
         include options with data values as hints to the server about
-        parameter values the client would to have returned</t>
+        parameter values the client would like to have returned.</t>
 
         <t>The client transmits the message according to section 14, using
         the following parameters:
@@ -537,11 +546,8 @@
           creates the bindings for that client according to the server's policy
           and configuration information and returns the IAs and other information
           requested by the client. For each IA for which the server will not
-          create a binding (e.g. when address or prefix pool is exhausted),
-          the server returns an IA option containing a Status Code option in the
-          Reply message. The Status Code option contains the NoPrefixAvail status
-          code when it is encapsulated in the IA_PD option and NoAddrsAvail for
-          other IA types.</t>
+          create a binding the server returns an IA option containing a Status
+          Code option set to NoBinding in the Reply message. </t>
 
           <t>If the server finds that any address or prefix sent by
           the client is not appropriate, according to the server's configuration
@@ -568,6 +574,15 @@
         does not explicitly specify what a server should do when an IA
         option which contains no addresses is present.</t>
 
+        <t>The first two subsections contain the required updates to
+        <xref target="RFC3315"/> and <xref target="RFC3633"/>
+        to accommodate this behavior on the client and the server. The
+        remaining two subsections propose a "unified" text to be included
+        in the <xref target="I-D.dhcwg-dhc-rfc3315bis"/>, describing
+        the client's and server's behavior for renewing both addresses
+        and prefixes.</t>
+
+        <section title="Updates to RFC3315">
 	<t>Replace Section 18.1.4 of <xref target="RFC3315"/>:</t>
 	<figure><artwork>
   At time T2 for an IA (which will only be reached if the server to
@@ -658,6 +673,159 @@
    </t>
 
    </list></t>
+        </section>
+
+        <section title="Updates to RFC3633">
+          <t>TBD</t>
+        </section>
+
+        <section title="Creation and Transmission of Rebind Messages (unified text)">
+          <t>At time T2 for an IA (which will only be reached if the server to
+          which the Renew message was sent at time T1 has not responded), the
+          client initiates a Rebind/Reply message exchange with any available
+          server. The client includes an IA option with all addresses or prefixes
+          currently assigned to the IA in its Rebind message. The client includes
+          IA options for all other bindings which lifetimes the client is
+          willing to extend. For each IA being included, the client stores
+          all addresses or prefixes currently associated with the IA.</t>
+
+          <t>The client also includes IA option for each binding it desires
+          but has been unable to obtain. For example: a client which has
+          non-temporary addresses assigned but has not been delegated a prefix,
+          may include an IA_PD option (in addition to the IA_NA option) in the
+          Rebind message to request the prefix delegation.
+          </t>
+
+          <t>When the client requests an assignment of the new bindings in a
+          Rebind message, it MUST include the Rapid Commit option to indicate
+          to the server that the client is willing to accept the allocation of
+          new bindings.</t>
+
+          <t>The client constructing a Rebind message SHOULD NOT include
+          addresses or prefixes in IA options that the client does not have. If
+          the client included an address or prefix it does not have and the
+          server does not allocate this address or prefix for the client, the
+          server will return the IA Address or IA Prefix option with the
+          lifetimes set to 0. This is an indication to the client to not use this
+          address or prefix. The server MAY allocate a different address or
+          prefix to the client and send it in the same IA.</t>
+
+          <t>The client sets the "msg-type" field to REBIND. The client generates
+          a transaction ID and inserts this value in the "transaction-id" field.</t>
+
+          <t>The client MUST include a Client Identifier option to identify itself
+          to the server. The client adds any appropriate options, including one or
+          more IA options. The client MUST include the list of addresses and prefixes
+          the client currently has associated with the IAs in the Rebind message.</t>
+
+          <t>The client MUST include an Option Request option to indicate the options
+          that client is interested in receiving. The client MAY include options
+          with data values as hints to the server about parameter values the client
+          would like to have returned.</t>
+
+          <t>The client MUST include Rapid Commit option if it expects the server
+          to create new bindings e.g. when the client having only addresses assigned
+          desires also a prefix delegation.
+          </t>
+
+        <t>The client transmits the message according to Section 14, using
+        the following parameters:
+
+        <list hangIndent="11" style="hanging">
+
+          <t hangText="   IRT"> REB_TIMEOUT</t>
+
+          <t hangText="   MRT"> REB_MAX_RT</t>
+
+          <t hangText="   MRC"> 0</t>
+
+          <t hangText="   MRD"> Remaining time until valid lifetimes of all addresses
+          or prefixes in the IA have expired</t>
+
+          <t>The message exchange is terminated when the valid lifetimes of
+          all the addresses or prefixes assigned to the IA expire, at
+          which time the client has several alternative actions to choose
+          from; for example:
+
+          <list hangIndent="3" style="hanging">
+
+          <t hangText="-"> The client may choose to use a Solicit message to locate a new
+          DHCP server and send a Request for the expired IA to the new
+          server.</t>
+
+          <t hangText="-"> The client may have other addresses or prefixes in other IAs,
+          so the client may choose to discard the expired IA and use the other IAs.</t>
+          </list></t>
+
+
+        </list></t>
+        </section>
+
+        <section title="Receipt of Rebind Messages (unified text)">
+          <t>When the server receives a Rebind message that contains an IA option
+          from a client, it locates the client's binding and verifies that the
+          information in the IA from the client matches the information stored
+          for that client.
+          </t>
+
+          <t>If the server finds the address or prefix in the IA for the client and the
+          server determines that the addresses or prefixes in the IA are appropriate for
+          the link to which the client's interface is attached according to the
+          server's explicit configuration information, the server SHOULD send
+          back the IA to the client with new lifetimes and T1/T2 times.
+          </t>
+
+          <t>If the server cannot find a client entry for the IA and the server
+          determines that the addresses or prefixes in the IA are not appropriate
+          for the link to which the client's interface is attached according to the
+          server's explicit configuration information, the server MAY send a
+          Reply message to the client containing the client's IA, with the
+          lifetimes for the addresses or prefixes in the IA set to zero.  This Reply
+          constitutes an explicit notification to the client that the addresses or
+          prefixes in the IA are no longer valid.  In this situation, if the server does
+          not send a Reply message it silently discards the Rebind message.
+          </t>
+
+          <t>If the server cannot find a client entry for the IA, the IA is empty
+          (i.e. contains no addresses or prefixes) and the client included Rapid Commit
+          option in the Rebind message, the server MAY assign the addresses or
+          prefixes to this IA and send a Reply message to the client with this IA
+          containing allocated addresses or prefixes with lifetimes and T1/T2 times.
+          In the case when the client included addresses or prefixes in the IA,
+          included addresses or prefixes are appropriate for the link to which the
+          client's interface is attached according to the server's explicit
+          configuration information and the they are not in use,
+          the server MAY allocate these addresses or prefixes to the client. If the
+          server does not allocate addresses or prefixes to the client, the server
+          returns the IA containing only Status Code option set to NoBinding in the
+          Reply message.</t>
+
+          <t>Note: A server SHOULD NOT provide additional bindings to the client
+          as the client could accept a Reply from a different server (this is
+          the same issue as in the Discussion under the Rapid Commit option,
+          see section 22.14).
+          </t>
+
+          <t>The server constructs a Reply message by setting the "msg-type" field
+          to REPLY, and copying the transaction ID from the Rebind message into
+          the transaction-id field.
+          </t>
+
+          <t>The server MUST include a Server Identifier option containing the
+          server's DUID and the Client Identifier option from the Rebind
+          message in the Reply message.
+          </t>
+
+          <t>The server MUST include a Rapid Commit option in the Reply message if
+          the server has been configured to assign new bindings during processing
+          of a Rebind message and the client included this option in the Rebind
+          message.</t>
+
+          <t>The server includes other options containing configuration
+          information to be returned to the client as described in section
+          18.2.</t>
+
+        </section>
 
       </section>
 
@@ -731,7 +899,7 @@
           network are in a single provisioning domain and thus should be
           "equal" in the service that they offer. This was also assumed
           by <xref target="RFC3315"/> and <xref target="RFC3633"/>.</t>
-          
+
           <t>One could envision a network where the DHCP servers are in multiple
           provisioning domains, and it may be desirable to have the DHCP client
           obtain different IA types from different provisioning domains. How a
