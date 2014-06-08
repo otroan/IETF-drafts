@@ -95,7 +95,7 @@
       DHCPv6. Implementation experience of the CPE model described in
       <xref target="RFC6204"/> has shown multiple issues with the
       DHCPv6 protocol in supporting multiple stateful option types,
-      in paritcular IA_NA and IA_PD.</t>
+      in particular IA_NA and IA_PD.</t>
 
       <t>This document describes a number of problems encountered with
       multiple IA option types and recommended changes to
@@ -141,9 +141,13 @@
     <section title="Terminology">
       <t><list hangIndent="32" style="hanging">
 
-	<t hangText="Stateful options">
-	  Options that require dynamic binding state per client on the
-	  server.</t>
+	<t hangText="Allocated Resource (resource):">
+	  A value (or a collection of values) dynamically assigned to the
+	  client by the server and being carried in the stateful options.
+	  An example of the allocated resources are: IPv6 address or an
+	  IPv6 prefix. Information about an allocated resource is transported
+	  in options such as IA_NA Address or IA_PD Prefix. In the future,
+	  other types of allocated resources may be defined.</t>
 
 	<t hangText="Identity association (IA):">
 	  A collection of stateful options assigned to a client. Each
@@ -156,14 +160,13 @@
 	  used to refer to an identity association without identifying
 	  the type of stateful option in the IA.</t>
 
-      <t hangText="Allocated Resource (resource):">
-        A value (or a collection of values) dynamically assigned to the
-        client by the server and being carried in the stateful options.
-        An example of the allocated resources are: IPv6 address or an
-        IPv6 prefix. Information about an allocated resource is transported
-        in options such as IA_NA Address or IA_PD Prefix. In the future,
-        other types of allocated resources may be defined.
-      </t>
+	<t hangText="IA option types:">
+	  This is used to generally mean an IA_NA and/or IA_PD and may also
+	  include IA_TA, as well as any future IA options.</t>
+	  
+	<t hangText="Stateful options:">
+	  Options that require dynamic binding state per client on the
+	  server.</t>	  
 
 	</list></t>
     </section>
@@ -190,67 +193,11 @@
       with the server and include the missing options on subsequent
       messages (Request, Renew, and Rebind) to the server.</t>
 
-      <t>The RFC3315 replacement text in the sections that follow is written
-      without referencing IA_PD or prefix delegation explicitly, as these
-      did not exist when RFC3315 was written. "IA option types" is used to
-      generally mean IA_NA and/or IA_PD; and may also include IA_TA.</t>
-
-      <section title="Advertise Message">
-	<t><xref target="RFC3315"/> specifies that a client must ignore an Advertise
-	message if a server will not assign any addresses to a
-	client. A client requesting both IA_NA and IA_PD, with a
-	server that only offers one of them, is not supported in the
-	current protocol specification.</t>
-
-	<t>Proposed solution: a client SHOULD accept Advertise messages,
-	even when not all IA option types are being offered. A client
-	SHOULD ignore an Advertise message when no bindings at all
-	are being offered. The client SHOULD include the not offered
-	IA option types in its Request.</t>
-
-	<t>Replace Section 17.1.3 of <xref target="RFC3315"/>: (existing errata)</t>
-	<figure><artwork>
-  The client MUST ignore any Advertise message that includes a Status
-  Code option containing the value NoAddrsAvail, with the exception
-  that the client MAY display the associated status message(s) to the
-  user.
-	</artwork></figure>
-	<t>With (this includes the changes made by <xref target="RFC7083"/>):</t>
-	<figure><artwork>
-  The client MUST ignore any Advertise message that contains no
-  bindings (if only IA_NA and/or IA_TA options were requested,  this
-  is a message that includes a Status Code option containing the
-  value NoAddrsAvail), with the exception that the client MUST
-  process an included SOL_MAX_RT option, MUST process an included
-  INF_MAX_RT option, and MAY display the associated status message to
-  the user.
-	</artwork></figure>
-
-	<t>And, replace:</t>
-	<figure><artwork>
-  -  The client MAY choose a less-preferred server if that server
-     has a better set of advertised parameters, such as the
-     available addresses advertised in IAs.
-	</artwork></figure>
-	<t>With:</t>
- 	<figure><artwork>
-  -  The client MAY choose a less-preferred server if that server
-     has a better set of advertised parameters, such as the
-     available options advertised in IAs.
-	</artwork></figure>
-
-        <t>It is important to note that the receipt of a Advertisement
-	without any bindings does not imply that the client should
-	restart the Solicit retransmissions timers. Doing so would
-	lead to a Solicit/Advertisement storm.</t>
-
-      </section>
-
       <section title="Placement of Status Codes">
 	<t>
 	In Reply messages IA specific status codes (i.e., NoAddrsAvail,
 	NotOnlink, NoBinding, NoPrefixAvail) are encapsulated in the IA
-	option.  In Advertisement messages the Status Code option with
+	option.  In Advertise messages the Status Code option with
 	the NoAddrsAvail code is in the "global" scope.  That makes
 	sense when the failure case is fatal.  With the introduction of
 	multiple IA option types, there might be a case where a server
@@ -264,8 +211,8 @@
 	NoAddrsAvail is only applicable to IA_NA/IA_TA, it may be
 	problematic to make this assumption for all status codes.
 	Ideally the Status Code option should be encapsulated in the IA
-	option for all DHCP messages. This makes Advertisement messages
-	equal to Reply messages.
+	option for all DHCP messages. This makes Status Code option
+        placement for Advertise messages identical to Reply messages.
 	</t>
 
 	<t>
@@ -284,29 +231,29 @@
 	no IA_PD was in the Solicit):
 	<list style="numbers">
 	<t>
-	Advertise containing just a global scope status code option (of
+	Advertise containing just a global scope Status Code option (of
 	NoAddrsAvail) and no IA_NAs/IA_TAs.
 	</t>
 	<t>
 	Advertise containing the IA_NAs and/or IA_TAs with encapsulated
-	status code option (of NoAddrsAvail) and no global scope status
-	code option.
+	Status Code option (of NoAddrsAvail) and no global scope Status
+	Code option.
 	</t>
 	<t>
-	Advertise containing a global scope status code option (of
-	NoAddrsAvail) and IA_NAs and/or IA_TAs with a status code option
+	Advertise containing a global scope Status Code option (of
+	NoAddrsAvail) and IA_NAs and/or IA_TAs with a Status Code option
 	(of NoAddrsAvail).
 	</t>
 	</list>
 	</t>
 
 	<t>
-	Servers MUST use the encapsulated status code option (of
-	NoAddrsAvail) in an IA_NA/IA_TA and not a global scope status
-	code option (of NoAddrsAvail) when no addresses will be assigned
-	(2 in the above list). This means that the Advertise response
-	matches the Reply response with respect to the handling of the
-	NoAddrsAvail status.
+	Servers MUST use the encapsulated Status Code option (of
+	NoAddrsAvail) encapsulated in an IA_NA/IA_TA options and not a
+        global scope Status Code option (of NoAddrsAvail) when no
+        addresses will be assigned (2 in the above list). This means that
+        the Advertise response matches the Reply response with respect to
+        the handling of the NoAddrsAvail status.
 	</t>
 
 	<t>
@@ -330,11 +277,67 @@
    If the server will not assign any addresses to an IA in a
    subsequent Request from the client, the server MUST include
    the IA in the Advertise message with no addresses in the IA
-   and a Status Code option in the IA containing status code
-   NoAddrsAvail.
+   and a Status Code option encapsulated in the IA containing
+   status code NoAddrsAvail.
 </artwork></figure>
 
       </section>
+
+
+      <section title="Advertise Message">
+	<t><xref target="RFC3315"/> specifies that a client must ignore an Advertise
+	message if a server will not assign any addresses to a
+	client. A client requesting both IA_NA and IA_PD, with a
+	server that only offers one of them, is not supported in the
+	current protocol specification.</t>
+
+	<t>Proposed solution: a client SHOULD accept Advertise messages,
+	even when not all IA option types are being offered. And, in this
+        case, the client SHOULD include the not offered IA option types
+        in its Request. A client SHOULD only ignore an Advertise message
+        when no IA option includes any offered addresses or delegated
+        prefixes (or any future allocable resource). Note that ignored
+        messages MUST still be processed for SOL_MAX_RT and INF_MAX_RT
+        options as specified in <xref target="RFC7083"/>.</t>
+
+	<t>Replace Section 17.1.3 of <xref target="RFC3315"/>: (existing errata)</t>
+	<figure><artwork>
+  The client MUST ignore any Advertise message that includes a Status
+  Code option containing the value NoAddrsAvail, with the exception
+  that the client MAY display the associated status message(s) to the
+  user.
+	</artwork></figure>
+	<t>With (this includes the changes made by <xref target="RFC7083"/>):</t>
+	<figure><artwork>
+  The client MUST ignore any Advertise message that contains no
+  addresses (IAADDR options encapsulated in IA_NA or IA_TA options)
+  and no delegated prefixes (IAPREFIX options encapsulated in IA_PD
+  options, see RFC3633) with the exception that the client
+  MUST process an included SOL_MAX_RT option (RFC7083), MUST
+  process an included INF_MAX_RT option (RFC7083), and MAY
+  display any associated status message(s) to the user.
+	</artwork></figure>
+
+	<t>And, replace:</t>
+	<figure><artwork>
+  -  The client MAY choose a less-preferred server if that server
+     has a better set of advertised parameters, such as the
+     available addresses advertised in IAs.
+	</artwork></figure>
+	<t>With:</t>
+ 	<figure><artwork>
+  -  The client MAY choose a less-preferred server if that server
+     has a better set of advertised parameters, such as the
+     available options advertised in IAs.
+	</artwork></figure>
+
+        <t>It is important to note that the receipt of an Advertise message
+	without any addresses and delegated prefixes does not imply that
+	the client should restart the Solicit retransmissions timers. Doing
+	so would lead to a Solicit/Advertise storm.</t>
+
+      </section>
+
 
       <section title="T1/T2 Timers">
 	<t>The T1 and T2 timers determine when the client will contact
@@ -519,7 +522,7 @@
         <t>If the server finds that any address or prefix sent by the
         client is not appropriate, according to the server's configuration
         information, the server sends back the IA with the corresponding IA
-        Address (for inappropriate address) or IA Prefix option (for inapropriate
+        Address (for inappropriate address) or IA Prefix option (for inappropriate
         prefix) with lifetimes set to 0. The client which receives the IA Address
         or IA Prefix option with lifetimes set to 0 MUST NOT use the
         corresponding address or prefix.</t>
