@@ -947,40 +947,21 @@
 	does NOT need to extend lease times or otherwise send back
 	other configuration options.</t>
 
-	<t>Proposed solution: Allow and specify the Confirm message
-	for other IA option types. The server performs the same test
-	as for addresses on the delegated prefixes (see
-	<xref target="RFC3315"/>, section 18.2.2).</t>
+	<t>The Confirm message is used by the client to verify that it
+	has not moved to a different link. For IAs with addresses, the
+	mechanism used to verify if a client has moved or not, is by
+	matching the link's onlink prefix(es) (typically a /64)
+	against the prefix-length first bits of the addresses provided
+	by the client in the IA_NA or IA_TA IA-types. As a consequence
+	Confirm can only be used when the client has a valid address
+	IA.</t>
 
-	<t>Replace Section 12.1 of <xref target="RFC3633"/>:</t>
-	<figure><artwork>
-  If such verification is needed the requesting router MUST initiate
-  a Rebind/Reply message exchange as described in section 18.1.4,
-  "Creation and Transmission of Rebind Messages" of RFC 3315, with
-  the exception that the retransmission parameters should be set as
-  for the Confirm message, described in section 18.1.2, "Creation
-  and Transmission of Confirm Messages" of RFC 3315.  The requesting
-  router includes any IA_PDs, along with prefixes associated with
-  those IA_PDs in its Rebind message.
-
-  ...
-
-  The Confirm and Decline message types are not used with Prefix
-  Delegation.
-	</artwork></figure>
-	<t>With:</t>
-	<figure><artwork>
-  If such verification is needed the requesting router MUST initiate
-  a Confirm message exchange as described in section 18.1.2,
-  "Creation and Transmission of Confirm Messages" of RFC 3315. The
-  requesting router includes any IA_PDs, along with prefixes
-  associated with those IA_PDs in its Confirm message.
-
-  ...
-
-  The Decline message type is not used with Prefix Delegation.
-	</artwork></figure>
-
+	<t>A client MUST have a binding with an "address IA" to use
+	the Confirm message. A client with "address IAs" as well as
+	other IA-types MAY, depending on the IA-type use the Confirm
+	message to detect if the client has moved to a different
+	link. A client that does not have a binding for an "address
+	IA" MUST use the Rebind message instead.</t>
       </section>
 
       <section title="Decline should not unnecessary trigger a Release">
