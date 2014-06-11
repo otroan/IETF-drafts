@@ -962,6 +962,12 @@
 	message to detect if the client has moved to a different
 	link. A client that does not have a binding for an "address
 	IA" MUST use the Rebind message instead.</t>
+
+	<t>IA_PD requires verification that the server has the binding
+	for the IAs. In that case a client MUST use the Rebind message
+	in place of the Confirm message, even if it has address
+	IAs.</t>
+
       </section>
 
       <section title="Decline should not unnecessary trigger a Release">
