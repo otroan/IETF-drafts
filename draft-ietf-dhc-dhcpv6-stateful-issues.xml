@@ -77,10 +77,10 @@
       options would be developed. IPv6 Prefix Options for Dynamic Host
       Configuration Protocol (DHCP) version 6 shoe-horned the new
       options for Prefix Delegation into DHCPv6. Implementation
-      experience of the CPE model described in RFC6204
+      experience of the CPE model described in RFC 6204
       has shown multiple issues with the DHCPv6 protocol in supporting
-      multiple stateful options. This document updates RFC3315 and
-      indirectly RFC3633.</t>
+      multiple stateful options. This document updates RFC 3315 and
+      indirectly RFC 3633.</t>
     </abstract>
   </front>
 
@@ -130,7 +130,7 @@
     <section title="Conventions">
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-      document are to be interpreted as described in RFC 2119 <xref
+      document are to be interpreted as described in <xref
       target="RFC2119"></xref>.</t>
     </section>
 
@@ -301,7 +301,7 @@
         messages MUST still be processed for SOL_MAX_RT and INF_MAX_RT
         options as specified in <xref target="RFC7083"/>.</t>
 
-	<t>Replace Section 17.1.3 of <xref target="RFC3315"/>: (existing errata)</t>
+	<t>Replace Section 17.1.3 of RFC 3315: (existing errata)</t>
 	<figure><artwork>
   The client MUST ignore any Advertise message that includes a Status
   Code option containing the value NoAddrsAvail, with the exception
@@ -313,9 +313,9 @@
   The client MUST ignore any Advertise message that contains no
   addresses (IAADDR options encapsulated in IA_NA or IA_TA options)
   and no delegated prefixes (IAPREFIX options encapsulated in IA_PD
-  options, see RFC3633) with the exception that the client
-  MUST process an included SOL_MAX_RT option (RFC7083), MUST
-  process an included INF_MAX_RT option (RFC7083), and MAY
+  options, see RFC 3633) with the exception that the client
+  MUST process an included SOL_MAX_RT option (RFC 7083), MUST
+  process an included INF_MAX_RT option (RFC 7083), and MAY
   display any associated status message(s) to the user.
 	</artwork></figure>
 
@@ -386,8 +386,8 @@
     the client's and server's behavior for renewing both addresses
     and prefixes.</t>
 
-    <section title="Updates to RFC3315">
-	  <t>Replace Section 18.1.3 of <xref target="RFC3315"/>:</t>
+    <section title="Updates to RFC 3315">
+	  <t>Replace Section 18.1.3 of RFC 3315:</t>
       <t><list>
         <t>At time T1 for an IA, the client initiates a Renew/Reply message
         exchange to extend the lifetimes on any addresses in the IA. The
@@ -405,7 +405,7 @@
       option for each binding it desires but has been unable to obtain.</t>
     </list></t>
 
-	<t>Replace Section 18.2.3 of <xref target="RFC3315"/>:</t>
+	<t>Replace Section 18.2.3 of RFC 3315:</t>
     <t><list>
       <t>If the server cannot find a client entry for the IA the server
       returns the IA containing no addresses with a Status Code option
@@ -430,8 +430,8 @@
    which it does this to no more often than the renewal frequency.</t>
       </section>
 
-      <section title="Updates to RFC3633">
-        <t>Replace Section 12.2 of <xref target="RFC3633"/>:</t>
+      <section title="Updates to RFC 3633">
+        <t>Replace Section 12.2 of RFC 3633:</t>
         <t><list>
           <t><list style="hanging" hangIndent='17'>
 	        <t hangText="Renew message:">If the delegating router cannot
@@ -610,8 +610,8 @@
        the client's and server's behavior with respect to processing
        different IA option types in a single Rebind message.</t>
 
-        <section title="Updates to RFC3315">
-	<t>Replace Section 18.1.4 of <xref target="RFC3315"/>:</t>
+        <section title="Updates to RFC 3315">
+	<t>Replace Section 18.1.4 of RFC 3315:</t>
     <t><list>
       <t>At time T2 for an IA (which will only be reached if the server to
       which the Renew message was sent at time T1 has not responded), the
@@ -645,7 +645,7 @@
       the client and send it in the same IA.</t>
     </list></t>
 
-        <t>Replace Section 18.2.4 of <xref target="RFC3315"/> with the
+        <t>Replace Section 18.2.4 of RFC 3315 with the
    following text to clarify how the server should handle all of the
    possible conditions:
 
@@ -728,8 +728,8 @@
    </list></t>
         </section>
 
-        <section title="Updates to RFC3633">
-        <t>Replace Section 12.2 of <xref target="RFC3633"/>:</t>
+        <section title="Updates to RFC 3633">
+        <t>Replace Section 12.2 of RFC 3633:</t>
         <t><list>
           <t><list style="hanging" hangIndent='17'>
             <t hangText="Rebind message:">If the delegating router
