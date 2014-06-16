@@ -953,20 +953,20 @@
 	matching the link's onlink prefix(es) (typically a /64)
 	against the prefix-length first bits of the addresses provided
 	by the client in the IA_NA or IA_TA IA-types. As a consequence
-	Confirm can only be used when the client has a valid address
-	IA.</t>
+	Confirm can only be used when the client has an IA with
+	address(es) (IA-NA or IA_TA).</t>
 
-	<t>A client MUST have a binding with an "address IA" to use
-	the Confirm message. A client with "address IAs" as well as
-	other IA-types MAY, depending on the IA-type use the Confirm
-	message to detect if the client has moved to a different
-	link. A client that does not have a binding for an "address
-	IA" MUST use the Rebind message instead.</t>
+	<t>A client MUST have a binding including an IA with addresses
+	to use the Confirm message. A client with IAs with addresses
+	as well as other IA-types MAY, depending on the IA-type use
+	the Confirm message to detect if the client has moved to a
+	different link. A client that does not have a binding with an
+	IA with addresses MUST use the Rebind message instead.</t>
 
 	<t>IA_PD requires verification that the server has the binding
 	for the IAs. In that case a client MUST use the Rebind message
-	in place of the Confirm message, even if it has address
-	IAs.</t>
+	in place of the Confirm message and it MUST include all of its
+	bindings, even address IAs.</t>
 
       </section>
 
