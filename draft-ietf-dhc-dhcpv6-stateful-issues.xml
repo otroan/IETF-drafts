@@ -630,11 +630,6 @@
       also includes an IA option (without the IA Address option) for each
       binding it desires but has been unable to obtain.</t>
 
-      <t>When the client requests creation of the new bindings in a Rebind
-      message, it MUST include the Rapid Commit option to indicate to
-      the server that the client is willing to accept the creation of
-      the new bindings.</t>
-
       <t>The client constructing a Rebind message SHOULD NOT include
       addresses in IA options that the client does not have. If the
       client included an address it does not have and the server does not
@@ -679,9 +674,8 @@
    </t>
 
    <t hangText="">
-   If the server cannot find a client entry for the IA, the IA is empty
-   (i.e. contains no addresses) and the client included Rapid Commit
-   option in the Rebind message, the server MAY assign the addresses to
+   If the server cannot find a client entry for the IA and the IA is empty
+   (i.e. contains no addresses), the server MAY assign the addresses to
    this IA and send a Reply message to the client with this IA containing
    allocated addresses with lifetimes and T1/T2 times. In the case when
    the client included addresses in the IA, included addresses are
@@ -710,13 +704,6 @@
    The server MUST include a Server Identifier option containing the
    server's DUID and the Client Identifier option from the Rebind
    message in the Reply message.
-   </t>
-
-   <t hangText="">
-   The server MUST include a Rapid Commit option in the Reply message
-   if the server has been configured to assign new bindings during
-   processing of a Rebind message and the client included this option
-   in the Rebind message.
    </t>
 
    <t hangText="">
@@ -751,37 +738,26 @@
         <t>with:</t>
         <t><list>
           <t><list style="hanging" hangIndent='17'>
-            <t hangText="Rebind message with Rapid Commit option:">
-              <vspace/><vspace/>
-              If the delegating router cannot find a binding
-              for the requesting router's IA_PD, the delegating
-              router creates the bindings for the IA_PD
-              according to the server's policy and
-              configuration information and returns the IA_PD
-              containing allocated prefixes to the client. If
-              the server is not configured to create new
-              bindings during processing a Rebind message,
-              the server processes the Rebind message
-              as if the Rapid Commit option was not included.</t>
-
-            <t hangText="Rebind message without Rapid Commit option:">
-              <vspace/><vspace/>
-              If the delegating router cannot find a binding
-              for the requesting router's IA_PD and the
-              delegating router determines that the prefixes in
-              the IA_PD are not appropriate for the link to
-              which the requesting router's interface is
-              attached according to the delegating router's
-              explicit configuration, the delegating router MAY
-	          send a Reply message to the requesting router
-              containing the IA_PD with the lifetimes of the
-              prefixes in the IA_PD set to zero. This Reply
-              constitutes an explicit notification to the
-              requesting router that the prefixes in the IA_PD
-              are no longer valid. If the delegating router is
-              unable to determine if the prefix is not
-              appropriate for the link, the Rebind message
-            is discarded.</t>
+            <t hangText="Rebind message:">If the delegating router
+            cannot find a binding for the requesting router's IA_PD
+            and the delegating router determines that the prefixes
+            in the IA_PD are not appropriate for the link to which
+            the requesting router's interface is attached according
+            to the delegating routers explicit configuration, the
+            delegating router MAY send a Reply message to the
+            requesting router containing the IA_PD with the
+            lifetimes of the prefixes in the IA_PD set to zero.
+            This Reply constitutes an explicit notification to the
+            requesting router that the prefixes in the IA_PD
+            are no longer valid.  If the delegating router is
+            unable to determine if the prefix is not appropriate
+            for the link, the Rebind message is discarded.
+            If the IA_PD contains no prefixes or the prefixes
+            are appropriate for the link to which the requesting
+            router's interface is attached according to the
+            delegating router's explicit configuration information
+            and if prefixes are not in use, the delegating router
+            MAY assign prefixes to this IA_PD.</t>
           </list></t>
         </list></t>
         </section>
@@ -799,11 +775,6 @@
           may include an IA_PD option (in addition to the IA_NA option) in the
           Rebind message to request the prefix delegation.
           </t>
-
-          <t>When the client requests creation of the new bindings in a
-          Rebind message, it MUST include the Rapid Commit option to indicate
-          to the server that the client is willing to accept the creation of
-          the new bindings.</t>
 
           <t>The client constructing a Rebind message SHOULD NOT include
           resources in IA options that the client does not have. If the client
@@ -826,11 +797,6 @@
           that client is interested in receiving. The client MAY include options
           with data values as hints to the server about parameter values the client
           would like to have returned.</t>
-
-          <t>The client MUST include Rapid Commit option if it expects the server
-          to create new bindings e.g. when the client having only addresses assigned
-          desires also a prefix delegation.
-          </t>
 
           <t>The client transmits the message according to Section 14, using
           the following parameters:
@@ -888,9 +854,8 @@
           not send a Reply message it silently discards the Rebind message.
           </t>
 
-          <t>If the server cannot find a client entry for the IA, the IA is empty
-          (i.e. contains no resources) and the client included Rapid Commit
-          option in the Rebind message, the server MAY assign the resources to this
+          <t>If the server cannot find a client entry for the IA and the IA is empty
+          (i.e. contains no resources), the server MAY assign the resources to this
           IA and send a Reply message to the client with this IA containing allocated
           resources with lifetimes and T1/T2 times. In the case when the client
           included resources in the IA, included resources are appropriate for the
@@ -916,11 +881,6 @@
           server's DUID and the Client Identifier option from the Rebind
           message in the Reply message.
           </t>
-
-          <t>The server MUST include a Rapid Commit option in the Reply message if
-          the server has been configured to assign new bindings during processing
-          of a Rebind message and the client included this option in the Rebind
-          message.</t>
 
           <t>The server includes other options containing configuration
           information to be returned to the client as described in section
