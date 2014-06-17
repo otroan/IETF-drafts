@@ -688,10 +688,13 @@
    </t>
 
    <t hangText="">
-   Note: A server SHOULD NOT provide additional bindings to the client
-   as the client could accept a Reply from a different server (this is
-   the same issue as in the Discussion under the Rapid Commit option,
-   see section 22.14).
+   When the server creates new bindings for the IA it is possible that
+   other servers also create bindings as a result of receiving the same
+   Rebind message. This is the same issue as in the Discussion under
+   the Rapid Commit option, see section 22.14. Therefore, the server
+   SHOULD only create new bindings during processing of a Rebind message
+   if the server is configured to respond with a Reply message to a
+   Solicit message containing the Rapid Commit option.
    </t>
 
    <t hangText="">
@@ -866,10 +869,14 @@
           returns the IA containing only Status Code option set to NoBinding in the
           Reply message.</t>
 
-          <t>Note: A server SHOULD NOT provide additional bindings to the client
-          as the client could accept a Reply from a different server (this is
-          the same issue as in the Discussion under the Rapid Commit option,
-          see section 22.14).
+          <t hangText="">
+          When the server creates new bindings for the IA it is possible that
+          other servers also create bindings as a result of receiving the same
+          Rebind message. This is the same issue as in the Discussion under
+          the Rapid Commit option, see section 22.14 of <xref target="RFC3315"/>.
+          Therefore, the server SHOULD only create new bindings during processing
+          of a Rebind message if the server is configured to respond with a Reply
+          message to a Solicit message containing the Rapid Commit option.
           </t>
 
           <t>The server constructs a Reply message by setting the "msg-type" field
