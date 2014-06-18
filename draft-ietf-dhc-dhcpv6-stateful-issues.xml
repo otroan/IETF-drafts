@@ -10,11 +10,12 @@
 <?rfc inline="yes" ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 <!ENTITY rfc2119 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY rfc3041 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3041.xml">
+<!ENTITY rfc4941 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4941.xml">
 <!ENTITY rfc3315 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3315.xml">
 <!ENTITY rfc3633 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3633.xml">
 <!ENTITY rfc6204 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6204.xml">
 <!ENTITY rfc7083 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7083.xml">
+<!ENTITY rfc7227 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7227.xml">
 ]>
 
 <rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-06.txt"
@@ -80,7 +81,7 @@
       experience of the CPE model described in RFC 6204
       has shown multiple issues with the DHCPv6 protocol in supporting
       multiple stateful options. This document updates RFC 3315 and
-      indirectly RFC 3633.</t>
+      RFC 3633.</t>
     </abstract>
   </front>
 
@@ -116,7 +117,7 @@
       are no T1/T2 times) and have a separate life cycle from IA_NA 
       and IA_PD option types. IA_TA also has limited value when DHCPv6
       is used for address assignment, as the privacy issues identified
-      for IPv6 stateless address assignment (<xref target="RFC3041"/>)
+      for IPv6 stateless address assignment (<xref target="RFC4941"/>)
       do not apply to DHCPv6 assignments.</t>
 
       <t>The changes described in this document will be incorporated
@@ -139,6 +140,10 @@
     <!--  SECTION 3: DESCRIPTION                                                   -->
 
     <section title="Terminology">
+    <t>In addition to the terminology defined in <xref target="RFC3315"/>,
+    <xref target="RFC3633"/>, and <xref target="RFC7227"/>, the following
+    terminology is used in this document:
+    </t>
       <t><list hangIndent="32" style="hanging">
 
 	<t hangText="Resource (allocable resource):">
@@ -146,9 +151,9 @@
 	  client by the server and being carried in the stateful options.
 	  An example of the resources are: IPv6 address or an
 	  IPv6 prefix. Information about the resources is transported
-	  in stateful options such as IA_NA Address or IA_PD Prefix. In the
-      future, other types of resources and stateful options may be
-      defined.</t>
+	  in stateful options such as IA_NA, for addresses, and IA_PD,
+	  for prefix delegations. In the future, other types of resources
+	  and stateful options may be defined.</t>
 
 	<t hangText="Identity association (IA):">
 	  A collection of stateful options assigned to a client. Each
@@ -199,7 +204,7 @@
 	In Reply messages IA specific status codes (i.e., NoAddrsAvail,
 	NotOnlink, NoBinding, NoPrefixAvail) are encapsulated in the IA
 	option.  In Advertise messages the Status Code option with
-	the NoAddrsAvail code is in the "global" scope.  That makes
+	the NoAddrsAvail code is in the top-level.  That makes
 	sense when the failure case is fatal.  With the introduction of
 	multiple IA option types, there might be a case where a server
 	is not willing to offer addresses, but might be willing to offer
@@ -232,16 +237,16 @@
 	no IA_PD was in the Solicit):
 	<list style="numbers">
 	<t>
-	Advertise containing just a global scope Status Code option (of
+	Advertise containing just a top-level Status Code option (of
 	NoAddrsAvail) and no IA_NAs/IA_TAs.
 	</t>
 	<t>
 	Advertise containing the IA_NAs and/or IA_TAs with encapsulated
-	Status Code option (of NoAddrsAvail) and no global scope Status
+	Status Code option (of NoAddrsAvail) and no top-level Status
 	Code option.
 	</t>
 	<t>
-	Advertise containing a global scope Status Code option (of
+	Advertise containing a top-level Status Code option (of
 	NoAddrsAvail) and IA_NAs and/or IA_TAs with a Status Code option
 	(of NoAddrsAvail).
 	</t>
@@ -249,9 +254,9 @@
 	</t>
 
 	<t>
-	Servers MUST use the encapsulated Status Code option (of
+	Servers MUST use the Status Code option (of
 	NoAddrsAvail) encapsulated in an IA_NA/IA_TA options and not a
-        global scope Status Code option (of NoAddrsAvail) when no
+        top-level Status Code option (of NoAddrsAvail) when no
         addresses will be assigned (2 in the above list). This means that
         the Advertise response matches the Reply response with respect to
         the handling of the NoAddrsAvail status.
@@ -346,7 +351,7 @@
 	IA. How should a client handle the case where multiple IA
 	options have different T1 and T2 timers?</t>
 
-	<t>In a multiple IA option types model, the T1/T2 timers are
+	<t>In a multiple IA option type model, the T1/T2 timers are
 	protocol timers, that should be independent of the IA options
 	themselves. If we were to redo the DHCP protocol from scratch
 	the T1/T2 timers should be carried in a separate DHCP
@@ -447,7 +452,7 @@
         <t><list>
 	      <t><list style="hanging" hangIndent='17'>
 	        <t hangText="Renew message:">If the delegating router cannot
-	        find a binding for the requesting router's IA_PD the
+	        find a binding for the requesting router's IA_PD, the
 	        delegating router creates the bindings for that client
             according to the server's policy and configuration
             information and returns the IAs and other information requested
@@ -473,13 +478,13 @@
 
         <t>If T1 or T2 is set to 0 by the server for all IA_NA and IA_PD
         options, or there are no T1 or T2 times (for an IA_TA), the client
-        may send Renew or Rebind message, respectively, on the client's
+        may send Renew or Rebind message, respectively, at the client's
         discretion.</t>
 
         <t>At time T1, the client that initiates a Renew/Reply message exchange,
         includes IA options for all bindings for which it desires to
         extend lifetimes in its Renew message. For each IA being included,
-        the client stores all resources currently associated with the IA.</t>
+        the client includes all resources currently associated with the IA.</t>
 
         <t>The client also includes IA option for each binding it desires
         but has been unable to obtain. For example: a client which has
@@ -917,15 +922,15 @@
 	<t>The Confirm message is used by the client to verify that it
 	has not moved to a different link. For IAs with addresses, the
 	mechanism used to verify if a client has moved or not, is by
-	matching the link's onlink prefix(es) (typically a /64)
+	matching the link's on-link prefix(es) (typically a /64)
 	against the prefix-length first bits of the addresses provided
 	by the client in the IA_NA or IA_TA IA-types. As a consequence
 	Confirm can only be used when the client has an IA with
-	address(es) (IA-NA or IA_TA).</t>
+	address(es) (IA_NA or IA_TA).</t>
 
 	<t>A client MUST have a binding including an IA with addresses
 	to use the Confirm message. A client with IAs with addresses
-	as well as other IA-types MAY, depending on the IA-type use
+	as well as other IA-types MAY, depending on the IA-type, use
 	the Confirm message to detect if the client has moved to a
 	different link. A client that does not have a binding with an
 	IA with addresses MUST use the Rebind message instead.</t>
@@ -937,12 +942,14 @@
 
       </section>
 
-      <section title="Decline should not unnecessary trigger a Release">
+      <section title="Decline Should Not Necessarily Trigger a Release">
 
       <t>Some clients will send a Release message for other bindings
       they may have received after they determine a conflict and have
       correctly sent a Decline message for the conflicting address(es).
-      It is recommended that a client SHOULD NOT send a Release
+      </t>
+      
+      <t>It is recommended that a client SHOULD NOT send a Release
       message for other bindings it may have received just because it
       sent a Decline message. The client should retain the non-conflicting
       bindings.</t>
@@ -1003,8 +1010,9 @@
     <!--  SECTION 8.2:  Informative References		-->
 
     <references title="Informative References">
-      &rfc3041;
+      &rfc4941;
       &rfc6204;
+      &rfc7227;
       <?rfc include="reference.I-D.dhcwg-dhc-rfc3315bis" ?>
     </references>
 
