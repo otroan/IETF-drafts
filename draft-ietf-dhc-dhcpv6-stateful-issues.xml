@@ -13,7 +13,7 @@
 <!ENTITY rfc4941 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4941.xml">
 <!ENTITY rfc3315 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3315.xml">
 <!ENTITY rfc3633 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3633.xml">
-<!ENTITY rfc6204 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6204.xml">
+<!ENTITY rfc7084 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7084.xml">
 <!ENTITY rfc7083 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7083.xml">
 <!ENTITY rfc7227 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7227.xml">
 ]>
@@ -78,7 +78,7 @@
       options would be developed. IPv6 Prefix Options for Dynamic Host
       Configuration Protocol (DHCP) version 6 shoe-horned the new
       options for Prefix Delegation into DHCPv6. Implementation
-      experience of the CPE model described in RFC 6204
+      experience of the CPE model described in RFC 7084
       has shown multiple issues with the DHCPv6 protocol in supporting
       multiple stateful options. This document updates RFC 3315 and
       RFC 3633.</t>
@@ -94,7 +94,7 @@
       developed. DHCPv6 Prefix Delegation <xref target="RFC3633"/>
       shoe-horned the new options for Prefix Delegation into
       DHCPv6. Implementation experience of the CPE model described in
-      <xref target="RFC6204"/> has shown multiple issues with the
+      <xref target="RFC7084"/> has shown multiple issues with the
       DHCPv6 protocol in supporting multiple stateful option types,
       in particular IA_NA and IA_PD.</t>
 
@@ -1011,7 +1011,7 @@
 
     <references title="Informative References">
       &rfc4941;
-      &rfc6204;
+      &rfc7084;
       &rfc7227;
       <?rfc include="reference.I-D.dhcwg-dhc-rfc3315bis" ?>
     </references>
