@@ -149,7 +149,7 @@
 	<t hangText="Resource (allocable resource):">
 	  A value (or a collection of values) dynamically assigned to the
 	  client by the server and being carried in the stateful options.
-	  An example of the resources are: IPv6 address or an
+	  Examples of resources are an IPv6 address or an
 	  IPv6 prefix. Information about the resources is transported
 	  in stateful options such as IA_NA, for addresses, and IA_PD,
 	  for prefix delegations. In the future, other types of resources
@@ -161,8 +161,7 @@
 	  IA assigned to it; for example, one for each of its
 	  interfaces. Each IA holds one type of IA option; for example,
 	  an identity association for temporary addresses (IA_TA)
-	  holds temporary addresses (see "identity association for
-	  temporary addresses"). Throughout this document, "IA" is
+	  holds temporary addresses. Throughout this document, "IA" is
 	  used to refer to an identity association without identifying
 	  the type of stateful option in the IA.</t>
 
@@ -204,27 +203,26 @@
 	In Reply messages IA specific status codes (i.e., NoAddrsAvail,
 	NotOnlink, NoBinding, NoPrefixAvail) are encapsulated in the IA
 	option.  In Advertise messages the Status Code option with
-	the NoAddrsAvail code is in the top-level.  That makes
-	sense when the failure case is fatal.  With the introduction of
-	multiple IA option types, there might be a case where a server
-	is not willing to offer addresses, but might be willing to offer
-	other stateful option types.
+	the NoAddrsAvail code is in the top-level. That makes
+	sense when the failure case is fatal. However, with the
+	introduction of the IA_PD option, there may be cases where a server
+	is not willing to offer addresses, but is willing to offer
+	delegated prefixes.
 	</t>
 
 	<t>
-	While a Status Code option is implicitly bound to a specific type
-	of IA, e.g. NoPrefixAvail is only applicable to IA_PD and
-	NoAddrsAvail is only applicable to IA_NA/IA_TA, it may be
-	problematic to make this assumption for all status codes.
 	Ideally the Status Code option should be encapsulated in the IA
-	option for all DHCP messages. This makes Status Code option
-        placement for Advertise messages identical to Reply messages.
+	option for all DHCP messages. This also makes the NoAddrsAvail
+	and NoPrefixAvail Status Code option placement for Advertise
+	messages identical to Reply messages.
 	</t>
 
 	<t>
-	However, how a server formats the Advertise message when
+	In addition, how a server formats the Advertise message when
 	addresses are not available has been a point of some confusion
-	and implementations seem to vary.
+	and implementations seem to vary (some strictly follow RFC 3315
+	while others assumed it was encapsulated in the IA option as for
+	Reply messages).
 	</t>
 
 	<t>
@@ -234,7 +232,7 @@
 	<t>
 	Clients MUST be prepared to handle each of the following Advertise
 	messages formats when there are no addresses available (even when
-	no IA_PD was in the Solicit):
+	no other IA option types were in the Solicit):
 	<list style="numbers">
 	<t>
 	Advertise containing just a top-level Status Code option (of
@@ -254,8 +252,8 @@
 	</t>
 
 	<t>
-	Servers MUST use the Status Code option (of
-	NoAddrsAvail) encapsulated in an IA_NA/IA_TA options and not a
+	Servers MUST return the Status Code option (of
+	NoAddrsAvail) encapsulated in an IA_NA/IA_TA options and not as a
         top-level Status Code option (of NoAddrsAvail) when no
         addresses will be assigned (2 in the above list). This means that
         the Advertise response matches the Reply response with respect to
@@ -346,23 +344,23 @@
 
 
       <section title="T1/T2 Timers">
-	<t>The T1 and T2 timers determine when the client will contact
+	<t>The T1 and T2 times determine when the client will contact
 	the server to extend lifetimes of information received in an
 	IA. How should a client handle the case where multiple IA
-	options have different T1 and T2 timers?</t>
+	options have different T1 and T2 times?</t>
 
-	<t>In a multiple IA option type model, the T1/T2 timers are
+	<t>In a multiple IA option type model, the T1/T2 times are
 	protocol timers, that should be independent of the IA options
 	themselves. If we were to redo the DHCP protocol from scratch
-	the T1/T2 timers should be carried in a separate DHCP
+	the T1/T2 times should be carried in a separate DHCP
 	option.</t>
 
-	<t>Proposed solution: The server SHOULD set the T1/T2 timers
+	<t>Proposed solution: The server SHOULD set the T1/T2 times
 	in all IA options in Reply and Advertise messages to the same
         value. To deal with the case where servers have not yet been
         updated to do that, clients MUST use the shortest (explicit or
-        implicit) T1/T2 timer (larger than 0) in any IA options in the
-        Reply. Longer T1/T2 timers are ignored.</t>
+        implicit) T1/T2 times (larger than 0), from the same IA option,
+        in the Reply. Longer T1/T2 times are ignored.</t>
 
       </section>
 
