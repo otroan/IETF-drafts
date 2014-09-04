@@ -156,14 +156,14 @@
 	  and stateful options may be defined.</t>
 
 	<t hangText="Identity association (IA):">
-	  A collection of stateful options assigned to a client. Each
+	  A collection of resources assigned to a client. Each
 	  IA has an associated IAID. A client may have more than one
 	  IA assigned to it; for example, one for each of its
 	  interfaces. Each IA holds one type of IA option; for example,
 	  an identity association for temporary addresses (IA_TA)
 	  holds temporary addresses. Throughout this document, "IA" is
 	  used to refer to an identity association without identifying
-	  the type of stateful option in the IA.</t>
+	  the type of resources in the IA.</t>
 
 	<t hangText="IA option types:">
 	  This is used to generally mean an IA_NA and/or IA_PD and may also
@@ -205,9 +205,9 @@
 	option.  In Advertise messages the Status Code option with
 	the NoAddrsAvail code is in the top-level. That makes
 	sense when the failure case is fatal. However, with the
-	introduction of the IA_PD option, there may be cases where a server
-	is not willing to offer addresses, but is willing to offer
-	delegated prefixes.
+	introduction of other stateful option types, there may be
+    cases where a server is not willing to offer addresses, but is
+    willing to offer other resources, e.g. delegated prefixes.
 	</t>
 
 	<t>
@@ -894,7 +894,7 @@
 
           <t>The server includes other options containing configuration
           information to be returned to the client as described in section
-          18.2.</t>
+          18.2 of <xref target="RFC3315"/>.</t>
 
         </section>
 
