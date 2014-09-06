@@ -100,9 +100,10 @@
       protocol in supporting multiple stateful option types, in
       particular IA_NA and IA_PD.</t>
 
-      <t>This document describes a number of problems encountered with
-      multiple IA option types and recommends changes to the DHCPv6
-      protocol specifications.</t>
+      <t>This document describes a number of problems encountered
+      with coexistence of the IA_NA and IA_PD option types and
+      changes to the DHCPv6 protocol specifications to address
+      these problems.</t>
 
       <t>The intention of this work is to clarify and, where needed, modify
       the DHCP protocol specification to support multiple IA option types
