@@ -13,6 +13,7 @@
 <!ENTITY rfc4941 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4941.xml">
 <!ENTITY rfc3315 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3315.xml">
 <!ENTITY rfc3633 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3633.xml">
+<!ENTITY rfc6059 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6059.xml">
 <!ENTITY rfc7084 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7084.xml">
 <!ENTITY rfc7083 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7083.xml">
 <!ENTITY rfc7227 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7227.xml">
@@ -89,40 +90,54 @@
     <!--  SECTION 1:  Introduction                  -->
 
     <section title="Introduction">
+
       <t>DHCPv6 <xref target="RFC3315"/> was not written with the
       expectation that additional stateful DHCPv6 options would be
-      developed. DHCPv6 Prefix Delegation <xref target="RFC3633"/>
-      shoe-horned the new options for Prefix Delegation into
-      DHCPv6. Implementation experience of the CPE model described in
-      <xref target="RFC7084"/> has shown multiple issues with the
-      DHCPv6 protocol in supporting multiple stateful option types,
-      in particular IA_NA and IA_PD.</t>
+      developed.  DHCPv6 Prefix Delegation <xref target="RFC3633"/>
+      shoe-horned the new options for Prefix Delegation into DHCPv6.
+      Implementation experience of the CPE model described in
+      <xref target="RFC7084"/> has shown issues with the DHCPv6
+      protocol in supporting multiple stateful option types, in
+      particular IA_NA and IA_PD.</t>
 
       <t>This document describes a number of problems encountered with
-      multiple IA option types and recommended changes to
-      the DHCPv6 protocol specifications.</t>
+      multiple IA option types and recommends changes to the DHCPv6
+      protocol specifications.</t>
 
-      <t>The intention of this work is to modify the DHCP protocol
-      specification to support multiple IA option types within a single
-      DHCP session. This problem can also be solved by implementing
-      a separate DHCP session (separate client state
-      machine) per IA option type. This latter approach has a number
-      of issues: additional DHCP protocol traffic, 'collisions'
-      between stateless options also included with the IA options,
-      divergence in that each IA option type specification specifies
-      its 'own' version of the DHCP protocol.</t>
+      <t>The intention of this work is to clarify and, where needed, modify
+      the DHCP protocol specification to support multiple IA option types
+      within a single DHCP session. However, as it is not possible to
+      know what future IA option types might be used for, this work is
+      primarily to clarify DHCP operation when IA_NA and IA_PD options
+      are being requested as per <xref target="RFC7084"/>. And, to
+      provide a framework to support new IA option types, assuming they
+      are similar enough. Future documents that define new IA option
+      types will need to specify whether they fit into this framework
+      or define the DHCP operation for the new and existing IA option
+      types, as appropriate.</t>
 
-      <t>Note that while IA_TA options may be included with other IA
-      option type requests, these generally are not renewed (there
-      are no T1/T2 times) and have a separate life cycle from IA_NA 
-      and IA_PD option types. IA_TA also has limited value when DHCPv6
-      is used for address assignment, as the privacy issues identified
-      for IPv6 stateless address assignment (<xref target="RFC4941"/>)
-      do not apply to DHCPv6 assignments.</t>
+      <t>There are two general solutions to the problem of supporting
+      multiple IA option types. One is by using a separate DHCP session
+      (separate instances of the client state machine) per IA option type.
+      While conceptually simple, this approach has a number of issues:
+      multiple instances the state machine in clients, additional DHCP
+      protocol traffic, 'collisions' between other configuration options,
+      divergence in that each IA option type specification specifies its
+      'own' version of the DHCP protocol. The other is by using a single
+      DHCP session and state machine, which is the approach taken by
+      this document (see <xref target='single-session'/>).</t>
 
-      <t>The changes described in this document will be incorporated
-      in a new revision of the DHCPv6 protocol specification <xref
-      target="RFC3315"/>.</t>
+      <t>Note that while IA_TA options may be included with other IA option
+      type requests, these generally are not renewed (there are no T1/T2
+      times) and have a separate life cycle from IA_NA and IA_PD option
+      types.  IA_TA also has limited value when DHCPv6 is used for address
+      assignment, as the privacy issues identified for IPv6 stateless
+      address assignment (<xref target="RFC4941"/>) do not apply to
+      DHCPv6 assignments.</t>
+
+      <t>The changes described in this document are intended to be
+      incorporated in a new revision of the DHCPv6 protocol
+      specification.</t>
 
     </section>
 
@@ -178,7 +193,7 @@
 
     <!--  SECTION 4: Handling of Multiple IA Options Types                         -->
 
-    <section title="Handling of multiple IA options types">
+    <section anchor='single-session' title="Handling of multiple IA options types">
       <t>DHCPv6 was written with the assumption that the only stateful
       options were for assigning addresses. DHCPv6 PD describes how
       to extend the DHCPv6 protocol to handle prefix delegation, but
@@ -206,8 +221,8 @@
 	the NoAddrsAvail code is in the top-level. That makes
 	sense when the failure case is fatal. However, with the
 	introduction of other stateful option types, there may be
-    cases where a server is not willing to offer addresses, but is
-    willing to offer other resources, e.g. delegated prefixes.
+        cases where a server is not willing to offer addresses, but is
+        willing to offer other resources, e.g. delegated prefixes.
 	</t>
 
 	<t>
@@ -659,6 +674,14 @@
 	for the IAs. In that case a client MUST use the Rebind message
 	in place of the Confirm message and it MUST include all of its
 	bindings, even address IAs.</t>
+	
+	<t>Note that Section 18.1.2 of RFC3315 states that a client
+	MUST initiate a Confirm when it may have moved to a new link.
+	This is relaxed to a SHOULD as a client may have determined
+	whether it has or has not moved using other techniques, such as
+	described in <xref target="RFC6059"/>. And, as stated above, a
+	client with delegated prefixes, MUST send a Rebind instead of
+	a Confirm.</t>
 
       </section>
 
@@ -731,6 +754,7 @@
 
     <references title="Informative References">
       &rfc4941;
+      &rfc6059;
       &rfc7084;
       &rfc7227;
     </references>
