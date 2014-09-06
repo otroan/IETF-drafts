@@ -137,7 +137,7 @@
 
       <t>The changes described in this document are intended to be
       incorporated in a new revision of the DHCPv6 protocol
-      specification.</t>
+      specification (<xref target="I-D.dhcwg-dhc-rfc3315bis"/>).</t>
 
     </section>
 
@@ -757,6 +757,7 @@
       &rfc6059;
       &rfc7084;
       &rfc7227;
+      <?rfc include="reference.I-D.dhcwg-dhc-rfc3315bis" ?>
     </references>
 
   </back>
