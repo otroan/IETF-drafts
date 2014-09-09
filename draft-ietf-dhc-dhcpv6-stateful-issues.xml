@@ -22,8 +22,8 @@
 <rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-07.txt"
      ipr="trust200902" updates="3315,3633">
   <front>
-    <title abbrev="Multiple Stateful Option">
-    Issues with multiple stateful DHCPv6 options</title>
+    <title abbrev="Multiple Stateful Options">
+    Issues and Recommendations with Multiple Stateful DHCPv6 Options</title>
 
     <author fullname="Ole Troan" initials="O" surname="Troan">
       <organization abbrev="">Cisco Systems, Inc.</organization>
@@ -315,10 +315,10 @@
 	even when not all IA option types are being offered. And, in this
         case, the client SHOULD include the not offered IA option types
         in its Request. A client SHOULD only ignore an Advertise message
-        when no IA option includes any offered addresses or delegated
-        prefixes (or any future allocable resource). Note that ignored
-        messages MUST still be processed for SOL_MAX_RT and INF_MAX_RT
-        options as specified in <xref target="RFC7083"/>.</t>
+        when all IA options include no offered addresses or delegated
+        prefixes. Note that ignored messages MUST still be processed for
+        SOL_MAX_RT and INF_MAX_RT options as specified in <xref
+        target="RFC7083"/>.</t>
 
 	<t>Replace Section 17.1.3 of RFC 3315: (existing errata)</t>
 	<figure><artwork>
@@ -371,12 +371,12 @@
 	the T1/T2 times should be carried in a separate DHCP
 	option.</t>
 
-	<t>Proposed solution: The server SHOULD set the T1/T2 times
-	in all IA options in Reply and Advertise messages to the same
+	<t>Proposed solution: The server MUST set the T1/T2 times
+	in all IA options in a Reply or Advertise message to the same
         value. To deal with the case where servers have not yet been
         updated to do that, clients MUST use the shortest (explicit or
         implicit) T1/T2 times (larger than 0), from the same IA option,
-        in the Reply. Longer T1/T2 times are ignored.</t>
+        in the Reply. T1/T2 times from other IAs are ignored.</t>
 
       </section>
 
@@ -688,9 +688,10 @@
 
       <section title="Decline Should Not Necessarily Trigger a Release">
 
-      <t>Some clients will send a Release message for other bindings
-      they may have received after they determine a conflict and have
-      correctly sent a Decline message for the conflicting address(es).
+      <t>Some client implementations have been found to send a Release
+      message for other bindings they may have received after they
+      determine a conflict and have correctly sent a Decline message
+      for the conflicting address(es).
       </t>
       
       <t>It is recommended that a client SHOULD NOT send a Release
