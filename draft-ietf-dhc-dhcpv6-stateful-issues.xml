@@ -528,7 +528,8 @@
    server determines that the addresses in the IA are appropriate for
    the link to which the client's interface is attached according to the
    server's explicit configuration information, the server SHOULD send
-   back the IA to the client with new lifetimes and T1/T2 times.
+   back the IA to the client with new lifetimes and, if applicable,
+   T1/T2 times.
    </t>
 
    <t hangText="">
@@ -551,9 +552,9 @@
    no addresses or it contains an IA Address option with IPv6 address field
    set to 0, the server MAY assign the addresses to this IA and send a
    Reply message to the client with this IA containing allocated addresses
-   with lifetimes and T1/T2 times. If the server does not allocate addresses
-   to the client, the server returns the IA containing only Status Code
-   option set to NoBinding in the Reply message.
+   with lifetimes and, if applicable, T1/T2 times. If the server does not
+   allocate addresses to the client, the server returns the IA containing
+   only Status Code option set to NoBinding in the Reply message.
    </t>
 
    <t hangText="">
