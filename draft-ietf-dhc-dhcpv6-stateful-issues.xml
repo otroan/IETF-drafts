@@ -577,9 +577,9 @@
          contained in the Reply message:
 
          <list style="hanging">
-         <t hangText="-"> Record T1 and T2 times.</t>
-
-<!-- Should we incorporate the stateful issues T1/T2 handling text here?] [ What do you mean by ?incorporate?? Is it sufficient to say: ?Client MUST use the shortest (explicit or implicit)  T1/T2 timer (longer than 0) in any IA in a Reply?? ] [9/17 - Yes, it would be good to include this text, that was what I meant about incorporate. So perhaps ?The client MUST use the shortest (explicit or implicit) T1/T2 times (larger than 0), from the same IA option, in the Reply. T1/T2 times from other IAs are ignored.? That is the text we now have in Stateful Issues, though if you have better wording, we can also use that in that section.] -->
+         <t hangText="-"> Record T1 and T2 times. The client MUST use the shortest
+         (explicit or implicit) T1/T2 times (larger than 0), from the same IA option.
+         T1/T2 times from other IAs are ignored.</t>
 
          <t hangText="-"> Add any new addresses in the IA option to the IA as
          recorded by the client.</t>
@@ -594,7 +594,7 @@
          client has recorded in the IA but that were not included in the IA
          from the server.</t>
 
-<!-- [I don?t think this processing was mentioned in the Renew/Rebind text. i.e., if a server cannot extend the lifetimes of an address, it can either send the ?remaining? times or elide the address from the Reply.] [ But isn?t it good as a general rule for the client to follow? Even though, it is not explicitly stated in the Renew/Rebind text that it may happen ]. [9/17 - Yes this wasn?t explicitly mentioned as a choice in the earlier text. Not sure if that matters, I think this is just a good general rule. We could also add it above ?If the server is unable to extend the lifetimes, it may chose not to include the IAADDR option for that address in the Reply.] -->
+<!--  We could also add it above "If the server is unable to extend the lifetimes, it may chose not to include the IAADDR option for that address in the Reply.] -->
 
          </list></t>
 
