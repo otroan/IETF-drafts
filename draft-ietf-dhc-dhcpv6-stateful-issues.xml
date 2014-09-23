@@ -562,6 +562,33 @@
          any status code or message from the status code option in the Reply
          message.</t>
 
+         <t>If the client receives a Reply message with a Status Code containing
+         UnspecFail, the server is indicating that it was unable to process
+         the message due to an unspecified failure condition.  If the client
+         retransmits the original message to the same server to retry the
+         desired operation, the client MUST limit the rate at which it
+         retransmits the message and limit the duration of the time during
+         which it retransmits the message.</t>
+
+         <t>When the client receives a Reply message with a Status Code option
+         with the value UseMulticast, the client records the receipt of the
+         message and sends subsequent messages to the server through the
+         interface on which the message was received using multicast.  The
+         client resends the original message using multicast.</t>
+
+         <t>When the client receives a NotOnLink status from the server in
+         response to a Confirm message, the client performs DHCP server
+         solicitation, as described in section 17, and client-initiated
+         configuration as described in section 18.  If the client receives any
+         Reply messages that do not indicate a NotOnLink status, the client
+         can use the addresses in the IA and ignore any messages that indicate
+         a NotOnLink status.</t>
+
+         <t>When the client receives a NotOnLink status from the server in
+         response to a Request, the client can either re-issue the Request
+         without specifying any addresses or restart the DHCP server discovery
+         process (see section 17).</t>
+
          <t>The client SHOULD perform duplicate address detection [17] on each of
          the received addresses in any IAs, on which it has not performed duplicate
          address detection during processing of any of the previous Reply
@@ -600,35 +627,6 @@
 
          <t>Management of the specific configuration information is detailed in
          the definition of each option in section 22.</t>
-
-         <t>If the client receives a Reply message with a Status Code containing
-         UnspecFail, the server is indicating that it was unable to process
-         the message due to an unspecified failure condition.  If the client
-         retransmits the original message to the same server to retry the
-         desired operation, the client MUST limit the rate at which it
-         retransmits the message and limit the duration of the time during
-         which it retransmits the message.</t>
-
-<!-- [9/17 - It is kind of odd to have these error handling cases AFTER the ?success? processing without having explicitly mentioned that, but I guess in these cases there are no IAs in the Reply so it may not matter that much. I?m mostly concerned with the ?global? failures here - UnspecFail and UseMulticast.] -->
-
-         <t>When the client receives a Reply message with a Status Code option
-         with the value UseMulticast, the client records the receipt of the
-         message and sends subsequent messages to the server through the
-         interface on which the message was received using multicast.  The
-         client resends the original message using multicast.</t>
-
-         <t>When the client receives a NotOnLink status from the server in
-         response to a Confirm message, the client performs DHCP server
-         solicitation, as described in section 17, and client-initiated
-         configuration as described in section 18.  If the client receives any
-         Reply messages that do not indicate a NotOnLink status, the client
-         can use the addresses in the IA and ignore any messages that indicate
-         a NotOnLink status.</t>
-
-         <t>When the client receives a NotOnLink status from the server in
-         response to a Request, the client can either re-issue the Request
-         without specifying any addresses or restart the DHCP server discovery
-         process (see section 17).</t>
 
          <t>The client examines the status code in each IA individually. If the
          client receives a NoAddrsAvail, the client has received no usable
