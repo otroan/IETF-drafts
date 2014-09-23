@@ -664,12 +664,12 @@
            IA without any  addresses and the server responded with NoBinding
            status code.</t>
 
-           <t hangText="-"> Sends a Renew/Rebind if the IA is not in the Reply message.</t>
+<!-- Could this be as simple as below? -->
+           <t hangText="-"> Follow the retransmission procedure for Renew/Rebind
+           messages as described in section 14. if the IA is not in the Reply
+           message.</t>
 
-<!--
- [9/17 - we need to warn against storms here. How about suggesting that in this case the Reply should not have triggered canceling the retransmission times/counts/logic and retransmission (with the updated message) should just occur. It is easy to see that if this is not done, there could easily be a storm. By keeping the normal retransmission logic active, this will send at next ?timeout? which is much less severe should there be a loop.] I also wonder whether this would really be effective (especially for sending another Renew). If server didn?t include it last time, why would it include it next time? Perhaps this requires a bit further analysis?] -->
-
-           <t hangText="-"> otherwise accepts the information in the IA</t>
+           <t hangText="-"> Otherwise accepts the information in the IA.</t>
 
          </list></t>
 
@@ -702,7 +702,7 @@
 
          <t>If the server finds the addresses in the IA for the client then the
          server sends back the IA to the client with new lifetimes and T1/T2
-         times.  The server may choose to change the list of addresses and the
+         times. The server may choose to change the list of addresses and the
          lifetimes of addresses in IAs that are returned to the client.</t>
 
          <t>If the server finds that any of the addresses in the IA are not
