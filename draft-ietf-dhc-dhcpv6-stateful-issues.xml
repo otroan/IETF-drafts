@@ -621,8 +621,6 @@
          client has recorded in the IA but that were not included in the IA
          from the server.</t>
 
-<!--  We could also add it above "If the server is unable to extend the lifetimes, it may chose not to include the IAADDR option for that address in the Reply.] -->
-
          </list></t>
 
          <t>Management of the specific configuration information is detailed in
@@ -664,7 +662,7 @@
            IA without any  addresses and the server responded with NoBinding
            status code.</t>
 
-<!-- Could this be as simple as below? -->
+<!-- Marcin: Could this be as simple as below? -->
            <t hangText="-"> Follow the retransmission procedure for Renew/Rebind
            messages as described in section 14. if the IA is not in the Reply
            message.</t>
@@ -701,8 +699,12 @@
          from the client matches the information stored for that client.</t>
 
          <t>If the server finds the addresses in the IA for the client then the
-         server sends back the IA to the client with new lifetimes and T1/T2
-         times. The server may choose to change the list of addresses and the
+         server sends back the IA to the client with new lifetimes and,
+         if applicable, T1/T2 times. If the server is unable to extend the
+         lifetimes of an address in the IA, the server MAY choose not to include
+         the IA Address option for this address.</t>
+
+         <t>The server may choose to change the list of addresses and the
          lifetimes of addresses in IAs that are returned to the client.</t>
 
          <t>If the server finds that any of the addresses in the IA are not
@@ -763,7 +765,9 @@
          the link to which the client's interface is attached according to
          the server's explicit configuration information, the server SHOULD
          send back the IA to the client with new lifetimes and, if
-         applicable, T1/T2 times.</t>
+         applicable, T1/T2 times. If the server is unable to extend the
+         lifetimes of an address in the IA, the server MAY choose not to
+         include the IA Address option for this address.</t>
 
 <!-- This used to indicate a server may drop the packet which might help the issue below?-->
 
