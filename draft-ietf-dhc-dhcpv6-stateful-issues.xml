@@ -242,7 +242,7 @@
 	</t>
 
 	<t>
-	Therefore, the Proposed solution is:
+	Therefore, the proposed solution is:
 	</t>
 
 	<t>
@@ -473,7 +473,7 @@
          <t>The client MAY include an IA option for each binding it desires but
          has been unable to obtain.  This IA option MUST NOT contain any
          addresses.  However, it MAY contain the IA Address option with
-         IPv6 address field set to 0 to indicate the client?s preference
+         IPv6 address field set to 0 to indicate the client's preference
          for the  preferred and valid lifetimes for any newly assigned
          addresses.</t>
 
@@ -922,7 +922,7 @@
 	in place of the Confirm message and it MUST include all of its
 	bindings, even address IAs.</t>
 	
-	<t>Note that Section 18.1.2 of RFC3315 states that a client
+	<t>Note that Section 18.1.2 of RFC 3315 states that a client
 	MUST initiate a Confirm when it may have moved to a new link.
 	This is relaxed to a SHOULD as a client may have determined
 	whether it has or has not moved using other techniques, such as
