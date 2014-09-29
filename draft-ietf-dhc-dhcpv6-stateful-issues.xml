@@ -628,10 +628,16 @@
 
          <t>The client examines the status code in each IA individually. If the
          client receives a NoAddrsAvail, the client has received no usable
-         addresses in the IA. The client uses addresses and other information
-         from any IAs that do not contain a Status Code option with the NoAddrsAvail
-         code. For each IA for which the client receives NoAddrsAvail status code
-         the client has the following choices:
+         addresses in the IA.</t>
+
+         <t>If the client finds no usable addresses in any IA, the client MAY
+         use the Information-request message to obtain other configuration
+         information only.</t>
+
+         <t>The client uses addresses and other information from any IAs that
+         do not contain a Status Code option with the NoAddrsAvail code. For
+         each IA for which the client receives NoAddrsAvail status code the
+         client has the following choices:
 
          <list style="hanging">
          <t hangText="-"> The client includes the IA with no addresses in subsequent
@@ -641,11 +647,8 @@
          <t hangText="-"> Tries another server (perhaps restarting the DHCP server
          discovery process).</t>
 
-         <t hangText="-"> Uses Information-request message to obtain other
-         configuration information only.</t>
-
          </list></t>
- 
+
          <t>When the client receives a Reply message in response to a Renew or
          Rebind message, for each IA in the original Renew or Rebind message,
          the client:
@@ -663,7 +666,7 @@
            status code.</t>
 
 <!-- Marcin: Could this be as simple as below? -->
-           <t hangText="-"> Follow the retransmission procedure for Renew/Rebind
+           <t hangText="-"> Follows the retransmission procedure for Renew/Rebind
            messages as described in section 14. if the IA is not in the Reply
            message.</t>
 
