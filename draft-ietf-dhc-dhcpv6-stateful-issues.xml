@@ -196,7 +196,7 @@
 
     <!--  SECTION 4: Handling of Multiple IA Options Types                         -->
 
-    <section anchor='single-session' title="Handling of Multiple IA options types">
+    <section anchor='single-session' title="Handling of Multiple IA Options Types">
       <t>DHCPv6 was written with the assumption that the only stateful
       options were for assigning addresses. DHCPv6 PD describes how
       to extend the DHCPv6 protocol to handle prefix delegation, but
