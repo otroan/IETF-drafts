@@ -757,8 +757,8 @@
        </list></t>
      </section>
 
-     <section title="Updates to Section 18.2.4. of RFC 3315">
-       <t>Replace Section 18.2.4. of RFC 3315 with the following text:
+     <section title="Updates to Section 18.2.4 of RFC 3315">
+       <t>Replace Section 18.2.4 of RFC 3315 with the following text:
        <list style="hanging">
          <t>When the server receives a Rebind message that contains an IA
          option from a client, it locates the client's binding and verifies
