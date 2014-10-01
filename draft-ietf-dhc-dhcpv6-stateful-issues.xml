@@ -472,9 +472,7 @@
 
          <t>The client MUST include a Client Identifier option to identify itself
          to the server.  The client adds any appropriate options, including
-         one or more IA options.  The client MUST include the list of
-         addresses the client currently has associated with the IAs in the
-         Renew message.</t>
+         one or more IA options.</t>
 
          <t>The client includes an IA option with all addresses currently assigned
          to the IA in its Renew message.  The client also includes IA
@@ -553,9 +551,9 @@
           </list></t>
 
           <t>If all addresses for an IA have expired the client may choose to
-          include this IA without any addresses (or with only a hint) in subsequent
-          Rebind messages to indicate that the client is interested in assignment
-          of the addresses to this IA.</t>
+          include this IA without any addresses (or with only a hint for
+          lifetimes) in subsequent Rebind messages to indicate that the
+          client is interested in assignment of the addresses to this IA.</t>
 
           <t>The message exchange is terminated when the valid lifetimes of all
           addresses across all IAs have expired, at which time the client
