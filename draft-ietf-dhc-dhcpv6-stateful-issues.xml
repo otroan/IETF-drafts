@@ -682,7 +682,7 @@
 
 <!-- Marcin: Could this be as simple as below? -->
            <t hangText="-"> Follows the retransmission procedure for Renew/Rebind
-           messages as described in section 14. if the IA is not in the Reply
+           messages as described in section 14 if the IA is not in the Reply
            message.</t>
 
            <t hangText="-"> Otherwise accepts the information in the IA.</t>
