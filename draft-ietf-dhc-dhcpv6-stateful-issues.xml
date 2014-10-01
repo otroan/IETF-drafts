@@ -379,6 +379,17 @@
         updated to do that, clients MUST use the shortest (explicit or
         implicit) T1/T2 times (larger than 0), from the same IA option,
         in the Reply. T1/T2 times from other IAs are ignored.</t>
+        
+        <t>The following paragraph should be added to Section 18.2.1,
+        18.2.3, and 18.2.4 of RFC 3315:
+        <list hangIndent="2" style="hanging">
+         <t>The T1/T2 times set in each applicable IA option for a Reply
+         MUST be the same values across all IAs. The server MUST determine
+         the T1/T2 times across all of the applicable client's bindings in
+         the Reply. This facilitates the client being able to renew all of
+         the bindings at the same time.</t>
+         </list>
+         </t>
 
       </section>
 
@@ -606,9 +617,11 @@
          contained in the Reply message:
 
          <list style="hanging">
-         <t hangText="-"> Record T1 and T2 times. The client MUST use the shortest
-         (explicit or implicit) T1/T2 times (larger than 0), from the same IA option.
-         T1/T2 times from other IAs are ignored.</t>
+         <t hangText="-"> Record T1 and T2 times. The client MUST use the
+         shortest (explicit or implicit) T1 and T2 times (larger than 0) from
+         the same IA option across all of the IA options to facilitate initiating
+         the renewal process for all bindings simultaneously. T1/T2 times from
+         other IAs are ignored.</t>
 
          <t hangText="-"> Add any new addresses in the IA option to the IA as
          recorded by the client.</t>
@@ -753,6 +766,12 @@
          <t>The server includes other options containing configuration
          information to be returned to the client as described in section
          18.2.</t>
+         
+         <t>The T1/T2 times set in each applicable IA option for a Reply
+         MUST be the same values across all IAs. The server MUST determine
+         the T1/T2 times across all of the applicable client's bindings in
+         the Reply. This facilitates the client being able to renew all of
+         the bindings at the same time.</t>
 
        </list></t>
      </section>
@@ -835,6 +854,12 @@
          <t>The server includes other options containing configuration
          information to be returned to the client as described in section
          18.2.</t>
+         
+         <t>The T1/T2 times set in each applicable IA option for a Reply
+         MUST be the same values across all IAs. The server MUST determine
+         the T1/T2 times across all of the applicable client's bindings in
+         the Reply. This facilitates the client being able to renew all of
+         the bindings at the same time.</t>
 
        </list></t>
      </section>
