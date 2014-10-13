@@ -19,7 +19,7 @@
 <!ENTITY rfc7227 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7227.xml">
 ]>
 
-<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-07.txt"
+<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-08.txt"
      ipr="trust200902" updates="3315,3633">
   <front>
     <title abbrev="Multiple Stateful Options">
@@ -82,7 +82,7 @@
       experience of the CPE model described in RFC 7084
       has shown multiple issues with the DHCPv6 protocol in supporting
       multiple stateful options. This document updates RFC 3315 and
-      RFC 3633.</t>
+      RFC 3633 to address the identified issues.</t>
     </abstract>
   </front>
 
@@ -106,28 +106,9 @@
       changes to the DHCPv6 protocol specifications to address
       these problems.</t>
 
-      <t>The intention of this work is to clarify and, where needed, modify
-      the DHCP protocol specification to support multiple IA option types
-      within a single DHCP session. However, as it is not possible to
-      know what future IA option types might be used for, this work is
-      primarily to clarify DHCP operation when IA_NA and IA_PD options
-      are being requested as per <xref target="RFC7084"/>. And, to
-      provide a framework to support new IA option types, assuming they
-      are similar enough. Future documents that define new IA option
-      types will need to specify whether they fit into this framework
-      or define the DHCP operation for the new and existing IA option
-      types, as appropriate.</t>
-
-      <t>There are two general solutions to the problem of supporting
-      multiple IA option types. One is by using a separate DHCP session
-      (separate instances of the client state machine) per IA option type.
-      While conceptually simple, this approach has a number of issues:
-      multiple instances of the state machine in clients, additional DHCP
-      protocol traffic, 'collisions' between other configuration options,
-      divergence in that each IA option type specification specifies its
-      'own' version of the DHCP protocol. The other is by using a single
-      DHCP session and state machine, which is the approach taken by
-      this document (see <xref target='single-session'/>).</t>
+      <t>The intention of this work is to clarify and, where needed,
+      modify the DHCP protocol specification to support IA_NA and
+      IA_PD option types within a single DHCP session.</t>
 
       <t>Note that while IA_TA (temporary addresses) options may be
       included with other IA option type requests, these generally are
@@ -136,7 +117,8 @@
       addresses also have limited value when DHCPv6 is used for non-temporary
       address assignment, as the privacy issues identified for IPv6 stateless
       address assignment (<xref target="RFC4941"/>) do not apply to DHCPv6
-      assignments.</t>
+      assignments. Therefore, the IA_TA option type is mostly out of scope
+      for this document.</t>
 
       <t>The changes described in this document are intended to be
       incorporated in a new revision of the DHCPv6 protocol
@@ -210,6 +192,24 @@
       IA option type and continue to Solicit for the unfulfilled IA
       options, or it could continue with the single session, and include
       the unfulfilled IA options in subsequent messages to the server.</t>
+
+      <t>Reseting the state machine and continuing to send Solicit messages
+      may result in the client never completing DHCP and is generally not
+      considered a good solution. It can also result in a request storm if
+      the client does not appropriately rate limit its sending of Solicit
+      messages.</t>
+
+      <t>Creating a separate DHCP session (separate instances of the client
+      state machine) per IA option type, while conceptually simple, has a
+      number of issues: multiple instances of the state machine in clients,
+      additional DHCP protocol traffic, 'collisions' between other
+      configuration options, divergence in that each IA option type
+      specification specifies its 'own' version of the DHCP protocol.</t>
+
+      <t>This leaves a single DHCP session and state machine which is the
+      proposed solution. Here, the client can use what it is able to
+      obtain and can continue to request what it was previously unable
+      to obtain while maintaining a single session and state machine.</t>
 
       <t>Proposed solution: the client should keep a single session
       with the server and include the missing options in subsequent
@@ -379,6 +379,15 @@
         updated to do that, clients MUST use the shortest (explicit or
         implicit) T1/T2 times (larger than 0), from the same IA option,
         in the Reply. T1/T2 times from other IAs are ignored.</t>
+
+	<t>As an example, if the client receives a Reply with T1_NA of
+        3600 / T2_NA of 7200 and T1_PD of 0 / T2_PD of 1800, the client
+        SHOULD use the T1_PD of 0 / T2_PD of 1800. The reason for this
+        is that a T1 of 0 means that the client must determine the T1
+        time (i.e., the implicit value), but this value cannot be
+        greater than the T2 (1800). Note that it is not the explicit
+        T1_PD value of 0 here that is the lesser, but the implicit T1
+        calculated by the client (and limited by the T2 value).</t>
         
         <t>The following paragraph should be added to Section 18.2.1,
         18.2.3, and 18.2.4 of RFC 3315:
@@ -1009,9 +1018,11 @@
 
     <section title="Acknowledgements">
 
-    <t>Thanks to many people that contributed to identify the issues in this
-    document, including Ralph Droms, John, Brzozowski, Ted Lemon, Hemant Singh,
-    Wes Beebee, Gaurau Halwasia, Bud Millword, Tim Winters, and Rob Shakir.</t>
+    <t>Thanks to many people that contributed to identify the stateful issues
+    addressed by this document and for reviewing drafts of the document,
+    including Ralph Droms, John, Brzozowski, Ted Lemon, Hemant Singh,
+    Wes Beebee, Gaurau Halwasia, Bud Millword, Tim Winters, Rob Shakir,
+    Tatuya Jinmei, and Andrew Yourtchenko.</t>
 
     </section>
   </middle>
