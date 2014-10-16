@@ -635,9 +635,10 @@
          client receives a NoAddrsAvail, the client has received no usable
          addresses in the IA.</t>
 
-         <t>If the client finds no usable addresses in any IA, the client MAY
-         use the Information-request message to obtain other configuration
-         information only.</t>
+         <t>If the client finds no usable addresses in any of the IAs, it may
+         either try another server (by restarting the DHCP server discovery
+         process) or use the Information-request message to obtain other
+         configuration information only.</t>
 
          <t>The client uses addresses and other information from any IAs that
          do not contain a Status Code option with the NoAddrsAvail code. For
@@ -660,15 +661,11 @@
 
          <list style="hanging">
 
-           <t hangText="-"> Sends a Request message if the IA sent in the Renew or Rebind
-           contained addresses that the client is currently using and the
-           server responded with a NoBinding status code.</t>
-
-           <t hangText="-"> Tries to obtain the IA from another server (by
-           restarting the DHCP discovery process) if the client attempted
-           to obtain a new binding in the Renew or Rebind message by sending an
-           IA without any  addresses and the server responded with NoBinding
-           status code.</t>
+           <t hangText="-"> Sends a Request message if the server responded with
+           the NoBinding status code. The client places only these IA options in
+           the Request message for which the server returned NoBinding status code
+           in the Reply message. The client continues to use other bindings for
+           which the server did not return an error.</t>
 
 <!-- Marcin: Could this be as simple as below? -->
            <t hangText="-"> Follows the retransmission procedure for Renew/Rebind
