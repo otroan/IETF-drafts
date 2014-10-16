@@ -208,14 +208,13 @@
         if the client is only interested in the assignment of the addresses
         and the failure case is fatal. However, if the client sends both
         IA_NA and IA_PD options in a Solicit message, it is possible that
-        the server offers no addresses but it offers prefixes, and the
-        client may choose to request the assignment of the prefixes in a
-        subsequent Request message. In this case it is better if the
-        Status Code option for IA specific status codes is encapsulated
-        in the IA option to indicate that the failure occurred for the
-        specific IA. This also makes the NoAddrsAvail and NoPrefixAvail
-        Status Code option placement for Advertise messages identical
-        to Reply messages.
+        the server offers no addresses but it offers some prefixes, and the
+        client may choose to send a Request message to obtain the offered
+        prefixes. In this case, it is better if the Status Code option for 
+        IA specific status codes is encapsulated in the IA option to
+        indicate that the failure occurred for the specific IA.
+        This also makes the NoAddrsAvail and NoPrefixAvail Status Code
+        option placement for Advertise messages identical to Reply messages.
 	    </t>
 
 	<t>
@@ -650,7 +649,7 @@
          Renew and Rebind messages sent to the server, to request creation of
          the binding for the IA.</t>
 
-         <t hangText="-"> Tries another server (perhaps restarting the DHCP server
+         <t hangText="-"> Tries another server (by restarting the DHCP server
          discovery process).</t>
 
          </list></t>
