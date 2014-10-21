@@ -358,20 +358,19 @@
 	<t>Proposed solution: The server MUST set the T1/T2 times
 	in all IA options in a Reply or Advertise message to the same
         value. To deal with the case where servers have not yet been
-        updated to do that, clients MUST use the shortest (explicit or
-        implicit) T1/T2 times (larger than 0), from the same IA option,
-        in the Reply. T1/T2 times from other IAs are ignored.</t>
+        updated to do that, the client MUST select a T1 and T2 time
+        from all IA options which will guarantee that the client will
+        send Renew/Rebind messages not later than at the T1/T2 times
+        associated with any of the client's bindings.</t>
 
 	<t>As an example, if the client receives a Reply with T1_NA of
-        3600 / T2_NA of 7200 and T1_PD of 0 / T2_PD of 1800, the client
+        3600 / T2_NA of 5760 and T1_PD of 0 / T2_PD of 1800, the client
         SHOULD use the T1_PD of 0 / T2_PD of 1800. The reason for this
-        is that a T1 of 0 means that the client must determine the T1
-        time (i.e., the implicit value), but this value cannot be
-        greater than the T2 (1800). Note that it is not the explicit
-        T1_PD value of 0 here that is the lesser, but the implicit T1
-        calculated by the client (and limited by the T2 value).</t>
+        is that a T1 of 0 means that the Renew time is at the client's
+        discretion, but this value cannot be greater than the T2 value
+        (1800).</t>
         
-        <t>The following paragraph should be added to Section 18.2.1,
+        <t>The following paragraph should be added to Sections 18.2.1,
         18.2.3, and 18.2.4 of RFC 3315:
         <list hangIndent="2" style="hanging">
          <t>The T1/T2 times set in each applicable IA option for a Reply
@@ -381,6 +380,13 @@
          the bindings at the same time.</t>
          </list>
          </t>
+
+        <t>Note: This additional paragraph has also been included in the
+        revised text later for Sections 18.2.3 and 18.2.4 of RFC 3315.</t>
+
+        <t>Changes for client T1/T2 handling are included in
+        <xref target="Revised-18.1.3"/> and <xref
+        target="Revised-18.1.4"/>.</t>
 
       </section>
 
@@ -428,7 +434,8 @@
        of additional bindings.</t>
      </section>
 
-     <section title="Updates to section 18.1.3 of RFC 3315">
+     <section anchor="Revised-18.1.3"
+              title="Updates to section 18.1.3 of RFC 3315">
 
        <t>Replace Section 18.1.3 of RFC 3315 with the following text:
        <list hangIndent="2" style="hanging">
@@ -445,9 +452,13 @@
 
          <t>The server controls the time at which the client contacts the server
          to extend the lifetimes on assigned addresses through the T1 and T2
-         parameters assigned to an IA.</t>
+         parameters assigned to an IA. However, as the client Renews/Rebinds all
+         IAs from the server at the same time, the client MUST select a T1 and
+         T2 time from all IA options which will guarantee that the client will
+         send Renew/Rebind messages not later than at the T1/T2 times associated
+         with any of the client's bindings.</t>
 
-         <t>At time T1 for an IA, the client initiates a Renew/Reply message
+         <t>At time T1, the client initiates a Renew/Reply message
          exchange to extend the lifetimes on any addresses in the IA.</t>
 
          <t>If T1 or T2 had been set to 0 by the server (for an IA_NA) or there are no
@@ -506,10 +517,11 @@
        </list></t>
      </section>
 
-     <section title="Updates to Section 18.1.4 of RFC 3315">
+     <section anchor="Revised-18.1.4"
+              title="Updates to Section 18.1.4 of RFC 3315">
        <t>Replace Section 18.1.4 of RFC 3315 with the following text:
        <list hangIndent="2" style="hanging">
-         <t> At time T2 for an IA (which will only be reached if the server to
+         <t> At time T2 (which will only be reached if the server to
          which the Renew message was sent at time T1 has not responded),
          the client initiates a Rebind/Reply message exchange with any
          available server.</t>
@@ -554,7 +566,8 @@
        </list></t>
      </section>
 
-     <section title="Updates to Section 18.1.8 of RFC 3315">
+     <section anchor="Revised-18.1.8"
+              title="Updates to Section 18.1.8 of RFC 3315">
        <t>Replace Section 18.1.8 of RFC 3315 with the following text:
        <list hangIndent="2" style="hanging">
          <t>Upon the receipt of a valid Reply message in response to a Solicit
@@ -606,11 +619,7 @@
          contained in the Reply message:
 
          <list style="hanging">
-         <t hangText="-"> Record T1 and T2 times. The client MUST use the
-         shortest (explicit or implicit) T1 and T2 times (larger than 0) from
-         the same IA option across all of the IA options to facilitate initiating
-         the renewal process for all bindings simultaneously. T1/T2 times from
-         other IAs are ignored.</t>
+         <t hangText="-"> Record T1 and T2 times.</t>
 
          <t hangText="-"> Add any new addresses in the IA option to the IA as
          recorded by the client.</t>
@@ -686,7 +695,8 @@
        </list></t>
      </section>
 
-     <section title="Updates to Section 18.2.3 of RFC 3315">
+     <section anchor="Revised-18.2.3"
+              title="Updates to Section 18.2.3 of RFC 3315">
 
        <t>Replace Section 18.2.3 of RFC 3315 with the following text:
        <list hangIndent="2" style="hanging">
@@ -762,7 +772,8 @@
        </list></t>
      </section>
 
-     <section title="Updates to Section 18.2.4 of RFC 3315">
+     <section anchor="Revised-18.2.4"
+              title="Updates to Section 18.2.4 of RFC 3315">
        <t>Replace Section 18.2.4 of RFC 3315 with the following text:
        <list style="hanging">
          <t>When the server receives a Rebind message that contains an IA
