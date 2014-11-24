@@ -19,7 +19,7 @@
 <!ENTITY rfc7227 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7227.xml">
 ]>
 
-<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-08.txt"
+<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-09.txt"
      ipr="trust200902" updates="3315,3633">
   <front>
     <title abbrev="Multiple Stateful Options">
@@ -77,8 +77,8 @@
       <t>Dynamic Host Configuration Protocol for IPv6 (DHCPv6) was not
       written with the expectation that additional stateful DHCPv6
       options would be developed. IPv6 Prefix Options for Dynamic Host
-      Configuration Protocol (DHCP) version 6 shoe-horned the new
-      options for Prefix Delegation into DHCPv6. Implementation
+      Configuration Protocol (DHCP) version 6 has since shoe-horned a new
+      option for Prefix Delegation into DHCPv6. Implementation
       experience of the CPE model described in RFC 7084
       has shown multiple issues with the DHCPv6 protocol in supporting
       multiple stateful options. This document updates RFC 3315 and
@@ -94,7 +94,7 @@
       <t>DHCPv6 <xref target="RFC3315"/> was not written with the
       expectation that additional stateful DHCPv6 options would be
       developed.  DHCPv6 Prefix Delegation <xref target="RFC3633"/>
-      shoe-horned the new options for Prefix Delegation into DHCPv6.
+      has since shoe-horned a new option for Prefix Delegation into DHCPv6.
       Implementation experience of the CPE model described in
       <xref target="RFC7084"/> has shown issues with the DHCPv6
       protocol in supporting multiple stateful option types, in
@@ -895,7 +895,7 @@
         <t><list>
           <t>For the Renew or Rebind, if the IA_PD contains no prefixes,
           i.e. contains no IA Prefix option or the IPv6 prefix field in the
-          IA Prefix option is set to 0, the delegating router MAY assign
+          IA Prefix option is set to 0, the delegating router SHOULD assign
           prefixes to the IA_PD according to the delegating router's explicit
           configuration information. In this case, when the server assigns
           new prefixes to the IA_PD, the server MAY use the value in the
