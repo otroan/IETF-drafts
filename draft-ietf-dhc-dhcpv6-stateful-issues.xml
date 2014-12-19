@@ -442,15 +442,15 @@
        <t>Replace Section 18.1.3 of RFC 3315 with the following text:
        <list hangIndent="2" style="hanging">
          <t>To extend the valid and preferred lifetimes for the addresses
-         associated with an IA, the client sends a Renew message to the server
-         from which the client obtained the addresses in the IA containing an
-         IA option for the IA.  The client includes IA Address options in the
-         IA option for the addresses associated with the IA.  The server
-         determines new lifetimes for the addresses in the IA according to the
-         administrative configuration of the server.  The server may also add
-         new addresses to the IA.  The server may remove addresses from the IA
-         by setting the preferred and valid lifetimes of those addresses to
-         zero.</t>
+         assigned to an IA, the client sends a Renew message to the server
+         from which the addresses were obtained, which includes an IA option
+         for the IA whose address lifetimes are to be extended. The client
+         includes IA Address options within the IA option for the addresses
+         assigned to the IA. The server determines new lifetimes for these
+         addresses according to the administrative configuration of the server.
+         The server may also add new addresses to the IA. The server can remove
+         addresses from the IA by returning IA Address options for such
+         addresses with preferred and valid lifetimes set to zero.</t>
 
          <t>The server controls the time at which the client contacts the server
          to extend the lifetimes on assigned addresses through the T1 and T2
