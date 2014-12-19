@@ -165,10 +165,10 @@
 
     <section anchor='single-session' title="Handling of Multiple IA Options Types">
       <t>DHCPv6 was written with the assumption that the only stateful
-      options were for assigning addresses. DHCPv6 PD describes how
-      to extend the DHCPv6 protocol to handle prefix delegation, but
-      <xref target="RFC3633"/> did not consider how DHCP address
-      assignment and prefix delegation could co-exist.</t>
+      options were for assigning addresses. DHCPv6 Prefix Delegation
+      <xref target="RFC3633"/> describes how to extend the DHCPv6 protocol to
+      handle prefix delegation, but does not clearly specify how the DHCP
+      address assignment and prefix delegation co-exist.</t>
 
       <t>If a client requests multiple IA option types, but the server
       is configured to only offer a subset of them, the client could
@@ -185,7 +185,7 @@
       messages.</t>
 
       <t>Creating a separate DHCP session (separate instances of the client
-      state machine) per IA option type, while conceptually simple, has a
+      state machine) per IA option type, while conceptually simple, causes a
       number of issues: multiple instances of the state machine in clients,
       additional DHCP protocol traffic, 'collisions' between other
       configuration options, divergence in that each IA option type
