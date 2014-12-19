@@ -191,12 +191,14 @@
       configuration options, divergence in that each IA option type
       specification specifies its 'own' version of the DHCP protocol.</t>
 
+      <!-- Marcin: I left the "proposed solution" here because this text
+           will likely be replaced by the text proposed by Ted. -->
       <t>This leaves a single DHCP session and state machine which is the
       proposed solution. Here, the client can use what it is able to
       obtain and can continue to request what it was previously unable
       to obtain while maintaining a single session and state machine.</t>
 
-      <t>Proposed solution: the client should keep a single session
+      <t>Solution: the client should keep a single session
       with the server and include the missing options in subsequent
       messages (Request, Renew, and Rebind) to the server.</t>
 
@@ -226,7 +228,7 @@
 	</t>
 
 	<t>
-	Therefore, the proposed solution is:
+	Therefore, the solution is:
 	</t>
 
 	<t>
@@ -295,7 +297,7 @@
 	server that only offers one of them, is not supported in the
 	current protocol specification.</t>
 
-	<t>Proposed solution: a client SHOULD accept Advertise messages,
+	<t>Solution: a client SHOULD accept Advertise messages,
 	even when not all IA option types are being offered. And, in this
         case, the client SHOULD include the not offered IA option types
         in its Request. A client SHOULD only ignore an Advertise message
@@ -355,7 +357,7 @@
 	the T1/T2 times should be carried in a separate DHCP
 	option.</t>
 
-	<t>Proposed solution: The server MUST set the T1/T2 times
+	<t>Solution: The server MUST set the T1/T2 times
 	in all IA options in a Reply or Advertise message to the same
         value. To deal with the case where servers have not yet been
         updated to do that, the client MUST select a T1 and T2 time
@@ -393,7 +395,7 @@
     <section title="Renew and Rebind Messages">
       <t>This section presents issues with handling multiple IA option types
       in the context of creation and processing the Renew and Rebind messages.
-      It also proposes relevant updates to the <xref target="RFC3315"/> and
+      It also introduces relevant updates to the <xref target="RFC3315"/> and
       <xref target="RFC3633"/>.</t>
       <section title="Renew Message" anchor="renew-message">
         <t>The Renew message, as described in <xref target="RFC3315"/>,
@@ -405,7 +407,7 @@
 	    requesting bindings for other IA option types that were not
 	    available when the client sent the Request.</t>
 
-	    <t>Proposed solution: The client should continue with the IA
+	    <t>Solution: The client should continue with the IA
 	    options received, while continuing to include the other IA
 	    options in subsequent messages to the server. The client
 	    and server processing need to be modified. Note that this
@@ -414,10 +416,10 @@
       </section>
 
      <section title="Rebind Message">
-       <t> In <xref target="renew-message"/> it has been proposed that
-       the client includes IA options in a Renew message for the bindings it
-       desires but has been unable to obtain by sending a Request message,
-       apart from the IA options for the existing bindings.</t>
+       <t> According to the <xref target="renew-message"/>, the client includes
+       IA options in a Renew message for the bindings it desires but has been
+       unable to obtain by sending a Request message, apart from the IA options
+       for the existing bindings.</t>
 
        <t>At time T2, the client stops sending Renew messages to the server and
        initiates the Rebind/Reply message exchange with any available server.
@@ -429,7 +431,7 @@
        does not explicitly specify what a server should do when an IA
        option which contains no addresses is present.</t>
 
-       <t>Proposed solution: The client should continue with the IA options
+       <t>Solution: The client should continue with the IA options
        received and it MAY include additional IA options to request creation
        of additional bindings.</t>
      </section>
