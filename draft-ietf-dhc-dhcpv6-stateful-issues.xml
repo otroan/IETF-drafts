@@ -864,7 +864,7 @@
      </section>
 
       <section title="Updates to RFC 3633">
-        <t>Replace Section 12.1:</t>
+        <t>Replace Section 12.1 of RFC 3633:</t>
         <t><list>
           <t>Each prefix has valid and preferred lifetimes whose durations are
           specified in the IA_PD Prefix option for that prefix.  The requesting
@@ -887,7 +887,7 @@
           field of the IA Prefix option as a hint to the server.</t>
         </list></t>
 
-        <t>Replace Section 12.2:</t>
+        <t>Replace Section 12.2 of RFC 3633:</t>
         <t><list>
           <t>The delegating router behaves as follows when it cannot find a
           binding for the requesting router's IA_PD:</t>
