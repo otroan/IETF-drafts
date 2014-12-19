@@ -237,13 +237,13 @@
 	no other IA option types were in the Solicit):
 	<list style="numbers">
 	<t>
-	Advertise containing just a top-level Status Code option (of
-	NoAddrsAvail) and no IA_NAs/IA_TAs.
-	</t>
-	<t>
 	Advertise containing the IA_NAs and/or IA_TAs with encapsulated
 	Status Code option (of NoAddrsAvail) and no top-level Status
 	Code option.
+	</t>
+	<t>
+	Advertise containing just a top-level Status Code option (of
+	NoAddrsAvail) and no IA_NAs/IA_TAs.
 	</t>
 	<t>
 	Advertise containing a top-level Status Code option (of
@@ -252,6 +252,10 @@
 	</t>
 	</list>
 	</t>
+
+    <t>Note: clients MUST be prepared to handle the last two formats
+    listed above to facilitate backward compatibility with the servers
+    which have not been updated to this specification.</t>
 
 	<t>
 	Servers MUST return the Status Code option (of
