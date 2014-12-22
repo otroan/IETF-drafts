@@ -107,7 +107,7 @@
       these problems.</t>
 
       <t>The intention of this work is to clarify and, where needed,
-      modify the DHCP protocol specification to support IA_NA and
+      modify the DHCPv6 protocol specification to support IA_NA and
       IA_PD option types within a single DHCP session.</t>
 
       <t>Note that while IA_TA (temporary addresses) options may be
