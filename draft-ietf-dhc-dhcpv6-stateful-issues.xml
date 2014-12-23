@@ -74,15 +74,14 @@
     <!--  SECTION 0:  Abstract                      -->
 
     <abstract>
-      <t>Dynamic Host Configuration Protocol for IPv6 (DHCPv6) was not
-      written with the expectation that additional stateful DHCPv6
-      options would be developed. IPv6 Prefix Options for Dynamic Host
-      Configuration Protocol (DHCP) version 6 has since shoe-horned a new
-      option for Prefix Delegation into DHCPv6. Implementation
-      experience of the CPE model described in RFC 7084
-      has shown multiple issues with the DHCPv6 protocol in supporting
-      multiple stateful options. This document updates RFC 3315 and
-      RFC 3633 to address the identified issues.</t>
+      <t>The Dynamic Host Configuration Protocol for IPv6 (DHCPv6)
+      specification defined two stateful options, IA_NA and IA_TA,
+      but did not anticipate the development of additional stateful
+      options. DHCPv6 Prefix Delegation added the IA_PD option,
+      which is stateful. Applications that use IA_NA and IA_PD
+      together have revealed issues that need to be addressed. This
+      document updates RFC 3315 and RFC 3633 to address these issues.
+      <t>
     </abstract>
   </front>
 
