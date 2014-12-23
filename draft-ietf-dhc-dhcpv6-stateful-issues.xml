@@ -3,7 +3,7 @@
 <?rfc toc="yes" ?>
 <?rfc tocompact="yes" ?>
 <?rfc compact="yes" ?>
-<?rfc subcompact="no" ?>7
+<?rfc subcompact="no" ?>
 <?rfc symrefs="yes"?>
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
@@ -81,7 +81,7 @@
       which is stateful. Applications that use IA_NA and IA_PD
       together have revealed issues that need to be addressed. This
       document updates RFC 3315 and RFC 3633 to address these issues.
-      <t>
+      </t>
     </abstract>
   </front>
 
@@ -994,8 +994,8 @@
           obtain different IA types from different provisioning domains. How a
           client detects the multiple provisioning domains and how it would
           interact with the multiple servers in these different domains is outside
-          the scope of this document (see <xref target="I-D.mif-mpvd-arch"/>
-          and <xref target="I-D.mif-mpvd-dhcp-support"/>).</t>
+          the scope of this document (see <xref target="I-D.ietf-mif-mpvd-arch"/>
+          and <xref target="I-D.ietf-mif-mpvd-dhcp-support"/>).</t>
 
       </section>
 
@@ -1045,8 +1045,8 @@
       &rfc7084;
       &rfc7227;
       <?rfc include="reference.I-D.dhcwg-dhc-rfc3315bis" ?>
-      <?rfc include="reference.I-D.mif-mpvd-arch" ?>
-      <?rfc include="reference.I-D.mif-mpvd-dhcp-support" ?>
+      <?rfc include="reference.I-D.ietf-mif-mpvd-arch" ?>
+      <?rfc include="reference.I-D.ietf-mif-mpvd-dhcp-support" ?>
     </references>
 
   </back>
