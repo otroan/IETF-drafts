@@ -3,7 +3,7 @@
 <?rfc toc="yes" ?>
 <?rfc tocompact="yes" ?>
 <?rfc compact="yes" ?>
-<?rfc subcompact="no" ?>
+<?rfc subcompact="no" ?>7
 <?rfc symrefs="yes"?>
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
@@ -151,7 +151,15 @@
 	  
 	<t hangText="Stateful options:">
 	  Options that require dynamic binding state per client on the
-	  server.</t>	  
+	  server.</t>
+	  
+	<t hangText="Top-level options:">
+          Top-level options are DHCPv6 options that are not encapsulated
+          within other options, excluding the Relay-Message option. Options
+          encapsulated by Relay-message options, but not by any other
+          option, are still top-level options, whether they appear in a
+          relay agent message or a server message. See <xref target="RFC7227"/>.
+	</t>
 
 	</list></t>
     </section>
