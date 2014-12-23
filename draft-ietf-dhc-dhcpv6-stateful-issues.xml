@@ -19,7 +19,7 @@
 <!ENTITY rfc7227 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7227.xml">
 ]>
 
-<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-09.txt"
+<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-10.txt"
      ipr="trust200902" updates="3315,3633">
   <front>
     <title abbrev="Multiple Stateful Options">
