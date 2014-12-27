@@ -10,7 +10,6 @@
 <?rfc inline="yes" ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 <!ENTITY rfc2119 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY rfc4941 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4941.xml">
 <!ENTITY rfc3315 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3315.xml">
 <!ENTITY rfc3633 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3633.xml">
 <!ENTITY rfc6059 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6059.xml">
@@ -164,10 +163,11 @@
 	</list></t>
     </section>
 
-    <!--  SECTION 4: Handling of Multiple IA Options Types                         -->
+    <!--  SECTION 4: Handling of Multiple IA Option Types                         -->
 
-    <section anchor='single-session' title="Handling of Multiple IA Options Types">
-      <t>DHCPv6 was written with the assumption that the only stateful
+    <section anchor='single-session' title="Handling of Multiple IA Option Types">
+      <t>The DHCPv6 specification <xref target="RFC3315"/> was written with
+      the assumption that the only stateful
       options were for assigning addresses. DHCPv6 Prefix Delegation
       <xref target="RFC3633"/> describes how to extend the DHCPv6 protocol to
       handle prefix delegation, but does not clearly specify how the DHCP
@@ -175,11 +175,18 @@
 
       <t>If a client requests multiple IA option types, but the server
       is configured to only offer a subset of them, the client could
-      react in several ways. Reset the state machine and continue to
-      send Solicit messages, create separate DHCP sessions for each
-      IA option type and continue to Solicit for the unfulfilled IA
-      options, or it could continue with the single session, and include
+      react in several ways:
+      
+      <list style="numbers">
+      <t>Reset the state machine and continue to send Solicit messages,</t>
+      
+      <t>Create separate DHCP sessions for each IA option type and
+      continue to Solicit for the unfulfilled IA options, or</t>
+      
+      <t>The client could continue with the single session, and include
       the unfulfilled IA options in subsequent messages to the server.</t>
+      
+      </list></t>
 
       <t>Reseting the state machine and continuing to send Solicit messages
       may result in the client never completing DHCP and is generally not
@@ -189,21 +196,21 @@
 
       <t>Creating a separate DHCP session (separate instances of the client
       state machine) per IA option type, while conceptually simple, causes a
-      number of issues: multiple instances of the state machine in clients,
-      additional DHCP protocol traffic, 'collisions' between other
-      configuration options, divergence in that each IA option type
-      specification specifies its 'own' version of the DHCP protocol.</t>
+      number of issues: additional host resources required to create and
+      maintain multiple instances of the state machine in clients,
+      additional DHCP protocol traffic, unnecessary duplication of other
+      configuration options and the potential for conflict, divergence in
+      that each IA option type specification specifies its 'own' version of
+      the DHCP protocol.</t>
 
-      <!-- Marcin: I left the "proposed solution" here because this text
-           will likely be replaced by the text proposed by Ted. -->
-      <t>This leaves a single DHCP session and state machine which is the
-      proposed solution. Here, the client can use what it is able to
-      obtain and can continue to request what it was previously unable
-      to obtain while maintaining a single session and state machine.</t>
-
-      <t>Solution: the client should keep a single session
-      with the server and include the missing options in subsequent
-      messages (Request, Renew, and Rebind) to the server.</t>
+      <t>We have chosen to recommend that clients use the remaining option:
+      a single DHCP session and state machine.  The client maintains a
+      single session and state machine. It uses the best configuration it
+      is able to obtain during any configuration exchange.   But it
+      continues, in each subsequent configuration exchange, to request all
+      the configuration information it is programmed to try to obtain,
+      including any stateful configuration options for which no results
+      were returned in previous exchanges.</t>
 
       <section title="Placement of Status Codes">
         <t>In Reply messages IA specific status codes (i.e., NoAddrsAvail,
@@ -1041,7 +1048,6 @@
     <!--  SECTION 8.2:  Informative References		-->
 
     <references title="Informative References">
-      &rfc4941;
       &rfc6059;
       &rfc7084;
       &rfc7227;
