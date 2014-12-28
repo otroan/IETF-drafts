@@ -215,8 +215,8 @@
       <section title="Placement of Status Codes">
         <t>In Reply messages IA specific status codes (i.e., NoAddrsAvail,
         NotOnLink, NoBinding, NoPrefixAvail) are encapsulated in the IA
-        option. In Advertise messages the Status Code option with
-        the NoAddrsAvail code is in the top level. This makes sense
+        option. In Advertise messages though, the NoAddrsAvail code
+        is returned at in the top level. This makes sense
         if the client is only interested in the assignment of the addresses
         and the failure case is fatal. However, if the client sends both
         IA_NA and IA_PD options in a Solicit message, it is possible that
@@ -227,7 +227,7 @@
         indicate that the failure occurred for the specific IA.
         This also makes the NoAddrsAvail and NoPrefixAvail Status Code
         option placement for Advertise messages identical to Reply messages.
-	    </t>
+	</t>
 
 	<t>
 	In addition, how a server formats the Advertise message when
@@ -238,7 +238,7 @@
 	</t>
 
 	<t>
-	Therefore, the solution is:
+	We have chosen the following solution:
 	</t>
 
 	<t>
@@ -248,30 +248,33 @@
 	<list style="numbers">
 	<t>
 	Advertise containing the IA_NAs and/or IA_TAs with encapsulated
-	Status Code option (of NoAddrsAvail) and no top-level Status
+	Status Code option of NoAddrsAvail and no top-level Status
 	Code option.
 	</t>
 	<t>
-	Advertise containing just a top-level Status Code option (of
-	NoAddrsAvail) and no IA_NAs/IA_TAs.
+	Advertise containing just a top-level Status Code option of
+	NoAddrsAvail and no IA_NAs/IA_TAs.
 	</t>
 	<t>
-	Advertise containing a top-level Status Code option (of
-	NoAddrsAvail) and IA_NAs and/or IA_TAs with a Status Code option
-	(of NoAddrsAvail).
+	Advertise containing a top-level Status Code option of
+	NoAddrsAvail and IA_NAs and/or IA_TAs with a Status Code option
+	of NoAddrsAvail.
 	</t>
 	</list>
 	</t>
 
-    <t>Note: clients MUST be prepared to handle the last two formats
+    <t>Note: Clients MUST be prepared to handle the last two formats
     listed above to facilitate backward compatibility with the servers
     which have not been updated to this specification.</t>
+    
+    <t>See <xref target='advertise'/> for updated text for Section
+    17.1.3 of RFC 3315 and Section 11.1 of RFC 3633.</t>
 
 	<t>
-	Servers MUST return the Status Code option (of
-	NoAddrsAvail) encapsulated in an IA_NA/IA_TA options and not as a
-        top-level Status Code option (of NoAddrsAvail) when no
-        addresses will be assigned (2 in the above list). This means that
+	Servers MUST return the Status Code option of
+	NoAddrsAvail encapsulated in an IA_NA/IA_TA options and not as a
+        top-level Status Code option of NoAddrsAvail when no
+        addresses will be assigned (1 in the above list). This means that
         the Advertise response matches the Reply response with respect to
         the handling of the NoAddrsAvail status.
 	</t>
@@ -304,7 +307,7 @@
       </section>
 
 
-      <section title="Advertise Message">
+      <section anchor='advertise' title="Advertise Message">
 	<t><xref target="RFC3315"/> specifies that a client must ignore an Advertise
 	message if a server will not assign any addresses to a
 	client. A client requesting both IA_NA and IA_PD, with a
