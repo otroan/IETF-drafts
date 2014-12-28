@@ -349,9 +349,10 @@
 	</artwork></figure>
 	<t>With:</t>
  	<figure><artwork>
-  -  The client MAY choose a less-preferred server if that server
-     has a better set of advertised parameters, such as the
-     available options advertised in IAs.
+  -  The client MAY choose a less-preferred server if that server has
+     a better set of advertised parameters, such as the available set
+     of IAs, as well as the set of other configuration options
+     advertised.
 	</artwork></figure>
 
         <t>It is important to note that the receipt of an Advertise message
