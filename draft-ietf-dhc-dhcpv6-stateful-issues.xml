@@ -64,7 +64,7 @@
       </address>
     </author>
 
-    <date year="2014" />
+    <date year="2015" />
 
     <area>Internet</area>
 
@@ -337,8 +337,10 @@
   and no delegated prefixes (IAPREFIX options encapsulated in IA_PD
   options, see RFC 3633) with the exception that the client
   MUST process an included SOL_MAX_RT option (RFC 7083), MUST
-  process an included INF_MAX_RT option (RFC 7083), and MAY
-  display any associated status message(s) to the user.
+  process an included INF_MAX_RT option (RFC 7083), and MAY display
+  any associated status message(s) to the user. The client ignoring
+  this Advertise message MUST NOT restart the Solicit retransmission
+  timer.
 	</artwork></figure>
 
 	<t>And, replace:</t>
@@ -354,11 +356,6 @@
      of IAs, as well as the set of other configuration options
      advertised.
 	</artwork></figure>
-
-        <t>It is important to note that the receipt of an Advertise message
-	without any addresses and delegated prefixes does not imply that
-	the client should restart the Solicit retransmissions timers. Doing
-	so would lead to a Solicit/Advertise storm.</t>
 
       </section>
 
