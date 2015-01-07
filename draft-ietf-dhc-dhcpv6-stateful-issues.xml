@@ -493,12 +493,11 @@
          to the server.  The client adds any appropriate options, including
          one or more IA options.</t>
 
-         <t>The client includes an IA option with all addresses currently assigned
-         to the IA in its Renew message.  The client also includes IA
-         options for all other bindings for which the client desires to
-         extend the lifetimes of addresses.  The client MUST only include
-         addresses in the IA that the client obtained from the server and
-         are still valid (have non-zero lifetime).</t>
+         <t>For IAs to which addresses have been assigned, the client includes
+         a corresponding IA option containing an IA Address option for each
+         address assigned to the IA. The client MUST not include addresses
+         in any IA option that the client did not obtain from the server or
+         that are no longer valid (that have a zero valid lifetime).</t>
 
          <t>The client MAY include an IA option for each binding it desires but
          has been unable to obtain.  This IA option MUST NOT contain any
