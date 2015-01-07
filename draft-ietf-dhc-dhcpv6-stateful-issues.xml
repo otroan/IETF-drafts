@@ -576,7 +576,7 @@
 
           <t>The message exchange is terminated when the valid lifetimes of all
           addresses across all IAs have expired, at which time the client
-          may use a Solicit message to locate a new DHCP server and send a
+          uses Solicit message to locate a new DHCP server and sends a
           Request for the expired IAs to the new server.</t>
 
        </list></t>
