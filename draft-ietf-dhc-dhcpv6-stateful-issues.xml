@@ -660,7 +660,7 @@
          addresses in the IA.</t>
 
          <t>If the client finds no usable addresses in any of the IAs, it may
-         either try another server (by restarting the DHCP server discovery
+         either try another server (perhaps restarting the DHCP server discovery
          process) or use the Information-request message to obtain other
          configuration information only.</t>
 
