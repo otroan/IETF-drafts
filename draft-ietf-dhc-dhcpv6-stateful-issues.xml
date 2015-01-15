@@ -659,25 +659,23 @@
          client receives a NoAddrsAvail, the client has received no usable
          addresses in the IA.</t>
 
+         <t>If the client can operate with the addresses obtained from the server
+         the client uses addresses and other information from any IAs that
+         do not contain a Status Code option with the NoAddrsAvail status code.
+         The client MAY include the IAs for which it received the NoAddrsAvail
+         status code, with no addresses, in subsequent Renew and Rebind
+         messages sent to the server, to retry obtaining the addresses for these
+         IAs.</t>
+
+         <t>If the client cannot operate without the addresses for the IAs
+         for which it received the NoAddrsAvail status code, the client
+         may try another server (perhaps by restarting the DHCP server discovery
+         process).</t>
+
          <t>If the client finds no usable addresses in any of the IAs, it may
          either try another server (perhaps restarting the DHCP server discovery
          process) or use the Information-request message to obtain other
          configuration information only.</t>
-
-         <t>The client uses addresses and other information from any IAs that
-         do not contain a Status Code option with the NoAddrsAvail code. For
-         each IA for which the client receives NoAddrsAvail status code the
-         client has the following choices:
-
-         <list style="hanging">
-         <t hangText="-"> The client includes the IA with no addresses in subsequent
-         Renew and Rebind messages sent to the server, to request creation of
-         the binding for the IA.</t>
-
-         <t hangText="-"> Tries another server (by restarting the DHCP server
-         discovery process).</t>
-
-         </list></t>
 
          <t>When the client receives a Reply message in response to a Renew or
          Rebind message, for each IA in the original Renew or Rebind message,
