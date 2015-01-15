@@ -906,14 +906,14 @@
         <t>With:</t>
 
         <t><list>
-          <t>For the Renew or Rebind, if the IA_PD contains no prefixes,
-          i.e. contains no IA Prefix option or the IPv6 prefix field in the
-          IA Prefix option is set to 0, the delegating router SHOULD assign
-          prefixes to the IA_PD according to the delegating router's explicit
-          configuration information. In this case, when the server assigns
-          new prefixes to the IA_PD, the server MAY use the value in the
-          prefix-length field of the IA Prefix option as a hint for the
-          length of the prefixes being assigned.</t>
+          <t>For the Renew or Rebind, if the IA_PD contains no IA Prefix option
+          or it contains an IA Prefix option with the IPv6 prefix field
+          set to 0, the delegating router SHOULD assign prefixes to the IA_PD
+          according to the delegating router's explicit configuration information.
+          In this case, if the IA_PD contains an IA Prefix option with the IPv6
+          prefix field set to 0, the delegating router MAY use the value in the
+          prefx-length field of the IA Prefix option as a hint for the length
+          of the prefixes to be assigned.</t>
 
           <t>The delegating router behaves as follows when it cannot find
           a binding for the requesting router's IA_PD containing prefixes:
