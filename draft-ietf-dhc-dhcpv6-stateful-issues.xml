@@ -656,8 +656,8 @@
          the definition of each option in section 22.</t>
 
          <t>The client examines the status code in each IA individually. If the
-         client receives a NoAddrsAvail, the client has received no usable
-         addresses in the IA.</t>
+         client receives a NoAddrsAvail status code, the client has received no
+         usable addresses in the IA.</t>
 
          <t>If the client can operate with the addresses obtained from the server
          the client uses addresses and other information from any IAs that
@@ -678,23 +678,22 @@
          configuration information only.</t>
 
          <t>When the client receives a Reply message in response to a Renew or
-         Rebind message, for each IA in the original Renew or Rebind message,
-         the client:
+         Rebind message, the client:
 
          <list style="hanging">
 
-           <t hangText="-"> Sends a Request message if the server responded with
-           the NoBinding status code. The client places only these IA options in
-           the Request message for which the server returned NoBinding status code
-           in the Reply message. The client continues to use other bindings for
-           which the server did not return an error.</t>
+           <t hangText="-"> sends a Request message if any of the IAs in the
+           Reply message contains the NoBinding status code. The client places
+           IA options in this message for only those IAs for which the
+           server returned the NoBinding status code in the Reply message.
+           The client continues to use other bindings for which the server
+           did not return an error</t>
 
-<!-- Marcin: Could this be as simple as below? -->
-           <t hangText="-"> Follows the retransmission procedure for Renew/Rebind
-           messages as described in section 14 if the IA is not in the Reply
-           message.</t>
+           <t hangText="-"> sends a Renew/Rebind if any of the IAs is not in the
+           Reply message, but in this case the client MUST limit the rate at
+           which it sends these messages, to avoid the Renew/Rebind storm</t>
 
-           <t hangText="-"> Otherwise accepts the information in the IA.</t>
+           <t hangText="-"> otherwise accepts the information in the IA.</t>
 
          </list></t>
 
