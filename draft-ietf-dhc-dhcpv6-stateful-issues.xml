@@ -413,20 +413,28 @@
       It also introduces relevant updates to the <xref target="RFC3315"/> and
       <xref target="RFC3633"/>.</t>
       <section title="Renew Message" anchor="renew-message">
-        <t>The Renew message, as described in <xref target="RFC3315"/>,
-        allows a client to only renew bindings assigned via a Request
-        message.</t>
+        <t>In multiple IA option type model, the client may include multiple
+        IA options in the Request message, and the server may create bindings
+        only for a subset of the IA options included by the client. For the
+        IA options in the Request message for which the server does not
+        create the bindings, the server sends the IA options in the Reply
+        message with the NoAddrsAvail or NoPrefixAvail status codes.</t>
 
-	    <t>In a multiple IA option type model, the Renew does not support
-	    the ability for the client to renew one IA option type while
-	    requesting bindings for other IA option types that were not
-	    available when the client sent the Request.</t>
+        <t>The client may accept the bindings created by the server, but may
+        desire the other bindings to be created once they become available,
+        e.g. when the server configuration is changed. The client which
+        accepted the bindings created by the server will periodically send
+        a Renew message to extend their lifetimes. However, the Renew
+        message, as described in the <xref target="RFC3315"/>, does not
+        support the ability for the client to extend the lifetimes of the
+        bindings for some IAs, while requesting bindings for other IAs.</t>
 
-	    <t>Solution: The client should continue with the IA
-	    options received, while continuing to include the other IA
-	    options in subsequent messages to the server. The client
-	    and server processing need to be modified. Note that this
-	    change makes the server's IA processing of Renew similar
+        <t>Solution: The client, which sends a Renew message to extend the
+        lifetimes of the bindings assigned to the client, should include
+        IA options for these bindings as well as IA options for all other
+        bindings that the client desires but has been unable to obtain.
+        The client and server processing need to be modified. Note that
+        this change makes the server's IA processing  of Renew similar
         to the Request processing.</t>
       </section>
 
@@ -442,13 +450,9 @@
        bindings using the Rebind message if the client failed to get the
        response from the server to the Renew message.</t>
 
-       <t>The Rebind message, as described in <xref target="RFC3315"/>
-       does not explicitly specify what a server should do when an IA
-       option which contains no addresses is present.</t>
-
-       <t>Solution: The client should continue with the IA options
-       received and it MAY include additional IA options to request creation
-       of additional bindings.</t>
+       <t>Solution: The client should continue to include the IA options
+       received from the server and it may include additional IA options
+       to request creation of the additional bindings.</t>
      </section>
 
      <section anchor="Revised-18.1.3"
