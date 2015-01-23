@@ -308,20 +308,23 @@
 
 
       <section anchor='advertise' title="Advertise Message">
-	<t><xref target="RFC3315"/> specifies that a client must ignore an Advertise
-	message if a server will not assign any addresses to a
-	client. A client requesting both IA_NA and IA_PD, with a
-	server that only offers one of them, is not supported in the
-	current protocol specification.</t>
+	<t><xref target="RFC3315"/> specifies that a client must ignore an
+	Advertise message if a server will not assign any addresses to a
+	client, and <xref target="RFC3633"/> specifies that a client must
+	ignore an Advertise message if a server returns the NoPrefixAvail
+	status to a requesting router. Thus, a client requesting both IA_NA
+	and IA_PD, with a server that only offers either addresses or
+	delegated prefixes, is not supported by the current protocol
+	specifications.</t>
 
 	<t>Solution: a client SHOULD accept Advertise messages,
 	even when not all IA option types are being offered. And, in this
         case, the client SHOULD include the not offered IA option types
         in its Request. A client SHOULD only ignore an Advertise message
-        when all IA options include no offered addresses or delegated
-        prefixes. Note that ignored messages MUST still be processed for
-        SOL_MAX_RT and INF_MAX_RT options as specified in <xref
-        target="RFC7083"/>.</t>
+        when none of the requested IA options include offered addresses
+        or delegated prefixes. Note that ignored messages MUST still be
+        processed for SOL_MAX_RT and INF_MAX_RT options as specified in
+        <xref target="RFC7083"/>.</t>
 
 	<t>Replace Section 17.1.3 of RFC 3315: (existing errata)</t>
 	<figure><artwork>
@@ -335,12 +338,12 @@
   The client MUST ignore any Advertise message that contains no
   addresses (IAADDR options encapsulated in IA_NA or IA_TA options)
   and no delegated prefixes (IAPREFIX options encapsulated in IA_PD
-  options, see RFC 3633) with the exception that the client
-  MUST process an included SOL_MAX_RT option (RFC 7083), MUST
-  process an included INF_MAX_RT option (RFC 7083), and MAY display
-  any associated status message(s) to the user. The client ignoring
-  this Advertise message MUST NOT restart the Solicit retransmission
-  timer.
+  options, see RFC 3633) with the exception that the client:
+    - MUST process an included SOL_MAX_RT option (RFC 7083),
+    - MUST process an included INF_MAX_RT option (RFC 7083), and
+    - MAY display any associated status message(s) to the user.
+  The client ignoring this Advertise message MUST NOT restart the
+  Solicit retransmission timer.
 	</artwork></figure>
 
 	<t>And, replace:</t>
@@ -355,6 +358,20 @@
      a better set of advertised parameters, such as the available set
      of IAs, as well as the set of other configuration options
      advertised.
+	</artwork></figure>
+	
+	<t>And, replace the last paragraph of Section 11.1 of RFC 3633 with:</t>
+	<figure><artwork>
+  The requesting router MUST ignore any Advertise message that
+  contains no addresses (IAADDR options encapsulated in IA_NA or
+  IA_TA options) and no delegated prefixes (IAPREFIX options
+  encapsulated in IA_PD options, see RFC 3633) with the exception
+  that the requesting router:
+    - MUST process an included SOL_MAX_RT option (RFC 7083),
+    - MUST process an included INF_MAX_RT option (RFC 7083), and
+    - MAY display any associated status message(s) to the user.
+  The requesting router ignoring this Advertise message MUST NOT
+  restart the Solicit retransmission timer.
 	</artwork></figure>
 
       </section>
