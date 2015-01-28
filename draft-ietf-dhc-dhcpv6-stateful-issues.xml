@@ -188,7 +188,7 @@
       
       </list></t>
 
-      <t>Reseting the state machine and continuing to send Solicit messages
+      <t>Resetting the state machine and continuing to send Solicit messages
       may result in the client never completing DHCP and is generally not
       considered a good solution. It can also result in a request storm if
       the client does not appropriately rate limit its sending of Solicit
@@ -933,7 +933,7 @@
           according to the delegating router's explicit configuration information.
           In this case, if the IA_PD contains an IA Prefix option with the IPv6
           prefix field set to 0, the delegating router MAY use the value in the
-          prefx-length field of the IA Prefix option as a hint for the length
+          prefix-length field of the IA Prefix option as a hint for the length
           of the prefixes to be assigned.</t>
 
           <t>The delegating router behaves as follows when it cannot find
