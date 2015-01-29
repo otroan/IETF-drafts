@@ -190,7 +190,7 @@
 
       <t>Resetting the state machine and continuing to send Solicit messages
       may result in the client never completing DHCP and is generally not
-      considered a good solution. It can also result in a request storm if
+      considered a good solution. It can also result in a packet storm if
       the client does not appropriately rate limit its sending of Solicit
       messages.</t>
 
@@ -212,7 +212,7 @@
       including any stateful configuration options for which no results
       were returned in previous exchanges.</t>
 
-      <section title="Placement of Status Codes">
+      <section title="Placement of Status Codes in an Advertise Message">
         <t>In Reply messages IA specific status codes (i.e., NoAddrsAvail,
         NotOnLink, NoBinding, NoPrefixAvail) are encapsulated in the IA
         option. In Advertise messages though, the NoAddrsAvail code
@@ -307,7 +307,7 @@
       </section>
 
 
-      <section anchor='advertise' title="Advertise Message">
+      <section anchor='advertise' title="Advertise Message Processing by a Client">
 	<t><xref target="RFC3315"/> specifies that a client must ignore an
 	Advertise message if a server will not assign any addresses to a
 	client, and <xref target="RFC3633"/> specifies that a client must
@@ -896,7 +896,7 @@
      </section>
 
       <section title="Updates to RFC 3633">
-        <t>Replace Section 12.1 of RFC 3633:</t>
+        <t>Replace the following text in Section 12.1 of RFC 3633:</t>
         <t><list>
           <t>Each prefix has valid and preferred lifetimes whose durations are
           specified in the IA_PD Prefix option for that prefix.  The requesting
@@ -916,10 +916,12 @@
           i.e. without IA Prefix option or with IPv6 prefix field of IA Prefix option
           set to 0, in a Renew or Rebind message to obtain bindings it desires
           but has been unable to obtain. The requesting router MAY set the prefix-length
-          field of the IA Prefix option as a hint to the server.</t>
+          field of the IA Prefix option as a hint to the server. As in
+          <xref target="RFC3315"/>, the requesting router MAY also provide
+          lifetime hints in the IA Prefix option.</t>
         </list></t>
 
-        <t>Replace Section 12.2 of RFC 3633:</t>
+        <t>Replace the following text in Section 12.2 of RFC 3633:</t>
         <t><list>
           <t>The delegating router behaves as follows when it cannot find a
           binding for the requesting router's IA_PD:</t>
@@ -934,7 +936,9 @@
           In this case, if the IA_PD contains an IA Prefix option with the IPv6
           prefix field set to 0, the delegating router MAY use the value in the
           prefix-length field of the IA Prefix option as a hint for the length
-          of the prefixes to be assigned.</t>
+          of the prefixes to be assigned. The delegating router MAY also respect
+          lifetime hints provided by the requesting router in the IA Prefix
+          option.</t>
 
           <t>The delegating router behaves as follows when it cannot find
           a binding for the requesting router's IA_PD containing prefixes:
