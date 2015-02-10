@@ -18,8 +18,8 @@
 <!ENTITY rfc7227 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7227.xml">
 ]>
 
-<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-10.txt"
-     ipr="trust200902" updates="3315,3633">
+<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-11.txt"
+     ipr="pre5378Trust200902" updates="3315,3633">
   <front>
     <title abbrev="Multiple Stateful Options">
     Issues and Recommendations with Multiple Stateful DHCPv6 Options</title>
@@ -516,7 +516,7 @@
 
          <t>For IAs to which addresses have been assigned, the client includes
          a corresponding IA option containing an IA Address option for each
-         address assigned to the IA. The client MUST not include addresses
+         address assigned to the IA. The client MUST NOT include addresses
          in any IA option that the client did not obtain from the server or
          that are no longer valid (that have a zero valid lifetime).</t>
 
