@@ -93,7 +93,7 @@
       expectation that additional stateful DHCPv6 options would be
       developed.  DHCPv6 Prefix Delegation <xref target="RFC3633"/>
       since added a new stateful option for Prefix Delegation to DHCPv6.
-      Implementation experience of the Customer Edge Router model described in
+      Implementation experience of the Customer Edge Router (CER) model described in
       <xref target="RFC7084"/> has shown issues with the DHCPv6
       protocol in supporting multiple stateful option types, in
       particular IA_NA (non-temporary addresses) and IA_PD (delegated
@@ -192,7 +192,9 @@
       may result in the client never completing DHCP and is generally not
       considered a good solution. It can also result in a packet storm if
       the client does not appropriately rate limit its sending of Solicit
-      messages.</t>
+      messages or there are many clients on the network. Client implementors
+      that follow this approach, are strongly advised to implement the
+      updates to RFC-3315 specified in <xref target="RFC7083"/>.</t>
 
       <t>Creating a separate DHCP session (separate instances of the client
       state machine) per IA option type, while conceptually simple, causes a
@@ -220,15 +222,15 @@
 
       <t>One major issue of this last approach is that it is difficult to
       allow it with the current DHCPv6 specifications; in some cases
-      it is not clear enough, and in other cases existing restrictions
+      they are not clear enough, and in other cases existing restrictions
       can make it impossible. This document introduces some
       clarifications and small modifications to the current
-      specification to address this concern.</t>
+      specifications to address these concerns.</t>
 
-      <t>While all choices have their own pros and cons, we recommend and
-      focus on choice 3 for this document because it is deemed to work
+      <t>While all approaches have their own pros and cons, we recommend and
+      focus on approach 3 for this document because it is deemed to work
       best for common cases of the mixed use of IA_NA and IA_PD.  But
-      this document does not exclude other choices.  Also, in some corner
+      this document does not exclude other approaches.  Also, in some corner
       cases it may not be feasible to maintain a single DHCPv6 session
       for both IA_NA and IA_PD.  These corner cases are beyond the scope
       of this document and may depend on the network in which the client
@@ -237,7 +239,7 @@
 
       <t>The sections which follow update RFC 3315 and RFC 3633 to accommodate
       the recommendation, though many of the changes are also applicable
-      even if other choices are used.</t>
+      even if other approaches are used.</t>
 
       <section title="Placement of Status Codes in an Advertise Message">
         <t>In Reply messages IA specific status codes (i.e., NoAddrsAvail,
