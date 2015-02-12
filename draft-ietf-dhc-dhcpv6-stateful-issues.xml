@@ -203,14 +203,41 @@
       that each IA option type specification specifies its 'own' version of
       the DHCP protocol.</t>
 
-      <t>We have chosen to recommend that clients use the remaining option:
-      a single DHCP session and state machine.  The client maintains a
-      single session and state machine. It uses the best configuration it
-      is able to obtain during any configuration exchange.   But it
-      continues, in each subsequent configuration exchange, to request all
-      the configuration information it is programmed to try to obtain,
+      <t>The single session and state machine allows the client to use the
+      best configuration it is able to obtain from a single DHCP server
+      during the configuration exchange.  Note, however, that the server
+      may not be configured to deliver the entire configuration
+      requested by the client.  In that case the client could continue
+      to operate only using the configuration received, even if other
+      servers can provide the missing configuration.  In practice,
+      especially in the case of handling IA_NA and IA_PD, this situation
+      should be rare or a temporary operational error.  So, it is more
+      likely for the client to get all configuration if it continues, in
+      each subsequent configuration exchange, to request all the
+      configuration information it is programmed to try to obtain,
       including any stateful configuration options for which no results
       were returned in previous exchanges.</t>
+
+      <t>One major issue of this last approach is that it is difficult to
+      allow it with the current DHCPv6 specifications; in some cases
+      it is not clear enough, and in other cases existing restrictions
+      can make it impossible. This document introduces some
+      clarifications and small modifications to the current
+      specification to address this concern.</t>
+
+      <t>While all choices have their own pros and cons, we recommend and
+      focus on choice 3 for this document because it is deemed to work
+      best for common cases of the mixed use of IA_NA and IA_PD.  But
+      this document does not exclude other choices.  Also, in some corner
+      cases it may not be feasible to maintain a single DHCPv6 session
+      for both IA_NA and IA_PD.  These corner cases are beyond the scope
+      of this document and may depend on the network in which the client
+      (CER) is designed to operate and on the functions the client is
+      required to perform.</t>
+
+      <t>The sections which follow update RFC 3315 and RFC 3633 to accommodate
+      the recommendation, though many of the changes are also applicable
+      even if other choices are used.</t>
 
       <section title="Placement of Status Codes in an Advertise Message">
         <t>In Reply messages IA specific status codes (i.e., NoAddrsAvail,
