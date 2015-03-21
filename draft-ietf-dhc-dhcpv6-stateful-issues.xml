@@ -18,7 +18,7 @@
 <!ENTITY rfc7227 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7227.xml">
 ]>
 
-<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-11.txt"
+<rfc category="std" docName="draft-ietf-dhc-dhcpv6-stateful-issues-12.txt"
      ipr="pre5378Trust200902" updates="3315,3633">
   <front>
     <title abbrev="Multiple Stateful Options">
@@ -193,7 +193,7 @@
       considered a good solution. It can also result in a packet storm if
       the client does not appropriately rate limit its sending of Solicit
       messages or there are many clients on the network. Client implementors
-      that follow this approach, are strongly advised to implement the
+      that follow this approach, SHOULD implement the
       updates to RFC-3315 specified in <xref target="RFC7083"/>.</t>
 
       <t>Creating a separate DHCP session (separate instances of the client
@@ -227,15 +227,15 @@
       clarifications and small modifications to the current
       specifications to address these concerns.</t>
 
-      <t>While all approaches have their own pros and cons, we recommend and
-      focus on approach 3 for this document because it is deemed to work
-      best for common cases of the mixed use of IA_NA and IA_PD.  But
-      this document does not exclude other approaches.  Also, in some corner
-      cases it may not be feasible to maintain a single DHCPv6 session
-      for both IA_NA and IA_PD.  These corner cases are beyond the scope
-      of this document and may depend on the network in which the client
-      (CER) is designed to operate and on the functions the client is
-      required to perform.</t>
+      <t>While all approaches have their own pros and cons, approach 3
+      SHOULD be used and is the focus of this document because it is
+      deemed to work best for common cases of the mixed use of IA_NA and
+      IA_PD.  But this document does not exclude other approaches.  Also,
+      in some corner cases it may not be feasible to maintain a single
+      DHCPv6 session for both IA_NA and IA_PD.  These corner cases are
+      beyond the scope of this document and may depend on the network in
+      which the client (CER) is designed to operate and on the functions
+      the client is required to perform.</t>
 
       <t>The sections which follow update RFC 3315 and RFC 3633 to accommodate
       the recommendation, though many of the changes are also applicable
@@ -271,7 +271,7 @@
 	</t>
 
 	<t>
-	Clients MUST be prepared to handle each of the following Advertise
+	Clients MUST to handle each of the following Advertise
 	messages formats when there are no addresses available (even when
 	no other IA option types were in the Solicit):
 	<list style="numbers">
@@ -292,7 +292,7 @@
 	</list>
 	</t>
 
-    <t>Note: Clients MUST be prepared to handle the last two formats
+    <t>Note: Clients MUST to handle the last two formats
     listed above to facilitate backward compatibility with the servers
     which have not been updated to this specification.</t>
     
@@ -300,9 +300,9 @@
     17.1.3 of RFC 3315 and Section 11.1 of RFC 3633.</t>
 
 	<t>
-	Servers MUST return the Status Code option of
-	NoAddrsAvail encapsulated in an IA_NA/IA_TA options and not as a
-        top-level Status Code option of NoAddrsAvail when no
+	Servers MUST return the Status Code option of NoAddrsAvail
+	encapsulated in IA_NA/IA_TA options and MUST NOT return a
+	top-level Status Code option of NoAddrsAvail when no
         addresses will be assigned (1 in the above list). This means that
         the Advertise response matches the Reply response with respect to
         the handling of the NoAddrsAvail status.
@@ -368,9 +368,11 @@
   addresses (IAADDR options encapsulated in IA_NA or IA_TA options)
   and no delegated prefixes (IAPREFIX options encapsulated in IA_PD
   options, see RFC 3633) with the exception that the client:
-    - MUST process an included SOL_MAX_RT option (RFC 7083),
-    - MUST process an included INF_MAX_RT option (RFC 7083), and
-    - MAY display any associated status message(s) to the user.
+    - MUST process an included SOL_MAX_RT option (RFC 7083) and
+    - MUST process an included INF_MAX_RT option (RFC 7083).
+  A client can display any associated status message(s) to the user
+  or activity log.
+
   The client ignoring this Advertise message MUST NOT restart the
   Solicit retransmission timer.
 	</artwork></figure>
@@ -396,9 +398,11 @@
   IA_TA options) and no delegated prefixes (IAPREFIX options
   encapsulated in IA_PD options, see RFC 3633) with the exception
   that the requesting router:
-    - MUST process an included SOL_MAX_RT option (RFC 7083),
-    - MUST process an included INF_MAX_RT option (RFC 7083), and
-    - MAY display any associated status message(s) to the user.
+    - MUST process an included SOL_MAX_RT option (RFC 7083) and
+    - MUST process an included INF_MAX_RT option (RFC 7083).
+  A client can display any associated status message(s) to the user
+  or activity log.
+
   The requesting router ignoring this Advertise message MUST NOT
   restart the Solicit retransmission timer.
 	</artwork></figure>
@@ -476,11 +480,11 @@
         bindings for some IAs, while requesting bindings for other IAs.</t>
 
         <t>Solution: The client, which sends a Renew message to extend the
-        lifetimes of the bindings assigned to the client, should include
+        lifetimes of the bindings assigned to the client, SHOULD include
         IA options for these bindings as well as IA options for all other
         bindings that the client desires but has been unable to obtain.
         The client and server processing need to be modified. Note that
-        this change makes the server's IA processing  of Renew similar
+        this change makes the server's IA processing of Renew similar
         to the Request processing.</t>
       </section>
 
@@ -496,8 +500,8 @@
        bindings using the Rebind message if the client failed to get the
        response from the server to the Renew message.</t>
 
-       <t>Solution: The client should continue to include the IA options
-       received from the server and it may include additional IA options
+       <t>Solution: The client SHOULD continue to include the IA options
+       received from the server and it MAY include additional IA options
        to request creation of the additional bindings.</t>
      </section>
 
@@ -1034,7 +1038,7 @@
       for the conflicting address(es).
       </t>
       
-      <t>It is recommended that a client SHOULD NOT send a Release
+      <t>A client SHOULD NOT send a Release
       message for other bindings it may have received just because it
       sent a Decline message. The client SHOULD retain the non-conflicting
       bindings. The client SHOULD treat the failure to acquire a
