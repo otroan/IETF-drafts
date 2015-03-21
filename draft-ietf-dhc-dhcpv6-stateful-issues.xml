@@ -271,7 +271,7 @@
 	</t>
 
 	<t>
-	Clients MUST to handle each of the following Advertise
+	Clients MUST handle each of the following Advertise
 	messages formats when there are no addresses available (even when
 	no other IA option types were in the Solicit):
 	<list style="numbers">
@@ -292,7 +292,7 @@
 	</list>
 	</t>
 
-    <t>Note: Clients MUST to handle the last two formats
+    <t>Note: Clients MUST handle the last two formats
     listed above to facilitate backward compatibility with the servers
     which have not been updated to this specification.</t>
     
