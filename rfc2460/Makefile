@@ -8,9 +8,11 @@ all:	drafts
 
 rfc2460:	rfc2460.xml
 	$(XML2RFC) $< $@.txt
+draft-chairs-6man-2460bis:	draft-chairs-6man-2460bis.xml
+	$(XML2RFC) $< -f $@-00.txt
 
 drafts: \
-	rfc2460
+	draft-chairs-6man-2460bis
 	
 .PHONY: clean draft commit
 clean:
