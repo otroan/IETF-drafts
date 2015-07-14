@@ -16,7 +16,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-chairs-6man-2460bis-00" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -56,7 +56,7 @@
       </address>
 </author>
 
-<date day="" month="December" year="1998" />
+<date day="" month="July" year="2015" />
 
 <abstract>
   <t>This document specifies version 6 of the Internet Protocol (IPv6),
