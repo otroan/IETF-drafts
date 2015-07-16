@@ -39,19 +39,19 @@
 </author>
 <author fullname="Robert M. Hinden" initials="R"
             surname="Hinden">
-      <organization>Nokia</organization>
+      <organization>Check Point Software</organization>
       <address>
         <postal>
-          <street>232 Java Drive</street>
+          <street>959 Skyway Road, Suite 300</street>
           <!-- Reorder these if your country does things differently -->
-          <city>Sunnyvale</city>
+          <city>San Carlos</city>
           <region>CA</region>
-          <code>94089</code>
+          <code>94070</code>
           <country>USA</country>
         </postal>
-        <phone>+1 408 990-2004</phone>
-	<facsimile>+1 408 743-5677</facsimile>
-        <email>hinden@iprg.nokia.com</email>
+        <phone></phone>
+	<facsimile></facsimile>
+        <email>bob.hinden@gmail.com</email>
         <!-- uri and facsimile elements may also be added -->
       </address>
 </author>
