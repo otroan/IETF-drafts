@@ -16,7 +16,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-chairs-6man-2460bis-00" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-chairs-6man-2460bis-00" obsoletes="2460" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -49,7 +49,7 @@
           <code>94070</code>
           <country>USA</country>
         </postal>
-        <phone></phone>
+	<phone></phone>
 	<facsimile></facsimile>
         <email>bob.hinden@gmail.com</email>
         <!-- uri and facsimile elements may also be added -->
@@ -116,41 +116,41 @@
 
 </section> <!-- ends: "1 from line 83-->
 <section title=" Terminology"> <!-- 2, line 143-->
-  <t><list hangIndent="24" style="hanging">
+  <t><list hangIndent="12" style="hanging">
 
-    <t hangText="node">a device that implements IPv6.</t>
+    <t hangText="node">- a device that implements IPv6.</t>
 
-    <t hangText="router">a node that forwards IPv6 packets not
+    <t hangText="router">- a node that forwards IPv6 packets not
     explicitly addressed to itself.  [See Note below].</t>
 
-    <t hangText="host">any node that is not a router.  [See Note below].</t>
+    <t hangText="host">- any node that is not a router.  [See Note below].</t>
 
-    <t hangText="upper layer">a protocol layer immediately above
+    <t hangText="upper layer">- a protocol layer immediately above
     IPv6.  Examples are transport protocols such as TCP and UDP,
     control protocols such as ICMP, routing protocols such as OSPF,
     and internet or lower-layer protocols being "tunneled" over (i.e.,
     encapsulated in) IPv6 such as IPX, AppleTalk, or IPv6 itself.</t>
 
-    <t hangText="link">a communication facility or medium over which
+    <t hangText="link">- a communication facility or medium over which
     nodes can communicate at the link layer, i.e., the layer
     immediately below IPv6.  Examples are Ethernets (simple or
     bridged); PPP links; X.25, Frame Relay, or ATM networks; and
     internet (or higher) layer "tunnels", such as tunnels over IPv4 or
     IPv6 itself.</t>
 
-    <t hangText="neighbors">nodes attached to the same link.</t>
+    <t hangText="neighbors">- nodes attached to the same link.</t>
 
-    <t hangText="interface">a node's attachment to a link.</t>
+    <t hangText="interface">- a node's attachment to a link.</t>
 
-    <t hangText="address">an IPv6-layer identifier for an interface
+    <t hangText="address">- an IPv6-layer identifier for an interface
     or a set of interfaces.</t>
 
-    <t hangText="packet">an IPv6 header plus payload.</t>
+    <t hangText="packet">- an IPv6 header plus payload.</t>
 
-    <t hangText="link MTU">the maximum transmission unit, i.e.,
+    <t hangText="link MTU">- the maximum transmission unit, i.e.,
     maximum packet size in octets, that can be conveyed over a link.</t>
 
-    <t hangText="path MTU">the minimum link MTU of all the links in
+    <t hangText="path MTU">- the minimum link MTU of all the links in
     a path between a source node and a destination node.</t>
   </list></t>
 
@@ -385,7 +385,7 @@
     their highest-order two bits specify the action that must be taken
     if the processing IPv6 node does not recognize the Option Type:</t>
 
-    <t><list hangIndent="20" style="hanging">
+    <t><list hangIndent="5" style="hanging">
       <t hangText="00 -">skip over this option and continue processing
       the header.</t>
       <t hangText="01 -">discard the packet.</t>
@@ -407,7 +407,7 @@
     zero-valued octets when computing or verifying the packet's
     authenticating value.</t>
 
-    <t><list hangIndent="20" style="hanging">
+    <t><list hangIndent="4" style="hanging">
       <t hangText="0 -">Option Data does not change en-route</t>
       <t hangText="1 -">Option Data may change en-route</t>
     </list></t>
@@ -429,7 +429,7 @@
     appear at an integer multiple of x octets from the start of the
     header, plus y octets.  For example:</t>
 
-    <t><list hangIndent="20" style="hanging">
+    <t><list hangIndent="5" style="hanging">
       <t hangText="2n">means any 2-octet offset from the start of the header.</t>
       <t hangText="8n+2">means any 8-octet offset from the start of the header,
       plus 2 octets.</t>
@@ -440,7 +440,7 @@
     multiple of 8 octets in length.  These padding options must be
     recognized by all IPv6 implementations:</t>
 
-    <t>Pad1 option  (alignment requirement: none)</t>
+    <t>Pad1 option (alignment requirement: none)</t>
     <figure><artwork align="left"><![CDATA[
 +-+-+-+-+-+-+-+-+
 |       0       |
@@ -693,7 +693,7 @@ else {
     delivery path would be as follows:</t>
 
     <figure><artwork align="left"><![CDATA[
->As the packet travels from S to I1:
+As the packet travels from S to I1:
 
      Source Address = S                  Hdr Ext Len = 6
      Destination Address = I1            Segments Left = 3
@@ -845,27 +845,30 @@ As the packet travels from I3 to D:
 
     <t>Each fragment packet is composed of:</t>
 
-    <t><list style="(%d)">
-      <t>The Unfragmentable Part of the original packet, with the
+    <t><list>
+      <t>(1) The Unfragmentable Part of the original packet, with the
       Payload Length of the original IPv6 header changed to contain
       the length of this fragment packet only (excluding the length of
       the IPv6 header itself), and the Next Header field of the last
       header of the Unfragmentable Part changed to 44.</t>
 
-      <t>A Fragment header containing:<vspace/><vspace/>
+      <t>(2) A Fragment header containing:</t>
+      <t><list>
 
-      The Next Header value that identifies the first header of the
-      Fragmentable Part of the original packet.<vspace/><vspace/>
+	<t>The Next Header value that identifies the first header of
+	the Fragmentable Part of the original packet.</t>
 
-      A Fragment Offset containing the offset of the fragment, in
-      8-octet units, relative to the start of the Fragmentable Part of
-      the original packet.  The Fragment Offset of the first
-      ("leftmost") fragment is 0.<vspace/><vspace/>
+	<t>A Fragment Offset containing the offset of the fragment, in
+	8-octet units, relative to the start of the Fragmentable Part
+	of the original packet.  The Fragment Offset of the first
+	("leftmost") fragment is 0.</t>
 
-      An M flag value of 0 if the fragment is the last ("rightmost")
-      one, else an M flag value of 1.<vspace/><vspace/>
+	<t>An M flag value of 0 if the fragment is the last
+	("rightmost") one, else an M flag value of 1.</t>
 
-      The Identification value generated for the original packet.</t>
+	<t>The Identification value generated for the original packet.</t>
+
+      </list></t>
 
       <t>(3) The fragment itself.</t>
     </list></t>
@@ -897,28 +900,32 @@ As the packet travels from I3 to D:
       first fragment packet (that is, the packet whose Fragment Offset
       is zero), with the following two changes:</t>
 
-      <t>The Next Header field of the last header of the
-      Unfragmentable Part is obtained from the Next Header field of
-      the first fragment's Fragment header.</t>
+      <t><list>
+	<t>The Next Header field of the last header of the
+	Unfragmentable Part is obtained from the Next Header field of
+	the first fragment's Fragment header.</t>
 
-      <t>The Payload Length of the reassembled packet is computed from
-      the length of the Unfragmentable Part and the length and offset
-      of the last fragment.  For example, a formula for computing the
-      Payload Length of the reassembled original packet is:</t>
+	<t>The Payload Length of the reassembled packet is computed
+	from the length of the Unfragmentable Part and the length and
+	offset of the last fragment.  For example, a formula for
+	computing the Payload Length of the reassembled original
+	packet is:</t>
 
-      <t>PL.orig = PL.first - FL.first - 8 + (8 * FO.last) + FL.last</t>
+	<t>PL.orig = PL.first - FL.first - 8 + (8 * FO.last) +
+	FL.last</t>
 
-      <t>where
+	<t>where
       <figure><artwork align="left"><![CDATA[
-PL.orig  = Payload Length field of reassembled packet.
-PL.first = Payload Length field of first fragment packet.
-FL.first = length of fragment following Fragment header of
-           first fragment packet.
-FO.last  = Fragment Offset field of Fragment header of
-           last fragment packet.
-FL.last  = length of fragment following Fragment header of
-           last fragment packet.
+   PL.orig  = Payload Length field of reassembled packet.
+   PL.first = Payload Length field of first fragment packet.
+   FL.first = length of fragment following Fragment header of
+              first fragment packet.
+   FO.last  = Fragment Offset field of Fragment header of
+              last fragment packet.
+   FL.last  = length of fragment following Fragment header of
+              last fragment packet.
 ]]></artwork></figure></t>
+      </list></t>
 
       <t>The Fragmentable Part of the reassembled packet is
       constructed from the fragments following the Fragment headers in
@@ -1019,20 +1026,23 @@ FL.last  = length of fragment following Fragment header of
       depends on what action is desired of a destination node that
       does not understand the optional information:</t>
 
-      <t>o If the desired action is for the destination node to
-      discard the packet and, only if the packet's Destination Address
-      is not a multicast address, send an ICMP Unrecognized Type
-      message to the packet's Source Address, then the information may
-      be encoded either as a separate header or as an option in the
-      Destination Options header whose Option Type has the value 11 in
-      its highest-order two bits.  The choice may depend on such
-      factors as which takes fewer octets, or which yields better
-      alignment or more efficient parsing.</t>
+      <t><list style="symbols">
+	<t>If the desired action is for the destination node to
+	discard the packet and, only if the packet's Destination
+	Address is not a multicast address, send an ICMP Unrecognized
+	Type message to the packet's Source Address, then the
+	information may be encoded either as a separate header or as
+	an option in the Destination Options header whose Option Type
+	has the value 11 in its highest-order two bits.  The choice
+	may depend on such factors as which takes fewer octets, or
+	which yields better alignment or more efficient parsing.</t>
 
-      <t>o If any other action is desired, the information must be
-      encoded as an option in the Destination Options header whose
-      Option Type has the value 00, 01, or 10 in its highest-order two
-      bits, specifying the desired action (see section 4.2).</t>
+	<t>If any other action is desired, the information must be
+	encoded as an option in the Destination Options header whose
+	Option Type has the value 00, 01, or 10 in its highest-order
+	two bits, specifying the desired action (see section 4.2).</t>
+
+      </list></t>
 
     </section>
 
@@ -1061,7 +1071,7 @@ FL.last  = length of fragment following Fragment header of
     encapsulations (i.e., tunneling) without incurring IPv6-layer
     fragmentation.</t>
 
-    <t>&gt;From each link to which a node is directly attached, the
+    <t>From each link to which a node is directly attached, the
     node must be able to accept packets as large as that link's MTU.</t>
 
     <t>It is strongly recommended that IPv6 nodes implement Path MTU
@@ -1280,17 +1290,20 @@ FL.last  = length of fragment following Fragment header of
       other words, only the following kinds of packets are permitted
       in response to a received packet bearing a Routing header:</t>
 
-      <t>o  Response packets that do not carry Routing headers.</t>
+      <t><list style="symbols">
+	<t>Response packets that do not carry Routing headers.</t>
 
-      <t>o Response packets that carry Routing headers that were NOT
-      derived by reversing the Routing header of the received packet
-      (for example, a Routing header supplied by local configuration).</t>
+	<t>Response packets that carry Routing headers that were NOT
+	derived by reversing the Routing header of the received packet
+	(for example, a Routing header supplied by local
+	configuration).</t>
 
-      <t>o Response packets that carry Routing headers that were
-      derived by reversing the Routing header of the received packet
-      IF AND ONLY IF the integrity and authenticity of the Source
-      Address and Routing header from the received packet have been
-      verified by the responder.</t>
+	<t>Response packets that carry Routing headers that were
+	derived by reversing the Routing header of the received packet
+	IF AND ONLY IF the integrity and authenticity of the Source
+	Address and Routing header from the received packet have been
+	verified by the responder.</t>
+      </list></t>
     </section>
   </section>
 
@@ -1395,20 +1408,22 @@ FL.last  = length of fragment following Fragment header of
     header or the Destination Options header, as described in section
     4.2.  These guidelines are based on the following assumptions:</t>
 
-    <t>o One desirable feature is that any multi-octet fields within
-    the Option Data area of an option be aligned on their natural
-    boundaries, i.e., fields of width n octets should be placed at an
-    integer multiple of n octets from the start of the Hop-by- Hop or
-    Destination Options header, for n = 1, 2, 4, or 8.</t>
+    <t><list style="symbols">
+      <t>One desirable feature is that any multi-octet fields within
+      the Option Data area of an option be aligned on their natural
+      boundaries, i.e., fields of width n octets should be placed at
+      an integer multiple of n octets from the start of the Hop-by-
+      Hop or Destination Options header, for n = 1, 2, 4, or 8.</t>
 
-    <t>o Another desirable feature is that the Hop-by-Hop or
-    Destination Options header take up as little space as possible,
-    subject to the requirement that the header be an integer multiple
-    of 8 octets long.</t>
+      <t>Another desirable feature is that the Hop-by-Hop or
+      Destination Options header take up as little space as possible,
+      subject to the requirement that the header be an integer
+      multiple of 8 octets long.</t>
 
-    <t>o It may be assumed that, when either of the option-bearing
-    headers are present, they carry a very small number of options,
-    usually only one.</t>
+      <t>It may be assumed that, when either of the option-bearing
+      headers are present, they carry a very small number of options,
+      usually only one.</t>
+    </list></t>
 
     <t>These assumptions suggest the following approach to laying out
     the fields of an option: order the fields from smallest to
@@ -1510,8 +1525,8 @@ FL.last  = length of fragment following Fragment header of
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 | PadN Option=1 |Opt Data Len=2 |       0       |       0       |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</t>
-<t>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |  Next Header  | Hdr Ext Len=3 | Pad1 Option=0 | Option Type=Y |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |Opt Data Len=7 | 1-octet field |         2-octet field         |
