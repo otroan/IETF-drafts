@@ -9,7 +9,7 @@ all:	drafts
 rfc2460:	rfc2460.xml
 	$(XML2RFC) $< -o $@-gen.txt
 draft-chairs-6man-2460bis:	draft-chairs-6man-2460bis.xml
-	$(XML2RFC) $< -o $@-01.txt
+	$(XML2RFC) $< -o $@-00.txt
 draft-chairs-6man-2460bis-00:	draft-chairs-6man-2460bis-00.xml
 	$(XML2RFC) $< -o $@.txt
 
