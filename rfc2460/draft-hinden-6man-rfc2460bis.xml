@@ -16,7 +16,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" number="2460" obsoletes="1883" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc2460bis-00" obsoletes="2460" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -31,32 +31,32 @@
           <code>95134-1706</code>
           <country>USA</country>
         </postal>
-        <phone>+1 408 527 8213</phone>
-	<facsimile>+1 408 527 8254</facsimile>
-        <email>deering@cisco.com</email>
+        <phone></phone>
+	<facsimile></facsimile>
+        <email></email>
         <!-- uri and facsimile elements may also be added -->
       </address>
 </author>
 <author fullname="Robert M. Hinden" initials="R"
             surname="Hinden">
-      <organization>Nokia</organization>
+      <organization>Check Point Software</organization>
       <address>
         <postal>
-          <street>232 Java Drive</street>
+          <street></street>
           <!-- Reorder these if your country does things differently -->
-          <city>Sunnyvale</city>
-          <region>CA</region>
-          <code>94089</code>
-          <country>USA</country>
+          <city></city>
+          <region></region>
+          <code></code>
+          <country></country>
         </postal>
-        <phone>+1 408 990-2004</phone>
-	<facsimile>+1 408 743-5677</facsimile>
-        <email>hinden@iprg.nokia.com</email>
+        <phone></phone>
+	<facsimile></facsimile>
+        <email>bob.hinden@gmail.com</email>
         <!-- uri and facsimile elements may also be added -->
       </address>
 </author>
 
-<date day="" month="December" year="1998" />
+<date day="" month="" year="" />
 
 <abstract>
   <t>This document specifies version 6 of the Internet Protocol (IPv6),
@@ -73,6 +73,7 @@
   into the following categories:
   </t>
 
+  <t><list>
   <t><list style="symbols">
 
     <t>Expanded Addressing Capabilities<vspace/><vspace/>
@@ -105,6 +106,7 @@
       Extensions to support authentication, data integrity, and
       (optional) data confidentiality are specified for IPv6.</t>
   </list></t>
+  </list></t>
 
   <t>This document specifies the basic IPv6 header and the
   initially-defined IPv6 extension headers and options.  It also
@@ -118,39 +120,39 @@
 <section title=" Terminology"> <!-- 2, line 143-->
   <t><list hangIndent="12" style="hanging">
 
-    <t hangText="node">- a device that implements IPv6.</t>
+    <t hangText="node">a device that implements IPv6.</t>
 
-    <t hangText="router">- a node that forwards IPv6 packets not
+    <t hangText="router">a node that forwards IPv6 packets not
     explicitly addressed to itself.  [See Note below].</t>
 
-    <t hangText="host">- any node that is not a router.  [See Note below].</t>
+    <t hangText="host">any node that is not a router.  [See Note below].</t>
 
-    <t hangText="upper layer">- a protocol layer immediately above
+    <t hangText="upper layer">a protocol layer immediately above
     IPv6.  Examples are transport protocols such as TCP and UDP,
     control protocols such as ICMP, routing protocols such as OSPF,
     and internet or lower-layer protocols being "tunneled" over (i.e.,
     encapsulated in) IPv6 such as IPX, AppleTalk, or IPv6 itself.</t>
 
-    <t hangText="link">- a communication facility or medium over which
+    <t hangText="link">a communication facility or medium over which
     nodes can communicate at the link layer, i.e., the layer
     immediately below IPv6.  Examples are Ethernets (simple or
     bridged); PPP links; X.25, Frame Relay, or ATM networks; and
     internet (or higher) layer "tunnels", such as tunnels over IPv4 or
     IPv6 itself.</t>
 
-    <t hangText="neighbors">- nodes attached to the same link.</t>
+    <t hangText="neighbors">nodes attached to the same link.</t>
 
-    <t hangText="interface">- a node's attachment to a link.</t>
+    <t hangText="interface">a node's attachment to a link.</t>
 
-    <t hangText="address">- an IPv6-layer identifier for an interface
+    <t hangText="address">an IPv6-layer identifier for an interface
     or a set of interfaces.</t>
 
-    <t hangText="packet">- an IPv6 header plus payload.</t>
+    <t hangText="packet"> an IPv6 header plus payload.</t>
 
-    <t hangText="link MTU">- the maximum transmission unit, i.e.,
+    <t hangText="link MTU"> the maximum transmission unit, i.e.,
     maximum packet size in octets, that can be conveyed over a link.</t>
 
-    <t hangText="path MTU">- the minimum link MTU of all the links in
+    <t hangText="path MTU"> the minimum link MTU of all the links in
     a path between a source node and a destination node.</t>
   </list></t>
 
@@ -318,18 +320,20 @@
       <t>Encapsulating Security Payload header (note 2)</t>
       <t>Destination Options header (note 3)</t>
       <t>upper-layer header</t>
-    </list></t>
 
-    <t>note 1: for options to be processed by the first destination
+    <t><list hangIndent="8" style="hanging">
+    <t hangText="note 1:">for options to be processed by the first destination
     that appears in the IPv6 Destination Address field plus subsequent
     destinations listed in the Routing header.</t>
 
-    <t>note 2: additional recommendations regarding the relative order
+    <t hangText="note 2:">additional recommendations regarding the relative order
     of the Authentication and Encapsulating Security Payload headers
     are given in <xref target="RFC2406"/>.</t>
 
-    <t>note 3: for options to be processed only by the final
+    <t hangText="note 3:">for options to be processed only by the final
     destination of the packet.</t>
+    </list></t>
+    </list></t>
 
     <t>Each extension header should occur at most once, except for the
     Destination Options header which should occur at most twice (once
@@ -366,6 +370,7 @@
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- - - - - - - - -
    ]]></artwork></figure>
 
+    <t><list>
     <t><list hangIndent="20" style="hanging">
       <t hangText="Option Type">8-bit identifier of the type of
       option.</t>
@@ -373,6 +378,7 @@
       the Option Data field of this option, in octets.</t>
       <t hangText="Option Data">Variable-length field.
       Option-Type-specific data.</t>
+    </list></t>
     </list></t>
 
     <t>The sequence of options within a header must be processed
@@ -385,6 +391,7 @@
     their highest-order two bits specify the action that must be taken
     if the processing IPv6 node does not recognize the Option Type:</t>
 
+    <t><list>
     <t><list hangIndent="5" style="hanging">
       <t hangText="00 -">skip over this option and continue processing
       the header.</t>
@@ -398,6 +405,7 @@
       Parameter Problem, Code 2, message to the packet's Source
       Address, pointing to the unrecognized Option Type.</t>
     </list></t>
+    </list></t>
 
     <t>The third-highest-order bit of the Option Type specifies
     whether or not the Option Data of that option can change en-route
@@ -407,9 +415,11 @@
     zero-valued octets when computing or verifying the packet's
     authenticating value.</t>
 
-    <t><list hangIndent="4" style="hanging">
+     <t><list>
+      <t><list hangIndent="4" style="hanging">
       <t hangText="0 -">Option Data does not change en-route</t>
       <t hangText="1 -">Option Data may change en-route</t>
+    </list></t>
     </list></t>
 
     <t>The three high-order bits described above are to be treated as
@@ -429,10 +439,12 @@
     appear at an integer multiple of x octets from the start of the
     header, plus y octets.  For example:</t>
 
+    <t><list>
     <t><list hangIndent="5" style="hanging">
       <t hangText="2n">means any 2-octet offset from the start of the header.</t>
       <t hangText="8n+2">means any 8-octet offset from the start of the header,
       plus 2 octets.</t>
+    </list></t>
     </list></t>
 
     <t>There are two padding options which are used when necessary to
@@ -441,32 +453,40 @@
     recognized by all IPv6 implementations:</t>
 
     <t>Pad1 option (alignment requirement: none)</t>
+
     <figure><artwork align="left"><![CDATA[
-+-+-+-+-+-+-+-+-+
-|       0       |
-+-+-+-+-+-+-+-+-+
+   +-+-+-+-+-+-+-+-+
+   |       0       |
+   +-+-+-+-+-+-+-+-+
 ]]></artwork></figure>
 
-    <t>NOTE! the format of the Pad1 option is a special case -- it
-    does not have length and value fields.</t>
+    <t><list>
 
-    <t>The Pad1 option is used to insert one octet of padding into the
+     <t><list hangIndent="6" style="hanging">
+     <t hangText="NOTE!">the format of the Pad1 option is a special case -- it
+    does not have length and value fields.</t>
+   </list></t>
+  
+    <t hangText="">The Pad1 option is used to insert one octet of padding into the
     Options area of a header.  If more than one octet of padding is
     required, the PadN option, described next, should be used, rather
     than multiple Pad1 options.</t>
+  </list></t>
 
     <t>PadN option  (alignment requirement: none)</t>
     <figure><artwork align="left"><![CDATA[
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- - - - - - - - -
-|       1       |  Opt Data Len |  Option Data
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- - - - - - - - -
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- - - - - - - - -
+   |       1       |  Opt Data Len |  Option Data
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- - - - - - - - -
 ]]></artwork></figure>
 
+    <t><list>
     <t>The PadN option is used to insert two or more octets of padding
     into the Options area of a header.  For N octets of padding, the
     Opt Data Len field contains the value N-2, and the Option Data
     consists of N-2 zero-valued octets.</t>
-
+    </list></t>
+    
     <t>Appendix B contains formatting guidelines for designing new options.</t>
   </section>
 
@@ -488,8 +508,10 @@
  .                                                               .
  |                                                               |
  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ 
  ]]></artwork></figure>
 
+     <t><list>
     <t><list hangIndent="20" style="hanging">
       <t hangText="Next Header">8-bit selector.  Identifies the type
       of header immediately following the Hop-by-Hop Options header.
@@ -502,6 +524,7 @@
       the complete Hop-by-Hop Options header is an integer multiple of
       8 octets long.  Contains one or more TLV-encoded options, as
       described in section 4.2.</t>
+    </list></t>
     </list></t>
 
     <t>The only hop-by-hop options defined in this document are the
@@ -530,6 +553,7 @@
  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  ]]></artwork></figure>
 
+    <t><list>
     <t><list hangIndent="20" style="hanging">
       <t hangText="Next Header">8-bit selector.  Identifies the type
       of header immediately following the Routing header.  Uses the
@@ -549,12 +573,14 @@
       the complete Routing header is an integer multiple of 8 octets
       long.</t>
     </list></t>
+    </list></t>
 
     <t>If, while processing a received packet, a node encounters a
     Routing header with an unrecognized Routing Type value, the
     required behavior of the node depends on the value of the Segments
     Left field, as follows:</t>
 
+    <t><list>
     <t>If Segments Left is zero, the node must ignore the Routing
     header and proceed to process the next header in the packet, whose
     type is identified by the Next Header field in the Routing header.</t>
@@ -563,6 +589,7 @@
     and send an ICMP Parameter Problem, Code 0, message to the
     packet's Source Address, pointing to the unrecognized Routing
     Type.</t>
+  </list></t>
 
     <t>If, after processing a Routing header of a received packet, an
     intermediate node determines that the packet is to be forwarded
@@ -768,12 +795,13 @@ As the packet travels from I3 to D:
     to be reassembled at the receiver.</t>
 
     <t>For every packet that is to be fragmented, the source node
-    generates an Identification value. The Identification must be
+    generates an Identification value.  The Identification must be
     different than that of any other fragmented packet sent recently*
     with the same Source Address and Destination Address.  If a
     Routing header is present, the Destination Address of concern is
     that of the final destination.</t>
 
+    <t><list>
     <t>* "recently" means within the maximum likely lifetime of a
     packet, including transit time from source to destination and time
     spent awaiting reassembly with other fragments of the same packet.
@@ -785,6 +813,7 @@ As the packet travels from I3 to D:
     a single counter for the node or multiple counters, e.g., one for
     each of the node's possible source addresses, or one for each
     active (source address, destination address) combination.</t>
+  </list></t>
 
     <t>The initial, large, unfragmented packet is referred to as the
     "original packet", and it is considered to consist of two parts,
@@ -798,6 +827,7 @@ As the packet travels from I3 to D:
 +------------------+----------------------//-----------------------+
 ]]></artwork></figure>
 
+    <t><list>
     <t>The Unfragmentable Part consists of the IPv6 header plus any
     extension headers that must be processed by nodes en route to the
     destination, that is, all headers up to and including the Routing
@@ -807,6 +837,7 @@ As the packet travels from I3 to D:
     <t>The Fragmentable Part consists of the rest of the packet, that
     is, any extension headers that need be processed only by the final
     destination node(s), plus the upper-layer header and data.</t>
+   </list></t>
 
     <t>The Fragmentable Part of the original packet is divided into
     fragments, each, except possibly the last ("rightmost") one, being
@@ -891,6 +922,7 @@ As the packet travels from I3 to D:
 
       <t>The following rules govern reassembly:</t>
 
+      <t><list>
       <t>An original packet is reassembled only from fragment packets
       that have the same Source Address, Destination Address, and
       Fragment Identification.</t>
@@ -937,10 +969,12 @@ As the packet travels from I3 to D:
 
       <t>The Fragment header is not present in the final, reassembled
       packet.</t>
+    </list></t>
 
       <t>The following error conditions may arise when reassembling
       fragmented packets:</t>
 
+      <t><list>
       <t>If insufficient fragments are received to complete reassembly
       of a packet within 60 seconds of the reception of the
       first-arriving fragment of that packet, reassembly of that
@@ -963,9 +997,12 @@ As the packet travels from I3 to D:
       and an ICMP Parameter Problem, Code 0, message should be sent to
       the source of the fragment, pointing to the Fragment Offset
       field of the fragment packet.</t>
+    </list></t>
 
       <t>The following conditions are not expected to occur, but are
       not considered errors if they do:</t>
+
+      <t><list>
 
       <t>The number and content of the headers preceding the Fragment
       header of different fragments of the same original packet may
@@ -979,6 +1016,8 @@ As the packet travels from I3 to D:
       fragments of the same original packet may differ.  Only the
       value from the Offset zero fragment packet is used for
       reassembly.</t>
+    </list></t>
+
     </section>
 
     <section title="Destination Options Header">
@@ -1026,6 +1065,7 @@ As the packet travels from I3 to D:
       depends on what action is desired of a destination node that
       does not understand the optional information:</t>
 
+      <t><list>
       <t><list style="symbols">
 	<t>If the desired action is for the destination node to
 	discard the packet and, only if the packet's Destination
@@ -1043,7 +1083,8 @@ As the packet travels from I3 to D:
 	two bits, specifying the desired action (see section 4.2).</t>
 
       </list></t>
-
+      </list></t>
+    
     </section>
 
     <section title="No Next Header">
@@ -1150,21 +1191,25 @@ As the packet travels from I3 to D:
     <t>The following general requirements apply to the Traffic Class
     field:</t>
 
-    <t>o The service interface to the IPv6 service within a node must
+     <t><list>
+    <t><list  style="symbols">
+    <t>The service interface to the IPv6 service within a node must
     provide a means for an upper-layer protocol to supply the value of
     the Traffic Class bits in packets originated by that upper-layer
     protocol.  The default value must be zero for all 8 bits.</t>
 
-    <t>o Nodes that support a specific (experimental or eventual
+    <t>Nodes that support a specific (experimental or eventual
     standard) use of some or all of the Traffic Class bits are
     permitted to change the value of those bits in packets that they
     originate, forward, or receive, as required for that specific use.
     Nodes should ignore and leave unchanged any bits of the Traffic
     Class field for which they do not support a specific use.</t>
 
-    <t>o An upper-layer protocol must not assume that the value of the
+    <t>An upper-layer protocol must not assume that the value of the
     Traffic Class bits in a received packet are the same as the value
     sent by the packet's source.</t>
+  </list></t>
+  </list></t>
 
   </section> <!-- ends: "7 from line 1274-->
 
@@ -1203,20 +1248,22 @@ As the packet travels from I3 to D:
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]></artwork></figure>
 
-      <t>o If the IPv6 packet contains a Routing header, the
+    <t><list>
+    <t><list  style="symbols">
+      <t>If the IPv6 packet contains a Routing header, the
       Destination Address used in the pseudo-header is that of the
       final destination.  At the originating node, that address will
       be in the last element of the Routing header; at the
       recipient(s), that address will be in the Destination Address
       field of the IPv6 header.</t>
 
-      <t>o The Next Header value in the pseudo-header identifies the
+      <t>The Next Header value in the pseudo-header identifies the
       upper-layer protocol (e.g., 6 for TCP, or 17 for UDP).  It will
       differ from the Next Header value in the IPv6 header if there
       are extension headers between the IPv6 header and the
       upper-layer header.</t>
 
-      <t>o The Upper-Layer Packet Length in the pseudo-header is the
+      <t>The Upper-Layer Packet Length in the pseudo-header is the
       length of the upper-layer header and data (e.g., TCP header plus
       TCP data).  Some upper-layer protocols carry their own length
       information (e.g., the Length field in the UDP header); for such
@@ -1227,7 +1274,7 @@ As the packet travels from I3 to D:
       any extension headers present between the IPv6 header and the
       upper-layer header.</t>
 
-      <t>o Unlike IPv4, when UDP packets are originated by an IPv6
+      <t>Unlike IPv4, when UDP packets are originated by an IPv6
       node, the UDP checksum is not optional.  That is, whenever
       originating a UDP packet, an IPv6 node must compute a UDP
       checksum over the packet and the pseudo-header, and, if that
@@ -1235,6 +1282,8 @@ As the packet travels from I3 to D:
       FFFF for placement in the UDP header.  IPv6 receivers must
       discard UDP packets containing a zero checksum, and should log
       the error.</t>
+    </list></t>
+    </list></t>
 
       <t>The IPv6 version of ICMP [ICMPv6] includes the above
       pseudo-header in its checksum computation; this is a change from
@@ -1290,6 +1339,7 @@ As the packet travels from I3 to D:
       other words, only the following kinds of packets are permitted
       in response to a received packet bearing a Routing header:</t>
 
+      <t><list>
       <t><list style="symbols">
 	<t>Response packets that do not carry Routing headers.</t>
 
@@ -1303,6 +1353,7 @@ As the packet travels from I3 to D:
 	IF AND ONLY IF the integrity and authenticity of the Source
 	Address and Routing header from the received packet have been
 	verified by the responder.</t>
+      </list></t>
       </list></t>
     </section>
   </section>
@@ -1408,6 +1459,7 @@ As the packet travels from I3 to D:
     header or the Destination Options header, as described in section
     4.2.  These guidelines are based on the following assumptions:</t>
 
+    <t><list>
     <t><list style="symbols">
       <t>One desirable feature is that any multi-octet fields within
       the Option Data area of an option be aligned on their natural
@@ -1423,6 +1475,7 @@ As the packet travels from I3 to D:
       <t>It may be assumed that, when either of the option-bearing
       headers are present, they carry a very small number of options,
       usually only one.</t>
+    </list></t>
     </list></t>
 
     <t>These assumptions suggest the following approach to laying out
