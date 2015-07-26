@@ -74,9 +74,8 @@
   </t>
 
   <t><list>
-  <t><list style="symbols">
-
-    <t>Expanded Addressing Capabilities<vspace/><vspace/>
+    <t><list style="hanging" hangIndent="3" >
+    <t hangText="o">Expanded Addressing Capabilities<vspace/><vspace/>
       IPv6 increases the IP address size from 32 bits to 128 bits, to
       support more levels of addressing hierarchy, a much greater
       number of addressable nodes, and simpler auto-configuration of
@@ -85,24 +84,24 @@
       of address called an "anycast address" is defined, used to send
       a packet to any one of a group of nodes.</t>
 
-    <t>Header Format Simplification<vspace/><vspace/>
+    <t hangText="o">Header Format Simplification<vspace/><vspace/>
       Some IPv4 header fields have been dropped or made optional, to
       reduce the common-case processing cost of packet handling and to
       limit the bandwidth cost of the IPv6 header.</t>
 
-    <t>Improved Support for Extensions and Options<vspace/><vspace/>
+    <t hangText="o">Improved Support for Extensions and Options<vspace/><vspace/>
       Changes in the way IP header options are encoded allows for more
       efficient forwarding, less stringent limits on the length of
       options, and greater flexibility for introducing new options in
       the future.</t>
 
-    <t>Flow Labeling Capability<vspace/><vspace/>
+    <t hangText="o">Flow Labeling Capability<vspace/><vspace/>
       A new capability is added to enable the labeling of packets
       belonging to particular traffic "flows" for which the sender
       requests special handling, such as non-default quality of
       service or "real-time" service.</t>
 
-    <t>Authentication and Privacy Capabilities<vspace/><vspace/>
+    <t hangText="o">Authentication and Privacy Capabilities<vspace/><vspace/>
       Extensions to support authentication, data integrity, and
       (optional) data confidentiality are specified for IPv6.</t>
   </list></t>
@@ -118,16 +117,16 @@
 
 </section> <!-- ends: "1 from line 83-->
 <section title=" Terminology"> <!-- 2, line 143-->
-  <t><list hangIndent="12" style="hanging">
+  <t><list hangIndent="13" style="hanging">
 
     <t hangText="node">a device that implements IPv6.</t>
 
-    <t hangText="router">a node that forwards IPv6 packets not
+    <t hangText="router"> a node that forwards IPv6 packets not
     explicitly addressed to itself.  [See Note below].</t>
 
     <t hangText="host">any node that is not a router.  [See Note below].</t>
 
-    <t hangText="upper layer">a protocol layer immediately above
+    <t hangText="upper layer"> a protocol layer immediately above
     IPv6.  Examples are transport protocols such as TCP and UDP,
     control protocols such as ICMP, routing protocols such as OSPF,
     and internet or lower-layer protocols being "tunneled" over (i.e.,
@@ -193,6 +192,7 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]></artwork></figure>
 
+  <t><list>
   <t><list hangIndent="20" style="hanging">
     <t hangText="Version">4-bit Internet Protocol version number = 6.</t>
     <t hangText="Traffic Class">8-bit traffic class field.  See section 7.</t>
@@ -213,6 +213,7 @@
     <t hangText="Destination Address">128-bit address of the intended
     recipient of the packet (possibly not the ultimate recipient, if a
     Routing header is present).  See [ADDRARCH] and section 4.4.</t>
+  </list></t>
   </list></t>
 
 </section> <!-- ends: "3 from line 202-->
@@ -292,6 +293,7 @@
   <t>A full implementation of IPv6 includes implementation of the
   following extension headers:</t>
 
+  <?rfc subcompact="yes" ?>
   <t><list>
     <t>Hop-by-Hop Options</t>
     <t>Routing (Type 0)</t>
@@ -300,7 +302,8 @@
     <t>Authentication</t>
     <t>Encapsulating Security Payload</t>
   </list></t>
-
+  <?rfc subcompact="no" ?>
+  
   <t>The first four are specified in this document; the last two are
   specified in <xref target="RFC2402"/> and <xref target="RFC2406"/>,
   respectively.</t>
@@ -310,6 +313,7 @@
     <t>When more than one extension header is used in the same packet,
     it is recommended that those headers appear in the following
     order:</t>
+<?rfc subcompact="yes" ?>
     <t><list>
       <t>IPv6 header</t>
       <t>Hop-by-Hop Options header</t>
@@ -320,7 +324,7 @@
       <t>Encapsulating Security Payload header (note 2)</t>
       <t>Destination Options header (note 3)</t>
       <t>upper-layer header</t>
-
+<?rfc subcompact="no" ?>
     <t><list hangIndent="8" style="hanging">
     <t hangText="note 1:">for options to be processed by the first destination
     that appears in the IPv6 Destination Address field plus subsequent
@@ -440,11 +444,13 @@
     header, plus y octets.  For example:</t>
 
     <t><list>
-    <t><list hangIndent="5" style="hanging">
+      <?rfc subcompact="yes" ?>
+      <t><list hangIndent="5" style="hanging">
       <t hangText="2n">means any 2-octet offset from the start of the header.</t>
       <t hangText="8n+2">means any 8-octet offset from the start of the header,
       plus 2 octets.</t>
     </list></t>
+    <?rfc subcompact="no" ?>
     </list></t>
 
     <t>There are two padding options which are used when necessary to
@@ -635,6 +641,7 @@
  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  ]]></artwork></figure>
 
+    <t><list>
     <t><list hangIndent="20" style="hanging">
       <t hangText="Next Header">8-bit selector.  Identifies the type
       of header immediately following the Routing header.  Uses the
@@ -652,6 +659,7 @@
       zero for transmission; ignored on reception.</t>
       <t hangText="Address[1..n]">Vector of 128-bit addresses,
       numbered 1 to n.</t>
+    </list></t>
     </list></t>
 
     <t>Multicast addresses must not appear in a Routing header of Type
@@ -772,6 +780,7 @@ As the packet travels from I3 to D:
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]></artwork></figure>
 
+    <t><list>
     <t><list hangIndent="20" style="hanging">
       <t hangText="Next Header">8-bit selector.  Identifies the
       initial header type of the Fragmentable Part of the original
@@ -788,6 +797,7 @@ As the packet travels from I3 to D:
       <t hangText="M flag">1 = more fragments; 0 = last fragment.</t>
       <t hangText="Identification">32 bits.  See description below.</t>
     </list></t>
+    </list></t>
 
     <t>In order to send a packet that is too large to fit in the MTU
     of the path to its destination, a source node may divide the
@@ -802,7 +812,9 @@ As the packet travels from I3 to D:
     that of the final destination.</t>
 
     <t><list>
-    <t>* "recently" means within the maximum likely lifetime of a
+
+    <t><list hangIndent="3" style="hanging">
+     <t hangText="*">"recently" means within the maximum likely lifetime of a
     packet, including transit time from source to destination and time
     spent awaiting reassembly with other fragments of the same packet.
     However, it is not required that a source node know the maximum
@@ -813,6 +825,7 @@ As the packet travels from I3 to D:
     a single counter for the node or multiple counters, e.g., one for
     each of the node's possible source addresses, or one for each
     active (source address, destination address) combination.</t>
+  </list></t>
   </list></t>
 
     <t>The initial, large, unfragmented packet is referred to as the
@@ -943,21 +956,25 @@ As the packet travels from I3 to D:
 	computing the Payload Length of the reassembled original
 	packet is:</t>
 
-	<t>PL.orig = PL.first - FL.first - 8 + (8 * FO.last) +
-	FL.last</t>
+      <t><list>
 
-	<t>where
-      <figure><artwork align="left"><![CDATA[
-   PL.orig  = Payload Length field of reassembled packet.
-   PL.first = Payload Length field of first fragment packet.
-   FL.first = length of fragment following Fragment header of
-              first fragment packet.
-   FO.last  = Fragment Offset field of Fragment header of
-              last fragment packet.
-   FL.last  = length of fragment following Fragment header of
-              last fragment packet.
-]]></artwork></figure></t>
+       <t>PL.orig = PL.first - FL.first - 8 + (8 * FO.last) + FL.last</t>
+<?rfc subcompact="yes" ?>
+
+     <t></t>
+     <t>where</t>
+    <t><list hangIndent="12" style="hanging">       
+    <t hangText="PL.orig  = ">Payload Length field of reassembled packet.</t>
+    <t hangText="PL.first = ">Payload Length field of first fragment packet.</t>
+    <t hangText="FL.first = ">length of fragment following Fragment header of
+              first fragment packet.</t>
+    <t hangText="FO.last  = ">Fragment Offset field of Fragment header of
+              last fragment packet.</t>
+    <t hangText="FL.last  = ">length of fragment following Fragment header of
+              last fragment packet.</t>
       </list></t>
+      </list></t>
+<?rfc subcompact="no" ?>
 
       <t>The Fragmentable Part of the reassembled packet is
       constructed from the fragments following the Fragment headers in
@@ -969,6 +986,7 @@ As the packet travels from I3 to D:
 
       <t>The Fragment header is not present in the final, reassembled
       packet.</t>
+    </list></t>
     </list></t>
 
       <t>The following error conditions may arise when reassembling
@@ -1040,7 +1058,8 @@ As the packet travels from I3 to D:
  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]></artwork></figure>
 
-      <t><list hangIndent="20" style="hanging">
+      <t><list>
+      <t><list style="hanging" hangIndent="20" >
 	<t hangText="Next Header">8-bit selector.  Identifies the type
 	of header immediately following the Destination Options
 	header.  Uses the same values as the IPv4 Protocol field
@@ -1052,6 +1071,7 @@ As the packet travels from I3 to D:
 	that the complete Destination Options header is an integer
 	multiple of 8 octets long.  Contains one or more TLV-encoded
 	options, as described in section 4.2.</t>
+      </list></t>
       </list></t>
 
       <t>The only destination options defined in this document are the
@@ -1066,8 +1086,8 @@ As the packet travels from I3 to D:
       does not understand the optional information:</t>
 
       <t><list>
-      <t><list style="symbols">
-	<t>If the desired action is for the destination node to
+      <t><list style="hanging" hangIndent="3">
+	<t hangText="o">If the desired action is for the destination node to
 	discard the packet and, only if the packet's Destination
 	Address is not a multicast address, send an ICMP Unrecognized
 	Type message to the packet's Source Address, then the
@@ -1077,7 +1097,7 @@ As the packet travels from I3 to D:
 	may depend on such factors as which takes fewer octets, or
 	which yields better alignment or more efficient parsing.</t>
 
-	<t>If any other action is desired, the information must be
+	<t hangText="o">If any other action is desired, the information must be
 	encoded as an option in the Destination Options header whose
 	Option Type has the value 00, 01, or 10 in its highest-order
 	two bits, specifying the desired action (see section 4.2).</t>
@@ -1192,20 +1212,20 @@ As the packet travels from I3 to D:
     field:</t>
 
      <t><list>
-    <t><list  style="symbols">
-    <t>The service interface to the IPv6 service within a node must
+    <t><list  style="hanging" hangIndent="3">
+    <t hangText="o">The service interface to the IPv6 service within a node must
     provide a means for an upper-layer protocol to supply the value of
     the Traffic Class bits in packets originated by that upper-layer
     protocol.  The default value must be zero for all 8 bits.</t>
 
-    <t>Nodes that support a specific (experimental or eventual
+    <t hangText="o">Nodes that support a specific (experimental or eventual
     standard) use of some or all of the Traffic Class bits are
     permitted to change the value of those bits in packets that they
     originate, forward, or receive, as required for that specific use.
     Nodes should ignore and leave unchanged any bits of the Traffic
     Class field for which they do not support a specific use.</t>
 
-    <t>An upper-layer protocol must not assume that the value of the
+    <t hangText="o">An upper-layer protocol must not assume that the value of the
     Traffic Class bits in a received packet are the same as the value
     sent by the packet's source.</t>
   </list></t>
@@ -1249,21 +1269,21 @@ As the packet travels from I3 to D:
 ]]></artwork></figure>
 
     <t><list>
-    <t><list  style="symbols">
-      <t>If the IPv6 packet contains a Routing header, the
+    <t><list  style="hanging" hangIndent="3">
+      <t hangText="o">If the IPv6 packet contains a Routing header, the
       Destination Address used in the pseudo-header is that of the
       final destination.  At the originating node, that address will
       be in the last element of the Routing header; at the
       recipient(s), that address will be in the Destination Address
       field of the IPv6 header.</t>
 
-      <t>The Next Header value in the pseudo-header identifies the
+      <t hangText="o">The Next Header value in the pseudo-header identifies the
       upper-layer protocol (e.g., 6 for TCP, or 17 for UDP).  It will
       differ from the Next Header value in the IPv6 header if there
       are extension headers between the IPv6 header and the
       upper-layer header.</t>
 
-      <t>The Upper-Layer Packet Length in the pseudo-header is the
+      <t hangText="o">The Upper-Layer Packet Length in the pseudo-header is the
       length of the upper-layer header and data (e.g., TCP header plus
       TCP data).  Some upper-layer protocols carry their own length
       information (e.g., the Length field in the UDP header); for such
@@ -1274,7 +1294,7 @@ As the packet travels from I3 to D:
       any extension headers present between the IPv6 header and the
       upper-layer header.</t>
 
-      <t>Unlike IPv4, when UDP packets are originated by an IPv6
+      <t hangText="o">Unlike IPv4, when UDP packets are originated by an IPv6
       node, the UDP checksum is not optional.  That is, whenever
       originating a UDP packet, an IPv6 node must compute a UDP
       checksum over the packet and the pseudo-header, and, if that
@@ -1340,15 +1360,15 @@ As the packet travels from I3 to D:
       in response to a received packet bearing a Routing header:</t>
 
       <t><list>
-      <t><list style="symbols">
-	<t>Response packets that do not carry Routing headers.</t>
+      <t><list style="hanging" hangIndent="3">
+	<t hangText="o">Response packets that do not carry Routing headers.</t>
 
-	<t>Response packets that carry Routing headers that were NOT
+	<t hangText="o">Response packets that carry Routing headers that were NOT
 	derived by reversing the Routing header of the received packet
 	(for example, a Routing header supplied by local
 	configuration).</t>
 
-	<t>Response packets that carry Routing headers that were
+	<t hangText="o">Response packets that carry Routing headers that were
 	derived by reversing the Routing header of the received packet
 	IF AND ONLY IF the integrity and authenticity of the Source
 	Address and Routing header from the received packet have been
@@ -1460,19 +1480,19 @@ As the packet travels from I3 to D:
     4.2.  These guidelines are based on the following assumptions:</t>
 
     <t><list>
-    <t><list style="symbols">
-      <t>One desirable feature is that any multi-octet fields within
+    <t><list style="hanging" hangIndent="3">
+      <t hangText="o">One desirable feature is that any multi-octet fields within
       the Option Data area of an option be aligned on their natural
       boundaries, i.e., fields of width n octets should be placed at
       an integer multiple of n octets from the start of the Hop-by-
       Hop or Destination Options header, for n = 1, 2, 4, or 8.</t>
 
-      <t>Another desirable feature is that the Hop-by-Hop or
+      <t hangText="o">Another desirable feature is that the Hop-by-Hop or
       Destination Options header take up as little space as possible,
       subject to the requirement that the header be an integer
       multiple of 8 octets long.</t>
 
-      <t>It may be assumed that, when either of the option-bearing
+      <t hangText="o">It may be assumed that, when either of the option-bearing
       headers are present, they carry a very small number of options,
       usually only one.</t>
     </list></t>
@@ -1605,116 +1625,135 @@ As the packet travels from I3 to D:
     <t>This memo has the following changes from RFC-1883.  Numbers
     identify the Internet-Draft version in which the change was made.</t>
 
-    <t>02) Removed all references to jumbograms and the Jumbo Payload
+    <t><list>
+
+     <t><list hangIndent="5" style="hanging">
+  
+    <t hangText="02)"> Removed all references to jumbograms and the Jumbo Payload
     option (moved to a separate document).</t>
 
-    <t>02) Moved most of Flow Label description from section 6 to
+    <t hangText="02)"> Moved most of Flow Label description from section 6 to
     (new) Appendix A.</t>
 
-    <t>02) In Flow Label description, now in Appendix A, corrected
+    <t hangText="02)"> In Flow Label description, now in Appendix A, corrected
     maximum Flow Label value from FFFFFF to FFFFF (i.e., one less "F")
     due to reduction of size of Flow Label field from 24 bits to 20
     bits.</t>
 
-    <t>02) Renumbered (relettered?) the previous Appendix A to be
+    <t hangText="02)"> Renumbered (relettered?) the previous Appendix A to be
     Appendix B.</t>
 
-    <t>02) Changed the wording of the Security Considerations section
+    <t hangText="02)"> Changed the wording of the Security Considerations section
     to avoid dependency loop between this spec and the IPsec specs.</t>
 
-    <t>02) Updated R. Hinden's email address and company affiliation.</t>
+    <t hangText="02)"> Updated R. Hinden's email address and company affiliation.</t>
+
+     </list></t>
+     </list></t>
 
     <t>--------------------------------------------------------</t>
 
-    <t>01) In section 3, changed field name "Class" to "Traffic Class"
+    <t><list>
+     <t><list hangIndent="5" style="hanging">
+
+    <t hangText="01)"> In section 3, changed field name "Class" to "Traffic Class"
     and increased its size from 4 to 8 bits.  Decreased size of Flow
     Label field from 24 to 20 bits to compensate for increase in
     Traffic Class field.</t>
 
-    <t>01) In section 4.1, restored the order of the Authentication
+    <t hangText="01)"> In section 4.1, restored the order of the Authentication
     Header and the ESP header, which were mistakenly swapped in the 00
     version of this memo.</t>
 
-    <t>01) In section 4.4, deleted the Strict/Loose Bit Map field and
+    <t hangText="01)"> In section 4.4, deleted the Strict/Loose Bit Map field and
     the strict routing functionality from the Type 0 Routing header,
     and removed the restriction on number of addresses that may be
     carried in the Type 0 Routing header (was limited to 23 addresses,
     because of the size of the strict/loose bit map).</t>
 
-    <t>01) In section 5, changed the minimum IPv6 MTU from 576 to 1280
+    <t hangText="01)"> In section 5, changed the minimum IPv6 MTU from 576 to 1280
     octets, and added a recommendation that links with configurable
     MTU (e.g., PPP links) be configured to have an MTU of at least
     1500 octets.</t>
 
-    <t>01) In section 5, deleted the requirement that a node must not
+    <t hangText="01)"> In section 5, deleted the requirement that a node must not
     send fragmented packets that reassemble to more than 1500 octets
     without knowledge of the destination reassembly buffer size, and
     replaced it with a recommendation that upper-layer protocols or
     applications should not do that.</t>
 
-    <t>01) Replaced reference to the IPv4 Path MTU Discovery spec
+    <t hangText="01)"> Replaced reference to the IPv4 Path MTU Discovery spec
     (RFC-1191) with reference to the IPv6 Path MTU Discovery spec
     (RFC-1981), and deleted the Notes at the end of section 5
     regarding Path MTU Discovery, since those details are now covered
     by RFC-1981.</t>
 
-    <t>01) In section 6, deleted specification of "opportunistic" flow
+    <t hangText="01)"> In section 6, deleted specification of "opportunistic" flow
     set-up, and removed all references to the 6-second maximum
     lifetime for opportunistically established flow state.</t>
 
-    <t>01) In section 7, deleted the provisional description of the
+    <t hangText="01)"> In section 7, deleted the provisional description of the
     internal structure and semantics of the Traffic Class field, and
     specified that such descriptions be provided in separate
     documents.</t>
 
+  </list></t>
+  </list></t>
+
     <t>--------------------------------------------------------</t>
 
-    <t>00) In section 4, corrected the Code value to indicate
+    <t><list>
+     <t><list hangIndent="5" style="hanging">
+
+      <t hangText="00)"> In section 4, corrected the Code value to indicate
     "unrecognized Next Header type encountered" in an ICMP Parameter
     Problem message (changed from 2 to 1).</t>
 
-    <t>00) In the description of the Payload Length field in section
+    <t hangText="00)"> In the description of the Payload Length field in section
     3, and of the Jumbo Payload Length field in section 4.3, made it
     clearer that extension headers are included in the payload length
     count.</t>
 
-    <t>00) In section 4.1, swapped the order of the Authentication
+    <t hangText="00)"> In section 4.1, swapped the order of the Authentication
     header and the ESP header.  (NOTE: this was a mistake, and the
     change was undone in version 01.)</t>
 
-    <t>00) In section 4.2, made it clearer that options are identified
+    <t hangText="00)"> In section 4.2, made it clearer that options are identified
     by the full 8-bit Option Type, not by the low-order 5 bits of an
     Option Type.  Also specified that the same Option Type numbering
     space is used for both Hop-by-Hop Options and Destination Options
     headers.</t>
 
-    <t>00) In section 4.4, added a sentence requiring that nodes
+    <t hangText="00)"> In section 4.4, added a sentence requiring that nodes
     processing a Routing header must send an ICMP Packet Too Big
     message in response to a packet that is too big to fit in the next
     hop link (rather than, say, performing fragmentation).</t>
 
-    <t>00) Changed the name of the IPv6 Priority field to "Class", and
+    <t hangText="00)"> Changed the name of the IPv6 Priority field to "Class", and
     replaced the previous description of Priority in section 7 with a
     description of the Class field.  Also, excluded this field from
     the set of fields that must remain the same for all packets in the
     same flow, as specified in section 6.</t>
 
-    <t>00) In the pseudo-header in section 8.1, changed the name of
+    <t hangText="00)"> In the pseudo-header in section 8.1, changed the name of
     the "Payload Length" field to "Upper-Layer Packet Length".  Also
     clarified that, in the case of protocols that carry their own
     length info (like non-jumbogram UDP), it is the
     upper-layer-derived length, not the IP-layer-derived length, that
     is used in the pseudo-header.</t>
 
-    <t>00) Added section 8.4, specifying that upper-layer protocols,
+    <t hangText="00)"> Added section 8.4, specifying that upper-layer protocols,
     when responding to a received packet that carried a Routing
     header, must not include the reverse of the Routing header in the
     response packet(s) unless the received Routing header was
     authenticated.</t>
 
-    <t>00) Fixed some typos and grammatical errors.</t>
+    <t hangText="00)"> Fixed some typos and grammatical errors.</t>
 
-    <t>00) Authors' contact info updated.</t>
+    <t hangText="00)"> Authors' contact info updated.</t>
+
+  </list></t>
+  </list></t>
 
   </section>
 
