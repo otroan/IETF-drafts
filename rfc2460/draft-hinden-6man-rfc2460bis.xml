@@ -3,6 +3,8 @@
 <!ENTITY rfc2401 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2401.xml">
 <!ENTITY rfc2402 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2402.xml">
 <!ENTITY rfc2406 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2406.xml">
+<!ENTITY rfc2463 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2463.xml">
+<!ENTITY rfc2373 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2373.xml">
 <!ENTITY rfc1981 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1981.xml">
 <!ENTITY rfc1700 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1700.xml">
 <!ENTITY rfc1661 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1661.xml">
@@ -42,12 +44,13 @@
       <organization>Check Point Software</organization>
       <address>
         <postal>
-          <street></street>
+          <street>959 Skyway Road</street>
+          <street>Suite 300</street>
           <!-- Reorder these if your country does things differently -->
-          <city></city>
-          <region></region>
-          <code></code>
-          <country></country>
+          <city>San Carlos</city>
+          <region>CA</region>
+          <code>94070</code>
+          <country>USA</country>
         </postal>
         <phone></phone>
 	<facsimile></facsimile>
@@ -112,8 +115,9 @@
   discusses packet size issues, the semantics of flow labels and
   traffic classes, and the effects of IPv6 on upper-layer protocols.
   The format and semantics of IPv6 addresses are specified separately
-  in [ADDRARCH].  The IPv6 version of ICMP, which all IPv6
-  implementations are required to include, is specified in [ICMPv6].</t>
+  in <xref  target="RFC2373"/>.  The IPv6 version of ICMP, which all IPv6
+  implementations are required to include, is specified in
+  <xref  target="RFC2463"/> </t>
 
 </section> <!-- ends: "1 from line 83-->
 <section title=" Terminology"> <!-- 2, line 143-->
@@ -957,13 +961,12 @@ As the packet travels from I3 to D:
 	packet is:</t>
 
       <t><list>
-
        <t>PL.orig = PL.first - FL.first - 8 + (8 * FO.last) + FL.last</t>
+
 <?rfc subcompact="yes" ?>
 
-     <t></t>
-     <t>where</t>
     <t><list hangIndent="12" style="hanging">       
+    <t hangText="where"></t>
     <t hangText="PL.orig  = ">Payload Length field of reassembled packet.</t>
     <t hangText="PL.first = ">Payload Length field of first fragment packet.</t>
     <t hangText="FL.first = ">length of fragment following Fragment header of
@@ -1400,6 +1403,8 @@ As the packet travels from I3 to D:
     &rfc2401;
     &rfc2402;
     &rfc2406;
+    &rfc2463;
+    &rfc2373;
     &rfc1981;
     &rfc1700;
     &rfc1661;
@@ -1754,6 +1759,8 @@ As the packet travels from I3 to D:
 
   </list></t>
   </list></t>
+
+   <t>--------------------------------------------------------</t>
 
   </section>
 
