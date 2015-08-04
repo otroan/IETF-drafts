@@ -23,15 +23,15 @@
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
             surname="Deering">
-      <organization>Cisco</organization>
+      <organization>Retired</organization>
       <address>
         <postal>
-          <street>170 West Tasman Drive</street>
+          <street></street>
           <!-- Reorder these if your country does things differently -->
-          <city>San Jose</city>
-          <region>CA</region>
-          <code>95134-1706</code>
-          <country>USA</country>
+          <city>Vancouver</city>
+          <region>British Columbia</region>
+          <code></code>
+          <country>Canada</country>
         </postal>
         <phone></phone>
 	<facsimile></facsimile>
@@ -45,7 +45,6 @@
       <address>
         <postal>
           <street>959 Skyway Road</street>
-          <street>Suite 300</street>
           <!-- Reorder these if your country does things differently -->
           <city>San Carlos</city>
           <region>CA</region>
@@ -213,10 +212,10 @@
     by each node that forwards the packet. The packet is discarded if
     Hop Limit is decremented to zero.</t>
     <t hangText="Source Address">128-bit address of the originator of
-    the packet.  See [ADDRARCH].</t>
+    the packet.  See <xref  target="RFC2373"/>.</t>
     <t hangText="Destination Address">128-bit address of the intended
     recipient of the packet (possibly not the ultimate recipient, if a
-    Routing header is present).  See [ADDRARCH] and section 4.4.</t>
+    Routing header is present).  See <xref  target="RFC2373"/> and section 4.4.</t>
   </list></t>
   </list></t>
 
