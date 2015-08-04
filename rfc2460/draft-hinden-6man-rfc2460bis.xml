@@ -1307,7 +1307,8 @@ As the packet travels from I3 to D:
     </list></t>
     </list></t>
 
-      <t>The IPv6 version of ICMP [ICMPv6] includes the above
+    <t>The IPv6 version of ICMP  <xref  target="RFC2463"/>
+      includes the above
       pseudo-header in its checksum computation; this is a change from
       the IPv4 version of ICMP, which does not include a pseudo-header
       in its checksum.  The reason for the change is to protect ICMP
@@ -1380,6 +1381,13 @@ As the packet travels from I3 to D:
     </section>
   </section>
 
+   <section anchor="IANA" title="IANA Considerations">
+
+   <t>None.</t>
+
+   </section>
+
+
   <section title="Security Considerations">
 
     <t>The security features of IPv6 are described in the Security
@@ -1397,7 +1405,7 @@ As the packet travels from I3 to D:
 
 </middle>
 <back>
-  <references title="References">
+  <references title="Normative References">
     &rfc0791;
     &rfc2401;
     &rfc2402;
@@ -1406,8 +1414,11 @@ As the packet travels from I3 to D:
     &rfc2373;
     &rfc1981;
     &rfc1700;
-    &rfc1661;
   </references>
+
+  <references title="Informative References">
+    &rfc1661;
+  </references>    
 
   <section title="Semantics and Usage of the Flow Label Field">
 
