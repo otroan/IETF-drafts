@@ -9,7 +9,7 @@
 <!ENTITY rfc1700 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1700.xml">
 <!ENTITY rfc1661 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1661.xml">
 <!ENTITY rfc0791 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.0791.xml">
-
+<!ENTITY rfc6437 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6437.xml">
 ]>
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
 <?rfc toc="yes"?>
@@ -62,7 +62,8 @@
 
 <abstract>
   <t>This document specifies version 6 of the Internet Protocol (IPv6),
-  also sometimes referred to as IP Next Generation or IPng.</t>
+  also sometimes referred to as IP Next Generation or IPng.  It obsoletes
+  RFC2460</t>
 </abstract>
 
 </front>
@@ -496,7 +497,7 @@
     consists of N-2 zero-valued octets.</t>
     </list></t>
     
-    <t>Appendix B contains formatting guidelines for designing new options.</t>
+    <t>Appendix A contains formatting guidelines for designing new options.</t>
   </section>
 
   <section title="Hop-by-Hop Options Header">
@@ -1180,16 +1181,12 @@ As the packet travels from I3 to D:
     <t>The 20-bit Flow Label field in the IPv6 header may be used by a
     source to label sequences of packets for which it requests special
     handling by the IPv6 routers, such as non-default quality of
-    service or "real-time" service.  This aspect of IPv6 is, at the
-    time of writing, still experimental and subject to change as the
-    requirements for flow support in the Internet become clearer.
-    Hosts or routers that do not support the functions of the Flow
-    Label field are required to set the field to zero when originating
-    a packet, pass the field on unchanged when forwarding a packet,
-    and ignore the field when receiving a packet.</t>
+    service or "real-time" service.</t>
 
-    <t>Appendix A describes the current intended semantics and usage
-    of the Flow Label field.</t>
+    <t>The current definition of the IPv6 Flow Label can be found in
+    <xref  target="RFC6437"/>.
+    </t>
+ 
   </section> <!-- ends: "6 from line 1257-->
 
   <section title="Traffic Classes"> <!-- 7, line 1274-->
@@ -1414,78 +1411,12 @@ As the packet travels from I3 to D:
     &rfc2373;
     &rfc1981;
     &rfc1700;
+    &rfc6437;
   </references>
 
   <references title="Informative References">
     &rfc1661;
   </references>    
-
-  <section title="Semantics and Usage of the Flow Label Field">
-
-    <t>A flow is a sequence of packets sent from a particular source
-    to a particular (unicast or multicast) destination for which the
-    source desires special handling by the intervening routers.  The
-    nature of that special handling might be conveyed to the routers
-    by a control protocol, such as a resource reservation protocol, or
-    by information within the flow's packets themselves, e.g., in a
-    hop-by-hop option.  The details of such control protocols or
-    options are beyond the scope of this document.</t>
-
-    <t>There may be multiple active flows from a source to a
-    destination, as well as traffic that is not associated with any
-    flow.  A flow is uniquely identified by the combination of a
-    source address and a non-zero flow label.  Packets that do not
-    belong to a flow carry a flow label of zero.</t>
-
-    <t>A flow label is assigned to a flow by the flow's source node.
-    New flow labels must be chosen (pseudo-)randomly and uniformly
-    from the range 1 to FFFFF hex.  The purpose of the random
-    allocation is to make any set of bits within the Flow Label field
-    suitable for use as a hash key by routers, for looking up the
-    state associated with the flow.</t>
-
-    <t>All packets belonging to the same flow must be sent with the
-    same source address, destination address, and flow label.  If any
-    of those packets includes a Hop-by-Hop Options header, then they
-    all must be originated with the same Hop-by-Hop Options header
-    contents (excluding the Next Header field of the Hop-by-Hop
-    Options header).  If any of those packets includes a Routing
-    header, then they all must be originated with the same contents in
-    all extension headers up to and including the Routing header
-    (excluding the Next Header field in the Routing header).  The
-    routers or destinations are permitted, but not required, to verify
-    that these conditions are satisfied.  If a violation is detected,
-    it should be reported to the source by an ICMP Parameter Problem
-    message, Code 0, pointing to the high-order octet of the Flow
-    Label field (i.e., offset 1 within the IPv6 packet).</t>
-
-    <t>The maximum lifetime of any flow-handling state established
-    along a flow's path must be specified as part of the description
-    of the state-establishment mechanism, e.g., the resource
-    reservation protocol or the flow-setup hop-by-hop option.  A
-    source must not re-use a flow label for a new flow within the
-    maximum lifetime of any flow-handling state that might have been
-    established for the prior use of that flow label.</t>
-
-    <t>When a node stops and restarts (e.g., as a result of a
-    "crash"), it must be careful not to use a flow label that it might
-    have used for an earlier flow whose lifetime may not have expired
-    yet.  This may be accomplished by recording flow label usage on
-    stable storage so that it can be remembered across crashes, or by
-    refraining from using any flow labels until the maximum lifetime
-    of any possible previously established flows has expired.  If the
-    minimum time for rebooting the node is known, that time can be
-    deducted from the necessary waiting period before starting to
-    allocate flow labels.</t>
-
-    <t>There is no requirement that all, or even most, packets belong
-    to flows, i.e., carry non-zero flow labels.  This observation is
-    placed here to remind protocol designers and implementors not to
-    assume otherwise.  For example, it would be unwise to design a
-    router whose performance would be adequate only if most packets
-    belonged to flows, or to design a header compression scheme that
-    only worked on packets that belonged to flows.</t>
-  </section>
 
   <section title="Formatting Guidelines for Options">
 
@@ -1635,137 +1566,35 @@ As the packet travels from I3 to D:
 
   </section>
 
-  <section title="CHANGES SINCE RFC-1883">
+  <section title="CHANGES SINCE RFC2460">
 
-    <t>This memo has the following changes from RFC-1883.  Numbers
+    <t>This memo has the following changes from RFC2460.  Numbers
     identify the Internet-Draft version in which the change was made.</t>
 
-    <t><list>
-
-     <t><list hangIndent="5" style="hanging">
-  
-    <t hangText="02)"> Removed all references to jumbograms and the Jumbo Payload
-    option (moved to a separate document).</t>
-
-    <t hangText="02)"> Moved most of Flow Label description from section 6 to
-    (new) Appendix A.</t>
-
-    <t hangText="02)"> In Flow Label description, now in Appendix A, corrected
-    maximum Flow Label value from FFFFFF to FFFFF (i.e., one less "F")
-    due to reduction of size of Flow Label field from 24 bits to 20
-    bits.</t>
-
-    <t hangText="02)"> Renumbered (relettered?) the previous Appendix A to be
-    Appendix B.</t>
-
-    <t hangText="02)"> Changed the wording of the Security Considerations section
-    to avoid dependency loop between this spec and the IPsec specs.</t>
-
-    <t hangText="02)"> Updated R. Hinden's email address and company affiliation.</t>
-
-     </list></t>
-     </list></t>
-
-    <t>--------------------------------------------------------</t>
 
     <t><list>
      <t><list hangIndent="5" style="hanging">
 
-    <t hangText="01)"> In section 3, changed field name "Class" to "Traffic Class"
-    and increased its size from 4 to 8 bits.  Decreased size of Flow
-    Label field from 24 to 20 bits to compensate for increase in
-    Traffic Class field.</t>
-
-    <t hangText="01)"> In section 4.1, restored the order of the Authentication
-    Header and the ESP header, which were mistakenly swapped in the 00
-    version of this memo.</t>
-
-    <t hangText="01)"> In section 4.4, deleted the Strict/Loose Bit Map field and
-    the strict routing functionality from the Type 0 Routing header,
-    and removed the restriction on number of addresses that may be
-    carried in the Type 0 Routing header (was limited to 23 addresses,
-    because of the size of the strict/loose bit map).</t>
-
-    <t hangText="01)"> In section 5, changed the minimum IPv6 MTU from 576 to 1280
-    octets, and added a recommendation that links with configurable
-    MTU (e.g., PPP links) be configured to have an MTU of at least
-    1500 octets.</t>
-
-    <t hangText="01)"> In section 5, deleted the requirement that a node must not
-    send fragmented packets that reassemble to more than 1500 octets
-    without knowledge of the destination reassembly buffer size, and
-    replaced it with a recommendation that upper-layer protocols or
-    applications should not do that.</t>
-
-    <t hangText="01)"> Replaced reference to the IPv4 Path MTU Discovery spec
-    (RFC-1191) with reference to the IPv6 Path MTU Discovery spec
-    (RFC-1981), and deleted the Notes at the end of section 5
-    regarding Path MTU Discovery, since those details are now covered
-    by RFC-1981.</t>
-
-    <t hangText="01)"> In section 6, deleted specification of "opportunistic" flow
-    set-up, and removed all references to the 6-second maximum
-    lifetime for opportunistically established flow state.</t>
-
-    <t hangText="01)"> In section 7, deleted the provisional description of the
-    internal structure and semantics of the Traffic Class field, and
-    specified that such descriptions be provided in separate
-    documents.</t>
+    <t hangText="01)">The purpose of this version of the draft
+     is to update the document to point to the current specification of
+     the IPv6 Flow Label field as defined in
+     <xref  target="RFC6437"/>     
+     </t>
 
   </list></t>
   </list></t>
 
     <t>--------------------------------------------------------</t>
 
-    <t><list>
-     <t><list hangIndent="5" style="hanging">
+      <t><list>
+      <t><list hangIndent="5" style="hanging">
 
-      <t hangText="00)"> In section 4, corrected the Code value to indicate
-    "unrecognized Next Header type encountered" in an ICMP Parameter
-    Problem message (changed from 2 to 1).</t>
-
-    <t hangText="00)"> In the description of the Payload Length field in section
-    3, and of the Jumbo Payload Length field in section 4.3, made it
-    clearer that extension headers are included in the payload length
-    count.</t>
-
-    <t hangText="00)"> In section 4.1, swapped the order of the Authentication
-    header and the ESP header.  (NOTE: this was a mistake, and the
-    change was undone in version 01.)</t>
-
-    <t hangText="00)"> In section 4.2, made it clearer that options are identified
-    by the full 8-bit Option Type, not by the low-order 5 bits of an
-    Option Type.  Also specified that the same Option Type numbering
-    space is used for both Hop-by-Hop Options and Destination Options
-    headers.</t>
-
-    <t hangText="00)"> In section 4.4, added a sentence requiring that nodes
-    processing a Routing header must send an ICMP Packet Too Big
-    message in response to a packet that is too big to fit in the next
-    hop link (rather than, say, performing fragmentation).</t>
-
-    <t hangText="00)"> Changed the name of the IPv6 Priority field to "Class", and
-    replaced the previous description of Priority in section 7 with a
-    description of the Class field.  Also, excluded this field from
-    the set of fields that must remain the same for all packets in the
-    same flow, as specified in section 6.</t>
-
-    <t hangText="00)"> In the pseudo-header in section 8.1, changed the name of
-    the "Payload Length" field to "Upper-Layer Packet Length".  Also
-    clarified that, in the case of protocols that carry their own
-    length info (like non-jumbogram UDP), it is the
-    upper-layer-derived length, not the IP-layer-derived length, that
-    is used in the pseudo-header.</t>
-
-    <t hangText="00)"> Added section 8.4, specifying that upper-layer protocols,
-    when responding to a received packet that carried a Routing
-    header, must not include the reverse of the Routing header in the
-    response packet(s) unless the received Routing header was
-    authenticated.</t>
-
-    <t hangText="00)"> Fixed some typos and grammatical errors.</t>
-
-    <t hangText="00)"> Authors' contact info updated.</t>
+    <t hangText="00)">The purpose of this version
+     is to establish a baseline from RFC2460.  The only intended changes are
+     formatting (XML is slightly different from .nroff), differences
+     between an RFC and Internet Draft, fixing a few ID Nits, and updates
+     to the authors information.  There should not be any content changes
+     to the specification.</t>
 
   </list></t>
   </list></t>
