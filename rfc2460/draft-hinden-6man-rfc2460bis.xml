@@ -10,6 +10,8 @@
 <!ENTITY rfc1661 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1661.xml">
 <!ENTITY rfc0791 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.0791.xml">
 <!ENTITY rfc6437 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6437.xml">
+<!ENTITY rfc2474 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2474.xml">
+<!ENTITY rfc3168 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3168.xml">
 ]>
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
 <?rfc toc="yes"?>
@@ -99,10 +101,8 @@
       the future.</t>
 
     <t hangText="o">Flow Labeling Capability<vspace/><vspace/>
-      A new capability is added to enable the labeling of packets
-      belonging to particular traffic "flows" for which the sender
-      requests special handling, such as non-default quality of
-      service or "real-time" service.</t>
+      A new capability is added to enable the labeling of sequences of packets
+      for which the sender requests to be treated in the network a single flow.</t>
 
     <t hangText="o">Authentication and Privacy Capabilities<vspace/><vspace/>
       Extensions to support authentication, data integrity, and
@@ -1178,10 +1178,9 @@ As the packet travels from I3 to D:
 
   <section title=" Flow Labels"> <!-- 6, line 1257-->
 
-    <t>The 20-bit Flow Label field in the IPv6 header may be used by a
-    source to label sequences of packets for which it requests special
-    handling by the IPv6 routers, such as non-default quality of
-    service or "real-time" service.</t>
+    <t>The 20-bit Flow Label field in the IPv6 header is used by a
+    source to label sequences of packets to be treated in the network
+    as a single flow.</t>
 
     <t>The current definition of the IPv6 Flow Label can be found in
     <xref  target="RFC6437"/>.
@@ -1191,44 +1190,12 @@ As the packet travels from I3 to D:
 
   <section title="Traffic Classes"> <!-- 7, line 1274-->
 
-    <t>The 8-bit Traffic Class field in the IPv6 header is available
-    for use by originating nodes and/or forwarding routers to identify
-    and distinguish between different classes or priorities of IPv6
-    packets.  At the point in time at which this specification is
-    being written, there are a number of experiments underway in the
-    use of the IPv4 Type of Service and/or Precedence bits to provide
-    various forms of "differentiated service" for IP packets, other
-    than through the use of explicit flow set-up.  The Traffic Class
-    field in the IPv6 header is intended to allow similar
-    functionality to be supported in IPv6.  It is hoped that those
-    experiments will eventually lead to agreement on what sorts of
-    traffic classifications are most useful for IP packets.  Detailed
-    definitions of the syntax and semantics of all or some of the IPv6
-    Traffic Class bits, whether experimental or intended for eventual
-    standardization, are to be provided in separate documents.</t>
-
-    <t>The following general requirements apply to the Traffic Class
-    field:</t>
-
-     <t><list>
-    <t><list  style="hanging" hangIndent="3">
-    <t hangText="o">The service interface to the IPv6 service within a node must
-    provide a means for an upper-layer protocol to supply the value of
-    the Traffic Class bits in packets originated by that upper-layer
-    protocol.  The default value must be zero for all 8 bits.</t>
-
-    <t hangText="o">Nodes that support a specific (experimental or eventual
-    standard) use of some or all of the Traffic Class bits are
-    permitted to change the value of those bits in packets that they
-    originate, forward, or receive, as required for that specific use.
-    Nodes should ignore and leave unchanged any bits of the Traffic
-    Class field for which they do not support a specific use.</t>
-
-    <t hangText="o">An upper-layer protocol must not assume that the value of the
-    Traffic Class bits in a received packet are the same as the value
-    sent by the packet's source.</t>
-  </list></t>
-  </list></t>
+  <t>The 8-bit Traffic Class field in the IPv6 header is used by the network
+   for traffic management. The value of the Traffic Class bits in a received
+   packet might be different from the value sent by the packet's source.
+   The use of the Traffic Class field is specified in
+   <xref  target="RFC2474"/> and    <xref  target="RFC3168"/>.
+  </t>
 
   </section> <!-- ends: "7 from line 1274-->
 
@@ -1412,6 +1379,8 @@ As the packet travels from I3 to D:
     &rfc1981;
     &rfc1700;
     &rfc6437;
+    &rfc2474;
+    &rfc3168;
   </references>
 
   <references title="Informative References">
@@ -1576,10 +1545,11 @@ As the packet travels from I3 to D:
      <t><list hangIndent="5" style="hanging">
 
     <t hangText="01)">The purpose of this version of the draft
-     is to update the document to point to the current specification of
+     is to update the document to point to the current specifications of
      the IPv6 Flow Label field as defined in
-     <xref  target="RFC6437"/>     
-     </t>
+     <xref  target="RFC6437"/>  and the Traffic Class as defined in
+     <xref  target="RFC2474"/> and  <xref  target="RFC3168"/>.
+    </t>
 
   </list></t>
   </list></t>
