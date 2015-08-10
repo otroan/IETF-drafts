@@ -20,7 +20,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc2460bis-01" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc2460bis-02" obsoletes="2460" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -209,9 +209,11 @@
     <t hangText="Next Header">8-bit selector.  Identifies the type of
     header immediately following the IPv6 header.  Uses the same
     values as the IPv4 Protocol field <xref target="RFC1700"/> et seq.</t>
-    <t hangText="Hop Limit">8-bit unsigned integer.  Decremented by 1
-    by each node that forwards the packet. The packet is discarded if
-    Hop Limit is decremented to zero.</t>
+    <t hangText="Hop Limit">8-bit unsigned integer. Decremented by 1
+    by each node that forwards the packet. A router receiving a packet
+    with a Hop Limit less than or equal to one must discard the packet
+    and originate an ICMP Time Exceeded message with Code 0 to the
+    source of the packet.</t>
     <t hangText="Source Address">128-bit address of the originator of
     the packet.  See <xref  target="RFC2373"/>.</t>
     <t hangText="Destination Address">128-bit address of the intended
@@ -1542,33 +1544,29 @@ As the packet travels from I3 to D:
     <t>This memo has the following changes from RFC2460.  Numbers
     identify the Internet-Draft version in which the change was made.</t>
 
-
     <t><list>
      <t><list hangIndent="5" style="hanging">
 
-    <t hangText="01)">The purpose of this version of the draft
-     is to update the document to point to the current specifications of
-     the IPv6 Flow Label field as defined in
-     <xref  target="RFC6437"/>  and the Traffic Class as defined in
-     <xref  target="RFC2474"/> and  <xref  target="RFC3168"/>.
-    </t>
+       <t hangText="02)">Removed paragraph requiring atomic fragments.
+       (draft-ietf-6man-deprecate-atomfrag-generation-03).
+       <vspace/>Errata ID: 4279. Updated Hop Limit text.</t>
 
-  </list></t>
-  </list></t>
 
-    <t>--------------------------------------------------------</t>
+       <t hangText="01)">The purpose of this version of the draft
+       is to update the document to point to the current specifications of
+       the IPv6 Flow Label field as defined in
+       <xref  target="RFC6437"/>  and the Traffic Class as defined in
+       <xref  target="RFC2474"/> and  <xref  target="RFC3168"/>.
+       </t>
 
-      <t><list>
-      <t><list hangIndent="5" style="hanging">
+       <t hangText="00)">The purpose of this version is to establish a
+       baseline from RFC2460.  The only intended changes are
+       formatting (XML is slightly different from .nroff), differences
+       between an RFC and Internet Draft, fixing a few ID Nits, and
+       updates to the authors information.  There should not be any
+       content changes to the specification.</t>
 
-    <t hangText="00)">The purpose of this version
-     is to establish a baseline from RFC2460.  The only intended changes are
-     formatting (XML is slightly different from .nroff), differences
-     between an RFC and Internet Draft, fixing a few ID Nits, and updates
-     to the authors information.  There should not be any content changes
-     to the specification.</t>
-
-  </list></t>
+     </list></t>
   </list></t>
 
    <t>--------------------------------------------------------</t>
