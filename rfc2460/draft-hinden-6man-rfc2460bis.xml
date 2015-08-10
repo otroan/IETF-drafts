@@ -1161,6 +1161,7 @@ As the packet travels from I3 to D:
     assurance that the destination is capable of reassembling packets
     of that larger size.</t>
 
+    <!-- Paragraph removed. draft-ietf-6man-deprecate-atomfrag-generation-03
     <t>In response to an IPv6 packet that is sent to an IPv4
     destination (i.e., a packet that undergoes translation from IPv6
     to IPv4), the originating IPv6 node may receive an ICMP Packet Too
@@ -1173,6 +1174,7 @@ As the packet travels from I3 to D:
     have to be reduced to 1232 octets (1280 minus 40 for the IPv6
     header and 8 for the Fragment header), and smaller still if
     additional extension headers are used.</t>
+    -->
 
   </section> <!-- ends: "5 from line 1205-->
 
