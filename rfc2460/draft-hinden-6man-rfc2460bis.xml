@@ -20,7 +20,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc2460bis-01" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc2460bis-02" obsoletes="2460" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -209,9 +209,10 @@
     <t hangText="Next Header">8-bit selector.  Identifies the type of
     header immediately following the IPv6 header.  Uses the same
     values as the IPv4 Protocol field <xref target="RFC1700"/> et seq.</t>
-    <t hangText="Hop Limit">8-bit unsigned integer.  Decremented by 1
-    by each node that forwards the packet. The packet is discarded if
-    Hop Limit is decremented to zero.</t>
+    <t hangText="Hop Limit">8-bit unsigned integer.  
+    Decremented by 1 by each node that forwards the packet. The packet is
+    discarded if Hop Limit is decremented to zero, or is received with a
+    zero Hop Limit.</t>
     <t hangText="Source Address">128-bit address of the originator of
     the packet.  See <xref  target="RFC2373"/>.</t>
     <t hangText="Destination Address">128-bit address of the intended
@@ -1545,6 +1546,34 @@ As the packet travels from I3 to D:
 
     <t><list>
      <t><list hangIndent="5" style="hanging">
+
+    <t hangText="02)">The purpose of this version of the draft
+     is to update the document to resolve the open Errata on RFC2460.
+    </t>
+
+    <t><list>
+
+       <t> Errata ID: 2541: This errata is about the change of the
+       length of the flow label from RFC1883 was resolved in RFC 6437 that this
+       draft now references.  No change is required. </t>
+
+       <t> Errata ID: 4279: This errata noted that the specification
+       doesn't handle the case of a forwarding node receiving a packet
+       with a zero Hop Limit.  This is fixed in Section 3.0 of  this
+       draft.   Note:  No change was made regarding host behaviour.</t>
+
+       <t>Errata ID: 2843: This errata was rejected.  No change
+       is required.</t>
+
+  </list></t>
+
+  </list></t>
+  </list></t>
+
+    <t>--------------------------------------------------------</t>
+
+      <t><list>
+      <t><list hangIndent="5" style="hanging">
 
     <t hangText="01)">The purpose of this version of the draft
      is to update the document to point to the current specifications of
