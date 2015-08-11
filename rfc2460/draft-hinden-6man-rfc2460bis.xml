@@ -1191,11 +1191,13 @@ As the packet travels from I3 to D:
   <section title="Traffic Classes"> <!-- 7, line 1274-->
 
   <t>The 8-bit Traffic Class field in the IPv6 header is used by the network
-   for traffic management. The value of the Traffic Class bits in a received
-   packet might be different from the value sent by the packet's source.
-   The use of the Traffic Class field is specified in
-   <xref  target="RFC2474"/> and    <xref  target="RFC3168"/>.
-  </t>
+   for traffic management such as  Differentiated Services and
+   Explicit Congestion Notification.  The value of the Traffic Class bits in a received
+   packet might be different from the value sent by the packet's source.</t>
+
+   <t>The current use of the Traffic Class field is specified in
+   <xref  target="RFC2474"/> and  <xref  target="RFC3168"/>.
+   </t>
 
   </section> <!-- ends: "7 from line 1274-->
 
