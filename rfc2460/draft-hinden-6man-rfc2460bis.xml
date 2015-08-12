@@ -102,7 +102,7 @@
 
     <t hangText="o">Flow Labeling Capability<vspace/><vspace/>
       A new capability is added to enable the labeling of sequences of packets
-      for which the sender requests to be treated in the network a single flow.</t>
+      for which the sender requests to be treated in the network as a single flow.</t>
 
     <t hangText="o">Authentication and Privacy Capabilities<vspace/><vspace/>
       Extensions to support authentication, data integrity, and
@@ -1192,11 +1192,11 @@ As the packet travels from I3 to D:
   <section title="Traffic Classes"> <!-- 7, line 1274-->
 
   <t>The 8-bit Traffic Class field in the IPv6 header is used by the network
-   for traffic management such as  Differentiated Services and
-   Explicit Congestion Notification.  The value of the Traffic Class bits in a received
+   for traffic management.  The value of the Traffic Class bits in a received
    packet might be different from the value sent by the packet's source.</t>
 
-   <t>The current use of the Traffic Class field is specified in
+   <t>The current use of the Traffic Class field for Differentiated Services and
+   Explicit Congestion Notification is specified in
    <xref  target="RFC2474"/> and  <xref  target="RFC3168"/>.
    </t>
 
@@ -1553,19 +1553,25 @@ As the packet travels from I3 to D:
 
     <t><list>
 
-       <t> Errata ID: 2541: This errata is about the change of the
-       length of the flow label from RFC1883 was resolved in RFC 6437 that this
-       draft now references.  No change is required. </t>
+       <t> Errata ID: 2541: This errata notes that RFC2460 didn't update
+       RFC2205 when the length of the Flow Label was changed from 24 to
+       20 bits from RFC1883.   This issue was resolved in RFC6437 where
+       the Flow Label is defined.  This draft now references RFC6437. 
+       No change is required. </t>
 
        <t> Errata ID: 4279: This errata noted that the specification
        doesn't handle the case of a forwarding node receiving a packet
        with a zero Hop Limit.  This is fixed in Section 3.0 of  this
        draft.   Note:  No change was made regarding host behaviour.</t>
 
-       <t>Errata ID: 2843: This errata was rejected.  No change
+      <t>Errata ID: 2843: This errata is marked rejected.  No change
        is required.</t>
 
   </list></t>
+
+  <t hangText="02)">Editorial changes to the Flow Label and Traffic
+    Class text.
+    </t>
 
   </list></t>
   </list></t>
