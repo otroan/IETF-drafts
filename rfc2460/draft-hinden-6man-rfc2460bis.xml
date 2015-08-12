@@ -12,7 +12,9 @@
 <!ENTITY rfc6437 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6437.xml">
 <!ENTITY rfc2474 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2474.xml">
 <!ENTITY rfc3168 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3168.xml">
+<!ENTITY rfc5871 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5871.xml">
 ]>
+
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
 <?rfc toc="yes"?>
 <?rfc tocdepth="4"?>
@@ -20,7 +22,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc2460bis-02" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc2460bis-03" obsoletes="2460" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -71,6 +73,7 @@
 </front>
 
 <middle>
+
 <section title=" Introduction"> <!-- 1, line 83-->
   <t>IP version 6 (IPv6) is a new version of the Internet Protocol,
   designed as the successor to IP version 4 (IPv4) <xref
@@ -608,163 +611,12 @@
     the node must discard the packet and send an ICMP Packet Too Big
     message to the packet's Source Address.</t>
 
-    <t>The Type 0 Routing header has the following format:</t>
-
-    <figure><artwork align="left"><![CDATA[
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |  Next Header  |  Hdr Ext Len  | Routing Type=0| Segments Left |
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |                            Reserved                           |
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |                                                               |
- +                                                               +
- |                                                               |
- +                           Address[1]                          +
- |                                                               |
- +                                                               +
- |                                                               |
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |                                                               |
- +                                                               +
- |                                                               |
- +                           Address[2]                          +
- |                                                               |
- +                                                               +
- |                                                               |
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- .                               .                               .
- .                               .                               .
- .                               .                               .
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |                                                               |
- +                                                               +
- |                                                               |
- +                           Address[n]                          +
- |                                                               |
- +                                                               +
- |                                                               |
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- ]]></artwork></figure>
-
-    <t><list>
-    <t><list hangIndent="20" style="hanging">
-      <t hangText="Next Header">8-bit selector.  Identifies the type
-      of header immediately following the Routing header.  Uses the
-      same values as the IPv4 Protocol field <xref target="RFC1700"/> et seq.</t>
-      <t hangText="Hdr Ext Len">8-bit unsigned integer.  Length of the
-      Routing header in 8-octet units, not including the first 8
-      octets.  For the Type 0 Routing header, Hdr Ext Len is equal to
-      two times the number of addresses in the header.</t>
-      <t hangText="Routing Type">0.</t>
-      <t hangText="Segments Left">8-bit unsigned integer.  Number of
-      route segments remaining, i.e., number of explicitly listed
-      intermediate nodes still to be visited before reaching the final
-      destination.</t>
-      <t hangText="Reserved">32-bit reserved field.  Initialized to
-      zero for transmission; ignored on reception.</t>
-      <t hangText="Address[1..n]">Vector of 128-bit addresses,
-      numbered 1 to n.</t>
-    </list></t>
-    </list></t>
-
-    <t>Multicast addresses must not appear in a Routing header of Type
-    0, or in the IPv6 Destination Address field of a packet carrying a
-    Routing header of Type 0.</t>
-
-    <t>A Routing header is not examined or processed until it reaches
-    the node identified in the Destination Address field of the IPv6
-    header.  In that node, dispatching on the Next Header field of the
-    immediately preceding header causes the Routing header module to
-    be invoked, which, in the case of Routing Type 0, performs the
-    following algorithm:</t>
-
-    <figure><artwork align="left"><![CDATA[
-
-if Segments Left = 0 {
-   proceed to process the next header in the packet, whose type is
-   identified by the Next Header field in the Routing header
-}
-else if Hdr Ext Len is odd {
-      send an ICMP Parameter Problem, Code 0, message to the Source
-      Address, pointing to the Hdr Ext Len field, and discard the
-      packet
-}
-else {
-   compute n, the number of addresses in the Routing header, by
-   dividing Hdr Ext Len by 2
-
-   if Segments Left is greater than n {
-      send an ICMP Parameter Problem, Code 0, message to the Source
-      Address, pointing to the Segments Left field, and discard the
-      packet
-   }
-   else {
-      decrement Segments Left by 1;
-      compute i, the index of the next address to be visited in
-      the address vector, by subtracting Segments Left from n
-
-      if Address [i] or the IPv6 Destination Address is multicast {
-         discard the packet
-      }
-      else {
-         swap the IPv6 Destination Address and Address[i]
-
-         if the IPv6 Hop Limit is less than or equal to 1 {
-            send an ICMP Time Exceeded -- Hop Limit Exceeded in
-            Transit message to the Source Address and discard the
-            packet
-         }
-         else {
-            decrement the Hop Limit by 1
-
-            resubmit the packet to the IPv6 module for transmission
-            to the new destination
-         }
-      }
-   }
-}
-]]></artwork></figure>
-
-    <t>As an example of the effects of the above algorithm, consider
-    the case of a source node S sending a packet to destination node
-    D, using a Routing header to cause the packet to be routed via
-    intermediate nodes I1, I2, and I3.  The values of the relevant
-    IPv6 header and Routing header fields on each segment of the
-    delivery path would be as follows:</t>
-
-    <figure><artwork align="left"><![CDATA[
-As the packet travels from S to I1:
-
-     Source Address = S                  Hdr Ext Len = 6
-     Destination Address = I1            Segments Left = 3
-                                         Address[1] = I2
-                                         Address[2] = I3
-                                         Address[3] = D
-
-As the packet travels from I1 to I2:
-
-     Source Address = S                  Hdr Ext Len = 6
-     Destination Address = I2            Segments Left = 2
-                                         Address[1] = I1
-                                         Address[2] = I3
-                                         Address[3] = D
-
-As the packet travels from I2 to I3:
-
-     Source Address = S                  Hdr Ext Len = 6
-     Destination Address = I3            Segments Left = 1
-                                         Address[1] = I1
-                                         Address[2] = I2
-                                         Address[3] = D
-
-As the packet travels from I3 to D:
-
-     Source Address = S                  Hdr Ext Len = 6
-     Destination Address = D             Segments Left = 0
-                                         Address[1] = I1
-                                         Address[2] = I2
-                                         Address[3] = I3
-]]></artwork></figure>
+   <t>The current defined IPv6 Routing Headers and their status can be
+   found at
+   <xref target="IANA-RH"/>.
+   Allocation guidelines for IPv6 Routing Headers can be found in
+   <xref target="RFC5871"/>.
+   </t>
   </section>
 
   <section title="Fragment Header">
@@ -1368,10 +1220,15 @@ As the packet travels from I3 to D:
     <t>The authors gratefully acknowledge the many helpful suggestions
     of the members of the IPng working group, the End-to-End Protocols
     research group, and the Internet Community At Large.</t>
+
   </section>
 
 </middle>
+
 <back>
+
+
+
   <references title="Normative References">
     &rfc0791;
     &rfc2401;
@@ -1387,7 +1244,20 @@ As the packet travels from I3 to D:
   </references>
 
   <references title="Informative References">
-    &rfc1661;
+
+    &rfc5871;
+
+    <reference anchor="IANA-RH"
+      target="https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml#ipv6-parameters-3">
+    <front>
+    <title>IANA Routing Types Parameter Registry</title>
+    <author/>
+    <date/>
+   </front>
+</reference>
+
+   &rfc1661;
+
   </references>    
 
   <section title="Formatting Guidelines for Options">
@@ -1543,6 +1413,22 @@ As the packet travels from I3 to D:
     <t>This memo has the following changes from RFC2460.  Numbers
     identify the Internet-Draft version in which the change was made.</t>
 
+
+     <t><list>
+
+     <t><list hangIndent="5" style="hanging">
+
+    <t hangText="03)">The purpose of this draft is to update the document
+    for the deprecation of the RH0 Routing Header as specified in RFC5095
+    and the allocations guidelines for routing headers as specified in
+    RFC5871.  Both of these RFCs updated RFC2460.
+    </t>
+
+
+  </list></t>
+  </list></t>
+
+    <t>--------------------------------------------------------</t>
 
     <t><list>
      <t><list hangIndent="5" style="hanging">
