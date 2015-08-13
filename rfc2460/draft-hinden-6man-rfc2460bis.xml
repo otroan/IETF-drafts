@@ -13,6 +13,7 @@
 <!ENTITY rfc2474 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2474.xml">
 <!ENTITY rfc3168 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3168.xml">
 <!ENTITY rfc5871 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5871.xml">
+<!ENTITY rfc6936 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6936.xml">
 ]>
 
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
@@ -304,7 +305,6 @@
   <?rfc subcompact="yes" ?>
   <t><list>
     <t>Hop-by-Hop Options</t>
-    <t>Routing (Type 0)</t>
     <t>Fragment</t>
     <t>Destination Options</t>
     <t>Authentication</t>
@@ -611,7 +611,7 @@
     the node must discard the packet and send an ICMP Packet Too Big
     message to the packet's Source Address.</t>
 
-   <t>The current defined IPv6 Routing Headers and their status can be
+   <t>The currently defined IPv6 Routing Headers and their status can be
    found at
    <xref target="IANA-RH"/>.
    Allocation guidelines for IPv6 Routing Headers can be found in
@@ -1115,14 +1115,24 @@
       any extension headers present between the IPv6 header and the
       upper-layer header.</t>
 
-      <t hangText="o">Unlike IPv4, when UDP packets are originated by an IPv6
-      node, the UDP checksum is not optional.  That is, whenever
+      <t hangText="o">Unlike IPv4, the default behavior
+      when UDP packets are originated by an IPv6
+      node, is that the UDP checksum is not optional.  That is, whenever
       originating a UDP packet, an IPv6 node must compute a UDP
       checksum over the packet and the pseudo-header, and, if that
       computation yields a result of zero, it must be changed to hex
       FFFF for placement in the UDP header.  IPv6 receivers must
       discard UDP packets containing a zero checksum, and should log
       the error.</t>
+
+      <t hangText="o">As an exception to the default behaviour, protocols
+      that use UDP as a tunnel encapsulation may enable zero-checksum
+      mode for a specific port (or set of ports) for sending and/or
+      receiving.  Any node implementing zero-checksum mode must follow
+      the requirements specified in "Applicability Statement for the use
+      of IPv6 UDP Datagrams with Zero Checksums"
+      <xref  target="RFC6936"/>.</t>
+
     </list></t>
     </list></t>
 
@@ -1257,6 +1267,7 @@
 </reference>
 
    &rfc1661;
+   &rfc6936;
 
   </references>    
 
@@ -1422,6 +1433,12 @@
     to incorporate the update made by RFC6935 "UDP Checksums for Tunneled Packets".
     </t>
 
+     <t hangText="04)">Remove Routing (Type 0) header from the list of
+     required extension headers.
+     </t>
+
+     <t hangText="04)">Editorial changes.
+     </t>
 
   </list></t>
   </list></t>
@@ -1437,7 +1454,6 @@
     and the allocations guidelines for routing headers as specified in
     RFC5871.  Both of these RFCs updated RFC2460.
     </t>
-
 
   </list></t>
   </list></t>
