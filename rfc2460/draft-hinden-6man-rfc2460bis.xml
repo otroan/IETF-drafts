@@ -22,7 +22,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc2460bis-03" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc2460bis-04" obsoletes="2460" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -1413,6 +1413,20 @@
     <t>This memo has the following changes from RFC2460.  Numbers
     identify the Internet-Draft version in which the change was made.</t>
 
+
+     <t><list>
+
+     <t><list hangIndent="5" style="hanging">
+
+    <t hangText="04)">The purpose of this draft is to update the document
+    to incorporate the update made by RFC6935 "UDP Checksums for Tunneled Packets".
+    </t>
+
+
+  </list></t>
+  </list></t>
+
+    <t>--------------------------------------------------------</t>
 
      <t><list>
 
