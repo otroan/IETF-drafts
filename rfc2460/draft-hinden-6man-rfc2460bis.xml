@@ -779,7 +779,7 @@
       packets' destination(s).</t>
 
       <t>RFC5722 Fragments must not be created that overlap with any other
-      fragments with the same Identification value.</t>
+      fragments created from the original packet.</t>
 
       <t>At the destination, fragment packets are reassembled into
       their original, unfragmented form, as illustrated:</t>
@@ -844,7 +844,25 @@
       itself; its relative position in Fragmentable Part is computed
       from its Fragment Offset value.</t>
 
-      <t>RFC6946 A destination node that receives a Fragment Header with
+      <t>The Fragment header is not present in the final, reassembled
+      packet.</t>
+
+     <t> New RFC5722: If any of the fragments being reassembled overlaps
+     with any other fragments being reassembled for the same packet,
+     reassembly of that packet must be abandoned and all the fragments
+     that have been received for that packet must be discarded.
+     </t>
+
+     <t>RFC6946 written in the style of RFC791: If the fragment is a
+     whole datagram (that is, both the Fragment Offset field and the M
+     flag are zero), then it does not need any further reassembly and
+     should be processed normally (i.e., updating Next Header, adjust
+     Payload Length, removing the Fragmentation Header, etc.).  Any
+     other fragments that match this packet should not be discarded and
+     processed normally.
+      </t>
+
+      <t>Old RFC6946: A destination node that receives a Fragment Header with
       the "Fragment Offset" equal to 0 and the "M" flag equal to 0, that
       is an atomic fragment, must process that packet in isolation from
       any other packets/fragments, even if the other fragments contain
@@ -852,10 +870,11 @@
       Fragment Identification}.  A received packet should be
       "reassembled" from the contents of this single fragment.</t>
 
-      <t> <list>
 
-      <t>[I think the next three can be removed, as they are redundant
-      with other parts of this section]</t>
+      <t>[I think the next three bullets can be removed, as they are redundant
+      with other parts of this section and new paragraph above.]</t>
+
+      <t> <list>
 
       <t>RFC6946  The Unfragmentable Part of the reassembled packet consists of
       all headers up to, but not including, the Fragment Header of the
@@ -871,7 +890,7 @@
 
       </list></t>
 
-      <t>[I don't understand the next paragraph????] </t>
+      <t>[I think the next paragraph is now redundant] </t>
 
       <t>RFC6946  Additionally, if any fragments with the same set {IPv6 Source
       Address, IPv6 Destination Address, Fragment Identification} are
@@ -880,8 +899,6 @@
       the "colliding" IPv6 atomic fragment, since IPv6 atomic fragments
       must not interfere with "normal" fragmented traffic.</t>
 
-      <t>The Fragment header is not present in the final, reassembled
-      packet.</t>
 
     </list></t>
     </list></t>
@@ -913,13 +930,6 @@
       the source of the fragment, pointing to the Fragment Offset
       field of the fragment packet.</t>
       </list></t>
-
-     <t> RFC5722 If one or more of the constituent fragments is
-     determined to be an overlapping fragment, the entire datagram (and
-     any constituent fragments must be silently discarded.  Nodes may
-     also provide mechanisms to track the reception of such packets, for
-     instance, by implementing counters or alarms relating to these
-     events.</t>
 
       <t>The following conditions are not expected to occur, but are
       not considered errors if they do:</t>
