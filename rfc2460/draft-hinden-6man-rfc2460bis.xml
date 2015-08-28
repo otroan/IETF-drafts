@@ -778,7 +778,7 @@
       resulting fragment packets fit within the MTU of the path to the
       packets' destination(s).</t>
 
-      <t>RFC5722 Fragments must not be created that overlap with any other
+      <t>Fragments must not be created that overlap with any other
       fragments created from the original packet.</t>
 
       <t>At the destination, fragment packets are reassembled into
@@ -847,59 +847,21 @@
       <t>The Fragment header is not present in the final, reassembled
       packet.</t>
 
-     <t> New RFC5722: If any of the fragments being reassembled overlaps
-     with any other fragments being reassembled for the same packet,
-     reassembly of that packet must be abandoned and all the fragments
-     that have been received for that packet must be discarded.
+     <t>If any of the fragments being reassembled overlaps with any other
+     fragments being reassembled for the same packet, reassembly of that
+     packet must be abandoned and all the fragments that have been
+     received for that packet must be discarded.
      </t>
 
-     <t>RFC6946 written in the style of RFC791: If the fragment is a
-     whole datagram (that is, both the Fragment Offset field and the M
-     flag are zero), then it does not need any further reassembly and
-     should be processed normally (i.e., updating Next Header, adjust
-     Payload Length, removing the Fragmentation Header, etc.).  Any
-     other fragments that match this packet should not be discarded and
-     processed normally.
-      </t>
-
-      <t>Old RFC6946: A destination node that receives a Fragment Header with
-      the "Fragment Offset" equal to 0 and the "M" flag equal to 0, that
-      is an atomic fragment, must process that packet in isolation from
-      any other packets/fragments, even if the other fragments contain
-      the same set {IPv6 Source Address, IPv6 Destination Address,
-      Fragment Identification}.  A received packet should be
-      "reassembled" from the contents of this single fragment.</t>
-
-
-      <t>[I think the next three bullets can be removed, as they are redundant
-      with other parts of this section and new paragraph above.]</t>
-
-      <t> <list>
-
-      <t>RFC6946  The Unfragmentable Part of the reassembled packet consists of
-      all headers up to, but not including, the Fragment Header of the
-      received atomic fragment.</t>
-
-      <t>RFC6946  The Next Header field of the last header of the Unfragmentable
-      Part of the reassembled packet is obtained from the Next Header
-      field of the Fragment Header of the received atomic fragment.</t>
-
-      <t>RFC6946  The Payload Length of the reassembled packet is obtained by
-      subtracting the length of the Fragment Header (that is, 8) from the
-      Payload Length of the received atomic fragment.</t>
-
-      </list></t>
-
-      <t>[I think the next paragraph is now redundant] </t>
-
-      <t>RFC6946  Additionally, if any fragments with the same set {IPv6 Source
-      Address, IPv6 Destination Address, Fragment Identification} are
-      present in the fragment reassembly queue when the atomic fragment
-      is received, such fragments must not be discarded upon receipt of
-      the "colliding" IPv6 atomic fragment, since IPv6 atomic fragments
-      must not interfere with "normal" fragmented traffic.</t>
-
-
+      <t>If the fragment is a whole datagram (that is, both the Fragment
+      Offset field and the M flag are zero), then it does not need any
+      further reassembly and should be processed as a fully reassembled
+      packet (i.e., updating Next Header, adjust Payload Length, removing
+      the Fragmentation Header, etc.).  Any other fragments that match
+      this packet (i.e., the same IPv6 Source Address, IPv6 Destination
+      Address, and Fragment Identification) should be processed
+      normally.</t>
+     
     </list></t>
     </list></t>
 
