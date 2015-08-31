@@ -166,12 +166,12 @@
   <t>Note: it is possible, though unusual, for a device with multiple
   interfaces to be configured to forward non-self-destined packets
   arriving from some set (fewer than all) of its interfaces, and to
-  discard non-self-destined packets arriving from its other
-  interfaces.  Such a device must obey the protocol requirements for
-  routers when receiving packets from, and interacting with neighbors
-  over, the former (forwarding) interfaces.  It must obey the protocol
-  requirements for hosts when receiving packets from, and interacting
-  with neighbors over, the latter (non-forwarding) interfaces.</t>
+  discard non-self-destined packets arriving from its other interfaces.
+  Such a device must obey the protocol requirements for routers when
+  receiving packets from, and interacting with neighbors over, the former
+  (forwarding) interfaces.  It must obey the protocol requirements for
+  hosts when receiving packets from, and interacting with neighbors over,
+  the latter (non-forwarding) interfaces.</t>
 </section> <!-- ends: "2 from line 143-->
 
 <section title=" IPv6 Header Format"> <!-- 3, line 202-->
