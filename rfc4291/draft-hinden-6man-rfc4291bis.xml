@@ -13,6 +13,7 @@
 <!ENTITY rfc3956 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3956.xml">
 <!ENTITY rfc4038 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4038.xml">
 <!ENTITY rfc3879 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3879.xml">
+<!ENTITY rfc4291 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4291.xml">
 ]>
 
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
@@ -66,12 +67,16 @@
 <date day="" month="" year="" />
 
 <abstract>
-   <t>This document specifies an Internet standards track protocol for the
-   Internet community, and requests discussion and suggestions for
-   improvements.  Please refer to the current edition of the "Internet
-   Official Protocol Standards" (STD 1) for the standardization state
-   and status of this protocol.  Distribution of this memo is unlimited.
-   It obsoletes RFC4291.</t>
+
+   <t>This specification defines the addressing architecture of the IP
+   Version 6 (IPv6) protocol.  The document includes the IPv6 addressing
+   model, text representations of IPv6 addresses, definition of IPv6
+   unicast addresses, anycast addresses, and multicast addresses, and an
+   IPv6 node's required addresses.</t>
+
+   <t>This document obsoletes RFC 4291, "IP Version 6 Addressing
+   Architecture".</t>
+
 </abstract>
 
 </front>
@@ -89,7 +94,8 @@
 <section title="IPv6 Addressing"> 
 
    <t>IPv6 addresses are 128-bit identifiers for interfaces and sets of
-   interfaces (where "interface" is as defined in Section 2 of [IPV6]).
+   interfaces (where "interface" is as defined in Section 2 of
+   <xref target="RFC2460"/>).
    There are three types of addresses:</t>
 
   <t><list>
@@ -247,7 +253,9 @@
 
    <t>The text representation of IPv6 address prefixes is similar to the
    way IPv4 address prefixes are written in Classless Inter-Domain
-   Routing (CIDR) notation [CIDR].  An IPv6 address prefix is
+   Routing (CIDR) notation
+   <xref target="RFC1519"/>.
+   An IPv6 address prefix is
    represented by the notation:</t>
 
    <t><list>
@@ -411,13 +419,13 @@
    value 000, Interface IDs are required to be 64 bits long and to be
    constructed in Modified EUI-64 format.</t>
 
-   <t>Modified EUI-64 format-based interface identifiers may have universal
-   scope when derived from a universal token (e.g., IEEE 802 48-bit MAC
-   or IEEE EUI-64 identifiers [EUI64]) or may have local scope where a
-   global token is not available (e.g., serial links, tunnel end-points)
-   or where global tokens are undesirable (e.g., temporary tokens for
-   privacy [PRIV]).</t>
-
+   <t>Modified EUI-64 format-based interface identifiers may have
+   universal scope when derived from a universal token (e.g., IEEE 802
+   48-bit MAC or IEEE EUI-64 identifiers <xref target="EUI64"/>) or may
+   have local scope where a global token is not available (e.g., serial
+   links, tunnel end-points) or where global tokens are undesirable
+   (e.g., temporary tokens for privacy <xref target="RFC3041"/>.</t>
+   
    <t>Modified EUI-64 format interface identifiers are formed by inverting
    the "u" bit (universal/local bit in IEEE EUI-64 terminology) when
    forming the interface identifier from IEEE EUI-64 identifiers.  In
@@ -458,7 +466,8 @@
 
    <t>The details of forming interface identifiers are defined in the
    appropriate "IPv6 over &lt;link>" specification, such as "IPv6 over
-   Ethernet" [ETHER], and "IPv6 over FDDI" [FDDI].</t>
+   Ethernet" <xref target="RFC2464"/>, and "IPv6 over FDDI" <xref
+   target="RFC2467"/>.</t>
 
   </section>
 
@@ -568,8 +577,8 @@
 +--------------------------------------+----+---------------------+
 ]]></artwork></figure>
 
-   <t>See [RFC4038] for background on the usage of the "IPv4-mapped IPv6
-   address".</t>
+   <t>See <xref target="RFC4038"/> for background on the usage of the
+   "IPv4-mapped IPv6 address".</t>
 
    </section>
    
@@ -602,7 +611,8 @@
 
    <t>Site-Local addresses were originally designed to be used for
    addressing inside of a site without the need for a global prefix.
-   Site-local addresses are now deprecated as defined in [SLDEP].</t>
+   Site-local addresses are now deprecated as defined in
+   <xref target="RFC3879"/>.</t>
 
    <t>Site-Local addresses have the following format:</t>
 
@@ -614,9 +624,10 @@
 +----------+-------------------------+----------------------------+
 ]]></artwork></figure>
    
-   <t>The special behavior of this prefix defined in [RFC3513] must no
-   longer be supported in new implementations (i.e., new implementations
-   must treat this prefix as Global Unicast).</t>
+   <t>The special behavior of this prefix defined in <xref
+   target="RFC3513"/> must no longer be supported in new implementations
+   (i.e., new implementations must treat this prefix as Global
+   Unicast).</t>
 
    <t>Existing implementations and deployments may continue to use this
    prefix.</t>
@@ -732,9 +743,9 @@
    <t>T = 1 indicates a non-permanently-assigned ("transient" or
    "dynamically" assigned) multicast address.</t>
 
-   <t>The P flag's definition and usage can be found in [RFC3306].</t>
+   <t>The P flag's definition and usage can be found in <xref target="RFC3306"/>.</t>
 
-   <t>The R flag's definition and usage can be found in [RFC3956].</t>
+   <t>The R flag's definition and usage can be found in <xref target="RFC3956"/>.</t>
 
    </list></t>
 
@@ -783,8 +794,9 @@
     </list></t>
 
     <t>group ID identifies the multicast group, either permanent or
-      transient, within the given scope.  Additional definitions of the
-      multicast group ID field structure are provided in [RFC3306].</t>
+    transient, within the given scope.  Additional definitions of the
+    multicast group ID field structure are provided in <xref
+    target="RFC3306"/>.</t>
     
    </list></t>
 
@@ -990,9 +1002,9 @@
 
     <t><list>
      <t><list hangIndent="5" style="hanging">
-     <t hangText="[5]">0000::/96 was previously defined as the "IPv4-Compatible IPv6
-     address" prefix.  This definition has been deprecated by RFC
-     4291.</t>
+     <t hangText="[5]">0000::/96 was previously defined as the
+     "IPv4-Compatible IPv6 address" prefix.  This definition has been
+     deprecated by <xref target="RFC4291"/>.</t>
      </list></t>
      </list></t>
 
@@ -1007,7 +1019,7 @@
 
    <t>IPv6 addressing documents do not have any direct impact on Internet
    infrastructure security.  Authentication of IPv6 packets is defined
-   in [AUTH].</t>
+   in <xref target="RFC2402"/>.</t>
 
      </section>
 
@@ -1038,6 +1050,7 @@
     &rfc2402;
     &rfc1519;
     &rfc2464;
+    &rfc4291;
 
     <reference anchor="EUI64"
        target="http://standards.ieee.org/regauth/oui/tutorials/EUI64.html">
@@ -1099,12 +1112,12 @@
 
    <t>Links or Nodes with IEEE 802 48-bit MACs</t>
 
-   <t>[EUI64] defines a method to create an IEEE EUI-64 identifier from an
-   IEEE 48-bit MAC identifier.  This is to insert two octets, with
-   hexadecimal values of 0xFF and 0xFE (see the Note at the end of
-   appendix), in the middle of the 48-bit MAC (between the company_id
-   and vendor-supplied id).  An example is the 48-bit IEEE MAC with
-   Global scope:</t>
+   <t><xref target="EUI64"/> defines a method to create an IEEE EUI-64
+   identifier from an IEEE 48-bit MAC identifier.  This is to insert two
+   octets, with hexadecimal values of 0xFF and 0xFE (see the Note at the
+   end of appendix), in the middle of the 48-bit MAC (between the
+   company_id and vendor-supplied id).  An example is the 48-bit IEEE MAC
+   with Global scope:</t>
 
 <figure><artwork align="left"><![CDATA[
 |0              1|1              3|3              4|
@@ -1192,13 +1205,13 @@
    part of any automatic algorithm.</t>
 
     <t><list hangIndent="7" style="hanging">
-    <t hangText="Note:">[EUI-64] actually defines 0xFF and 0xFF as the bits to be
-         inserted to create an IEEE EUI-64 identifier from an IEEE MAC-
-         48 identifier.  The 0xFF and 0xFE values are used when starting
-         with an IEEE EUI-48 identifier.  The incorrect value was used
-         in earlier versions of the specification due to a
-         misunderstanding about the differences between IEEE MAC-48 and
-         EUI-48 identifiers.</t>
+    <t hangText="Note:"><xref target="EUI64"/> actually defines 0xFF and
+    0xFF as the bits to be inserted to create an IEEE EUI-64 identifier
+    from an IEEE MAC- 48 identifier.  The 0xFF and 0xFE values are used
+    when starting with an IEEE EUI-48 identifier.  The incorrect value
+    was used in earlier versions of the specification due to a
+    misunderstanding about the differences between IEEE MAC-48 and EUI-48
+    identifiers.</t>
 
    <t hangText="">This document purposely continues the use of 0xFF and 0xFE
          because it meets the requirements for IPv6 interface
@@ -1253,7 +1266,7 @@
        </list></t>
 
    <t  hangText="o">Changed the reference indicated in Section 2.5.4 "Global Unicast
-      Addresses" to RFC 3587.</t>
+      Addresses" to <xref target="RFC3587"/>.</t>
 
    <t  hangText="o">Removed mention of NSAP addresses in examples.</t>
 
