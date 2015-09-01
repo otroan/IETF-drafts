@@ -847,25 +847,20 @@
       <t>The Fragment header is not present in the final, reassembled
       packet.</t>
 
-      <t>Duplicate fragments that exactly match (that is, have the same
-      Fragment Identification, Fragment Offset, and fragment length) as
-      an existing fragment being reassembled for the same packet should
-      be discarded.</t>
-
      <t>If any of the fragments being reassembled overlaps with any other
      fragments being reassembled for the same packet, reassembly of that
      packet must be abandoned and all the fragments that have been
      received for that packet must be discarded.
      </t>
 
-      <t>If the fragment is a whole datagram (that is, both the Fragment
-      Offset field and the M flag are zero), then it does not need any
-      further reassembly and should be processed as a fully reassembled
-      packet (i.e., updating Next Header, adjust Payload Length, removing
-      the Fragmentation Header, etc.).  Any other fragments that match
-      this packet (i.e., the same IPv6 Source Address, IPv6 Destination
-      Address, and Fragment Identification) should be processed
-      independently.</t>
+     <t>If the fragment is a whole datagram (that is, both the Fragment
+     Offset field and the M flag are zero), then it does not need any
+     further reassembly and should be processed as a fully reassembled
+     packet (i.e., updating Next Header, adjust Payload Length, removing
+     the Fragmentation Header, etc.).  Any other fragments that match
+     this packet (i.e., the same IPv6 Source Address, IPv6 Destination
+     Address, and Fragment Identification) should be processed
+     independently.</t>
      
     </list></t>
     </list></t>
@@ -1455,7 +1450,9 @@
      <t><list hangIndent="5" style="hanging">
 
     <t hangText="05)">The purpose of this draft is to incorporate the
-    updates dealing with fragmentation as defined in RFC5722 and RFC6946.
+    updates dealing with fragmentation as defined in RFC5722 and
+    RFC6946.  Note:  The issue relating to the handling of exact
+    duplicate Fragements identified on the mailing list is left open.
     </t>
 
      <t hangText="05)">Fix text in the end of Section 4.0 to correct the
