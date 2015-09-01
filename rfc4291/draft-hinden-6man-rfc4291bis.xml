@@ -530,7 +530,7 @@
    the IPv6 address with embedded IPv4 addresses described in Section
    2.5.5.  An example of global addresses starting with a binary value
    other than 000 (and therefore having a 64-bit interface ID field) can
-   be found in [GLOBAL].</t>
+   be found in <xref target="RFC3587"/>.</t>
 
   </section>
 

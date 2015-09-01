@@ -847,6 +847,11 @@
       <t>The Fragment header is not present in the final, reassembled
       packet.</t>
 
+      <t>Duplicate fragments that exactly match (that is, have the same
+      Fragment Identification, Fragment Offset, and fragment length) as
+      an existing fragment being reassembled for the same packet should
+      be discarded.</t>
+
      <t>If any of the fragments being reassembled overlaps with any other
      fragments being reassembled for the same packet, reassembly of that
      packet must be abandoned and all the fragments that have been
@@ -860,7 +865,7 @@
       the Fragmentation Header, etc.).  Any other fragments that match
       this packet (i.e., the same IPv6 Source Address, IPv6 Destination
       Address, and Fragment Identification) should be processed
-      normally.</t>
+      independently.</t>
      
     </list></t>
     </list></t>
