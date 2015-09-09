@@ -23,7 +23,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc2460bis-05" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc2460bis-06" obsoletes="2460" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -686,15 +686,15 @@
   </list></t>
 
     <t>The initial, large, unfragmented packet is referred to as the
-    "original packet", and it is considered to consist of two parts,
+    "original packet", and it is considered to consist of four parts,
     as illustrated:</t>
     <t>original packet:</t>
 
     <figure><artwork align="left"><![CDATA[
-+------------------+----------------------//-----------------------+
-|  Unfragmentable  |                 Fragmentable                  |
-|       Part       |                     Part                      |
-+------------------+----------------------//-----------------------+
++------------------+-------+-------------+---//--------------------+
+|  Unfragmentable  | Ext   | Upper-Layer |   Fragmentable          |
+|       Part       | Hdrs  |   Headers   |      Part               |
++------------------+-------+-------------+---//--------------------+
 ]]></artwork></figure>
 
     <t><list>
@@ -704,10 +704,15 @@
     header if present, else the Hop-by-Hop Options header if present,
     else no extension headers.</t>
 
-    <t>The Fragmentable Part consists of the rest of the packet, that
-    is, any extension headers that need be processed only by the final
-    destination node(s), plus the upper-layer header and data.</t>
-   </list></t>
+    <t>The Ext Hdrs are all other extension headers.</t>
+    
+    <t>The Upper-Layer Header is the first upper-layer header.  Examples
+    of upper-layer headers include TCP, UDP, IPv4, IPv6, and
+    Encapsulating Security Payload (ESP).  </t>
+
+    <t>The Fragmentable Part consists of the rest of the packet.</t>
+ 
+  </list></t>
 
     <t>The Fragmentable Part of the original packet is divided into
     fragments, each, except possibly the last ("rightmost") one, being
@@ -716,19 +721,19 @@
 
     <t>original packet:</t>
     <figure><artwork align="left"><![CDATA[
-+------------------+--------------+--------------+--//--+----------+
-|  Unfragmentable  |    first     |    second    |      |   last   |
-|       Part       |   fragment   |   fragment   | .... | fragment |
-+------------------+--------------+--------------+--//--+----------+
++------------------+----+-----------+--------+--------+-//-+--------+
+|  Unfragmentable  |Ext |Upper-Layer|  first | second |    | last   |
+|       Part       |Hdrs| Header    |fragment|fragment|....|fragment|
++------------------+----+-----------+--------+--------+-//-+--------+
 ]]></artwork></figure>
 
 <t>fragment packets:</t>
 
     <figure><artwork align="left"><![CDATA[
-+------------------+--------+--------------+
-|  Unfragmentable  |Fragment|    first     |
-|       Part       | Header |   fragment   |
-+------------------+--------+--------------+
++------------------+----+---------+-------------+--------------+
+|  Unfragmentable  |Ext |Fragment | Upper-Layer |  first       |
+|       Part       |Hdrs| Header  | Header      | fragment     |
++------------------+----+---------+-------------+--------------+
 
 +------------------+--------+--------------+
 |  Unfragmentable  |Fragment|    second    |
@@ -744,14 +749,49 @@
 ]]></artwork></figure>
 
 
-    <t>Each fragment packet is composed of:</t>
+    <t>The first fragment packet is composed of:</t>
 
     <t><list>
       <t>(1) The Unfragmentable Part of the original packet, with the
-      Payload Length of the original IPv6 header changed to contain
-      the length of this fragment packet only (excluding the length of
-      the IPv6 header itself), and the Next Header field of the last
-      header of the Unfragmentable Part changed to 44.</t>
+      Payload Length of the original IPv6 header changed to contain the
+      length of this fragment packet only (excluding the length of the
+      IPv6 header itself), and the Next Header field of the last header
+      of the Unfragmentable Part changed to 44 if there are no Extension
+      headers.</t>
+
+      <t>(2) Extension Headers if any, and the Next header field of the last
+      extension header changed to 44.</t>
+
+      <t>(3) A Fragment header containing:</t>
+      <t><list>
+
+	<t>The Next Header value that identifies the first header of
+	the Fragmentable Part of the original packet.</t>
+
+	<t>A Fragment Offset containing the offset of the fragment, in
+	8-octet units, relative to the start of the Fragmentable Part
+	of the original packet.  The Fragment Offset of the first
+	("leftmost") fragment is 0.</t>
+
+	<t>An M flag value of 1 as this is the first fragment.</t>
+
+	<t>The Identification value generated for the original packet.</t>
+
+      </list></t>
+
+      <t>(4) The Upper-Layer header.</t>
+
+      <t>(5) The fragment itself.</t>
+    </list></t>
+
+    <t>The subsequent fragment packets are composed of:</t>
+
+    <t><list>
+      <t>(1) The Unfragmentable Part of the original packet, with the
+      Payload Length of the original IPv6 header changed to contain the
+      length of this fragment packet only (excluding the length of the
+      IPv6 header itself), and the Next Header field of the last header
+      of the Unfragmentable Part changed to 44 .</t>
 
       <t>(2) A Fragment header containing:</t>
       <t><list>
@@ -773,7 +813,7 @@
 
       <t>(3) The fragment itself.</t>
     </list></t>
-
+    
       <t>The lengths of the fragments must be chosen such that the
       resulting fragment packets fit within the MTU of the path to the
       packets' destination(s).</t>
@@ -787,10 +827,10 @@
       <t>reassembled original packet:</t>
 
       <figure><artwork align="left"><![CDATA[
-+------------------+----------------------//------------------------+
-|  Unfragmentable  |                 Fragmentable                   |
-|       Part       |                     Part                       |
-+------------------+----------------------//------------------------+
++------------------+----+-----------+--------+--------+-//-+--------+
+|  Unfragmentable  |Ext |Upper-Layer|  first | second |    | last   |
+|       Part       |Hdrs| Header    |fragment|fragment|....|fragment|
++------------------+----+-----------+--------+--------+-//-+--------+
 ]]></artwork></figure>
 
       <t>The following rules govern reassembly:</t>
@@ -1449,10 +1489,27 @@
 
      <t><list hangIndent="5" style="hanging">
 
+    <t hangText="06)">The purpose of this draft is to incorporate the
+    updates dealing with Extension headers as defined in RFC6564,
+    RFC7045, and RFC7112.
+    </t>
+
+     <t hangText="06)">Editorial changes.
+     </t>
+
+  </list></t>
+  </list></t>
+
+    <t>--------------------------------------------------------</t>
+
+    <t><list>
+
+    <t><list hangIndent="5" style="hanging">
+
     <t hangText="05)">The purpose of this draft is to incorporate the
     updates dealing with fragmentation as defined in RFC5722 and
     RFC6946.  Note:  The issue relating to the handling of exact
-    duplicate Fragements identified on the mailing list is left open.
+    duplicate fragments identified on the mailing list is left open.
     </t>
 
      <t hangText="05)">Fix text in the end of Section 4.0 to correct the
