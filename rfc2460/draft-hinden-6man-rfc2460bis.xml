@@ -686,29 +686,28 @@
   </list></t>
 
     <t>The initial, large, unfragmented packet is referred to as the
-    "original packet", and it is considered to consist of four parts,
+    "original packet", and it is considered to consist of three parts,
     as illustrated:</t>
     <t>original packet:</t>
 
     <figure><artwork align="left"><![CDATA[
-+------------------+-------+-------------+---//--------------------+
-|  Unfragmentable  | Ext   | Upper-Layer |   Fragmentable          |
-|       Part       | Hdrs  |   Headers   |      Part               |
-+------------------+-------+-------------+---//--------------------+
++------------------+-------------------------+---//----------------+
+|  Unfragmentable  | Extention & Upper-Layer |   Fragmentable      |
+|      Headers     |       Headers           |      Part           |
++------------------+-------------------------+---//----------------+
 ]]></artwork></figure>
 
     <t><list>
-    <t>The Unfragmentable Part consists of the IPv6 header plus any
+    <t>The Unfragmentable Headers consists of the IPv6 header plus any
     extension headers that must be processed by nodes en route to the
     destination, that is, all headers up to and including the Routing
     header if present, else the Hop-by-Hop Options header if present,
     else no extension headers.</t>
 
-    <t>The Ext Hdrs are all other extension headers.</t>
-    
-    <t>The Upper-Layer Header is the first upper-layer header.  Examples
-    of upper-layer headers include TCP, UDP, IPv4, IPv6, and
-    Encapsulating Security Payload (ESP).  </t>
+    <t>The Ext Hdrs are all other extension headers.  The Upper-Layer
+    Header is the first upper-layer header.  Examples of upper-layer
+    headers include TCP, UDP, IPv4, IPv6, ICMPv6, and Encapsulating
+    Security Payload (ESP).  </t>
 
     <t>The Fragmentable Part consists of the rest of the packet.</t>
  
@@ -721,30 +720,31 @@
 
     <t>original packet:</t>
     <figure><artwork align="left"><![CDATA[
-+------------------+----+-----------+--------+--------+-//-+--------+
-|  Unfragmentable  |Ext |Upper-Layer|  first | second |    | last   |
-|       Part       |Hdrs| Header    |fragment|fragment|....|fragment|
-+------------------+----+-----------+--------+--------+-//-+--------+
++-----------------+-----------------+--------+--------+-//-+--------+
+|  Unfragmentable |Ext & Upper-Layer| first  |second  |    | last   |
+|      Headers    |    Headers      |fragment|fragment|....|fragment|
++-----------------+-----------------+--------+--------+-//-+--------+
 ]]></artwork></figure>
 
 <t>fragment packets:</t>
 
     <figure><artwork align="left"><![CDATA[
-+------------------+----+---------+-------------+--------------+
-|  Unfragmentable  |Ext |Fragment | Upper-Layer |  first       |
-|       Part       |Hdrs| Header  | Header      | fragment     |
-+------------------+----+---------+-------------+--------------+
+                             |<------ first fragment --------->|                             
++------------------+---------+------------------+--------------+
+|  Unfragmentable  |Fragment | Ext & Upper-Layer|first fragment|
+|      Headers     | Header  | Headers          |  data        |
++------------------+---------+------------------+--------------+
 
 +------------------+--------+--------------+
 |  Unfragmentable  |Fragment|    second    |
-|       Part       | Header |   fragment   |
+|      Headers     | Header |   fragment   |
 +------------------+--------+--------------+
                       o
                       o
                       o
 +------------------+--------+----------+
 |  Unfragmentable  |Fragment|   last   |
-|       Part       | Header | fragment |
+|      Headers     | Header | fragment |
 +------------------+--------+----------+
 ]]></artwork></figure>
 
@@ -752,21 +752,17 @@
     <t>The first fragment packet is composed of:</t>
 
     <t><list>
-      <t>(1) The Unfragmentable Part of the original packet, with the
+      <t>(1) The Unfragmentable Headers of the original packet, with the
       Payload Length of the original IPv6 header changed to contain the
       length of this fragment packet only (excluding the length of the
       IPv6 header itself), and the Next Header field of the last header
-      of the Unfragmentable Part changed to 44 if there are no Extension
-      headers.</t>
+      of the Unfragmentable Headers changed to 44.</t>
 
-      <t>(2) Extension Headers if any, and the Next header field of the last
-      extension header changed to 44.</t>
-
-      <t>(3) A Fragment header containing:</t>
+      <t>(2) A Fragment header containing:</t>
       <t><list>
 
-	<t>The Next Header value that identifies the first header of
-	the Fragmentable Part of the original packet.</t>
+	<t>The Next Header value that identifies the first header after
+	the Unfragmentable Headers of the original packet.</t>
 
 	<t>A Fragment Offset containing the offset of the fragment, in
 	8-octet units, relative to the start of the Fragmentable Part
@@ -779,30 +775,37 @@
 
       </list></t>
 
-      <t>(4) The Upper-Layer header.</t>
+      <t>(3) The first fragment containing:</t> 
 
-      <t>(5) The fragment itself.</t>
+      <t><list>
+
+      <t>Extension Headers, if any, and the Upper-Layer header.
+      These headers must be in the first fragment.</t>
+
+      <t>The first fragment data.</t>
+
+      </list></t>
+
     </list></t>
 
     <t>The subsequent fragment packets are composed of:</t>
 
     <t><list>
-      <t>(1) The Unfragmentable Part of the original packet, with the
+      <t>(1) The Unfragmentable Headers of the original packet, with the
       Payload Length of the original IPv6 header changed to contain the
       length of this fragment packet only (excluding the length of the
       IPv6 header itself), and the Next Header field of the last header
-      of the Unfragmentable Part changed to 44 .</t>
+      of the Unfragmentable Headers changed to 44.</t>
 
       <t>(2) A Fragment header containing:</t>
       <t><list>
 
-	<t>The Next Header value that identifies the first header of
-	the Fragmentable Part of the original packet.</t>
-
+	<t>The Next Header value that identifies the first header after
+	the Unfragmentable Headers of the original packet.</t>
+	
 	<t>A Fragment Offset containing the offset of the fragment, in
-	8-octet units, relative to the start of the Fragmentable Part
-	of the original packet.  The Fragment Offset of the first
-	("leftmost") fragment is 0.</t>
+	8-octet units, relative to the start of the Fragmentable part
+	of the original packet.</t>
 
 	<t>An M flag value of 0 if the fragment is the last
 	("rightmost") one, else an M flag value of 1.</t>
@@ -827,10 +830,10 @@
       <t>reassembled original packet:</t>
 
       <figure><artwork align="left"><![CDATA[
-+------------------+----+-----------+--------+--------+-//-+--------+
-|  Unfragmentable  |Ext |Upper-Layer|  first | second |    | last   |
-|       Part       |Hdrs| Header    |fragment|fragment|....|fragment|
-+------------------+----+-----------+--------+--------+-//-+--------+
++-----------------+----+------------+--------+--------+-//--+-------+
+|  Unfragmentable |Ext & Upper-Layer|  first | second |     | last  |
+|      Headers    |   Header        |fragment|fragment|....|fragment|
++-----------------+----+------------+--------+--------+-//--+-------+
 ]]></artwork></figure>
 
       <t>The following rules govern reassembly:</t>
@@ -840,18 +843,18 @@
       that have the same Source Address, Destination Address, and
       Fragment Identification.</t>
 
-      <t>The Unfragmentable Part of the reassembled packet consists of
+      <t>The Unfragmentable Headers of the reassembled packet consists of
       all headers up to, but not including, the Fragment header of the
-      first fragment packet (that is, the packet whose Fragment Offset
-      is zero), with the following two changes:</t>
+      first fragment packet (that is, the packet whose Fragment Offset is
+      zero), with the following two changes:</t>
 
       <t><list>
 	<t>The Next Header field of the last header of the
-	Unfragmentable Part is obtained from the Next Header field of
+	Unfragmentable Headers is obtained from the Next Header field of
 	the first fragment's Fragment header.</t>
 
 	<t>The Payload Length of the reassembled packet is computed
-	from the length of the Unfragmentable Part and the length and
+	from the length of the Unfragmentable Headers and the length and
 	offset of the last fragment.  For example, a formula for
 	computing the Payload Length of the reassembled original
 	packet is:</t>
@@ -933,6 +936,11 @@
       field of the fragment packet.</t>
       </list></t>
 
+      <t>If the first fragment does not include all headers through an
+      Upper-Layer header, then that fragment should be discarded and an
+      ICMP Parameter Problem, Code 3, message should be sent to the
+      source of the fragment, with the Pointer field set to zero.</t>
+      
       <t>The following conditions are not expected to occur, but are
       not considered errors if they do:</t>
 
