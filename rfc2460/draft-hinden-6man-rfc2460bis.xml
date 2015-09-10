@@ -14,6 +14,8 @@
 <!ENTITY rfc3168 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3168.xml">
 <!ENTITY rfc5871 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5871.xml">
 <!ENTITY rfc6936 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6936.xml">
+<!ENTITY rfc7045 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7045.xml">
+<!ENTITY rfc2460 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2460.xml">
 ]>
 
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
@@ -274,13 +276,36 @@
   looking for a particular kind of extension header and process that
   header prior to processing all preceding ones.</t>
 
+  <t>With one exception, extension headers are not processed by any node
+  along a packet's delivery path, until the packet reaches the node (or
+  each of the set of nodes, in the case of multicast) identified in the
+  Destination Address field of the IPv6 header. Note: If an intermediate
+  forwarding node examines an extension header for any reason, it must do
+  so in accordance with the provisions of <xref target="RFC7045"/>, with
+  references to <xref target="RFC2460"/> interpreted as references to the
+  present document.  At the Destination node, normal demultiplexing on
+  the Next Header field of the IPv6 header invokes the module to process
+  the first extension header, or the upper-layer header if no extension
+  header is present.  The contents and semantics of each extension header
+  determine whether or not to proceed to the next header.  Therefore,
+  extension headers must be processed strictly in the order they appear
+  in the packet; a receiver must not, for example, scan through a packet
+  looking for a particular kind of extension header and process that
+  header prior to processing all preceding ones.</t>
+
   <t>The exception referred to in the preceding paragraph is the
-  Hop-by-Hop Options header, which carries information that must be
+  Hop-by-Hop Options header, which carries information that should be
   examined and processed by every node along a packet's delivery path,
   including the source and destination nodes.  The Hop-by-Hop Options
   header, when present, must immediately follow the IPv6 header.  Its
-  presence is indicated by the value zero in the Next Header field of
-  the IPv6 header.</t>
+  presence is indicated by the value zero in the Next Header field of the
+  IPv6 header.</t>
+
+  <t>It should be noted that due to performance restrictions some nodes
+  may ignore the Hop-by-Hop Option header, drop the packet containing a
+  hop-by-hop header, or assign packets containing this option to a slow
+  processing path.  Designers planning to use a hop-by-hop option need to
+  be aware of this likely behaviour.</t>
 
   <t>If, as a result of processing a header, a node is required to
   proceed to the next header but the Next Header value in the current
@@ -721,7 +746,7 @@
     <t>original packet:</t>
     <figure><artwork align="left"><![CDATA[
 +-----------------+-----------------+--------+--------+-//-+--------+
-|  Unfragmentable |Ext & Upper-Layer| first  |second  |    | last   |
+|  Unfragmentable |Ext & Upper-Layer|  first | second |    |  last  |
 |      Headers    |    Headers      |fragment|fragment|....|fragment|
 +-----------------+-----------------+--------+--------+-//-+--------+
 ]]></artwork></figure>
@@ -732,7 +757,7 @@
                              |<------ first fragment --------->|                             
 +------------------+---------+------------------+--------------+
 |  Unfragmentable  |Fragment | Ext & Upper-Layer|first fragment|
-|      Headers     | Header  | Headers          |  data        |
+|      Headers     | Header  |   Headers        |  data        |
 +------------------+---------+------------------+--------------+
 
 +------------------+--------+--------------+
@@ -830,10 +855,11 @@
       <t>reassembled original packet:</t>
 
       <figure><artwork align="left"><![CDATA[
-+-----------------+----+------------+--------+--------+-//--+-------+
-|  Unfragmentable |Ext & Upper-Layer|  first | second |     | last  |
-|      Headers    |   Header        |fragment|fragment|....|fragment|
-+-----------------+----+------------+--------+--------+-//--+-------+
+                |<---- first fragment ----->|                             
++---------------+-----------------+---------+--------+-//--+--------+
+| Unfragmentable|Ext & Upper-Layer|  first  | second |     | last   |
+|    Headers    |   Headers       |frag data|fragment|.....|fragment|
++---------------+-----------------+---------+--------+-//--+--------+
 ]]></artwork></figure>
 
       <t>The following rules govern reassembly:</t>
@@ -934,12 +960,12 @@
       and an ICMP Parameter Problem, Code 0, message should be sent to
       the source of the fragment, pointing to the Fragment Offset
       field of the fragment packet.</t>
-      </list></t>
 
       <t>If the first fragment does not include all headers through an
       Upper-Layer header, then that fragment should be discarded and an
       ICMP Parameter Problem, Code 3, message should be sent to the
       source of the fragment, with the Pointer field set to zero.</t>
+      </list></t>
       
       <t>The following conditions are not expected to occur, but are
       not considered errors if they do:</t>
@@ -1319,6 +1345,7 @@
     &rfc6437;
     &rfc2474;
     &rfc3168;
+    &rfc7045;
   </references>
 
   <references title="Informative References">
@@ -1336,6 +1363,7 @@
 
    &rfc1661;
    &rfc6936;
+   &rfc2460;
 
   </references>    
 
@@ -1499,8 +1527,24 @@
 
     <t hangText="06)">The purpose of this draft is to incorporate the
     updates dealing with Extension headers as defined in RFC6564,
-    RFC7045, and RFC7112.
+    RFC7045, and RFC7112.  The changes include:
     </t>
+
+     <t><list>
+
+     <t>RFC6564:  tbd</t>
+
+     <t>RFC7045: The changes were to add a reference to RFC7045, change
+     the requirement for processing the hop-by-hop option to a should,
+     and added a note that due to performance restrictions some nodes	
+     won't process the Hop-by-Hop Option header.</t>
+     
+     <t>RFC7112:  The changes were to revise the Fragmentation Section to
+     require that all headers through the first Upper-Layer Header was in
+     the first fragment.  This changed how packets were fragmented and
+     reassembled and added a new error case.</t>
+
+     </list></t>
 
      <t hangText="06)">Editorial changes.
      </t>
