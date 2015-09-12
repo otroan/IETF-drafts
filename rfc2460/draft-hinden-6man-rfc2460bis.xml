@@ -16,6 +16,9 @@
 <!ENTITY rfc6936 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6936.xml">
 <!ENTITY rfc7045 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7045.xml">
 <!ENTITY rfc2460 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2460.xml">
+
+
+
 ]>
 
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
@@ -301,8 +304,8 @@
   presence is indicated by the value zero in the Next Header field of the
   IPv6 header.</t>
 
-  <t>It should be noted that due to performance restrictions some nodes
-  may ignore the Hop-by-Hop Option header, drop the packet containing a
+  <t>It should be noted that due to performance restrictions nodes
+  may ignore the Hop-by-Hop Option header, drop packets containing a
   hop-by-hop header, or assign packets containing this option to a slow
   processing path.  Designers planning to use a hop-by-hop option need to
   be aware of this likely behaviour.</t>
@@ -1066,6 +1069,59 @@
       Next Header field contains 59, those octets must be ignored, and
       passed on unchanged if the packet is forwarded.</t>
     </section>
+
+
+     <section title="Defining New Extention Headers and Options">
+
+      <t>No new extension headers that require hop-by-hop behavior should be
+      defined.</t>
+
+      <t>New hop-by-hop options are not recommended because due to
+      performance restrictions nodes may ignore the Hop-by-Hop Option
+      header, drop packets containing a hop-by-hop header, or assign
+      packets containing this option to a slow processing path.
+      Designers considering defining new hop-by-hop options need to be
+      aware of this likely behaviour.  There has to a very clear
+      justification why any new hop-by-hop options is needed before it is
+      be standardized.</t>
+      
+      <t>Instead of defining new Extension Headers, it is recommended
+      that the Destination Options header is used to carry optional
+      information that need be examined only by a packet's destination
+      node(s), because they provide better handling and backward
+      compatibility. Defining new IPv6 extension headers is not
+      recommended.  There has to a very clear justification why any new
+      extension header is needed before it is be standardized.  If they
+      are defined, they need to use the following format:</t>
+
+<figure><artwork align="left"><![CDATA[
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ |  Next Header  |  Hdr Ext Len  |                               |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
+ |                                                               |
+ .                                                               .
+ .                  Header Specific Data                         .
+ .                                                               .
+ |                                                               |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+]]></artwork></figure>
+
+      <t><list>
+      <t><list style="hanging" hangIndent="22" >
+	<t hangText="Next Header">8-bit selector.  Identifies the type
+	of header immediately following the extension
+	header.  Uses the same values as the IPv4 Protocol field
+	<xref target="RFC1700"/> et seq.</t>
+	<t hangText="Hdr Ext Len">8-bit unsigned integer.  Length of
+	the Destination Options header in 8-octet units, not including
+	the first 8 octets.</t>
+	<t hangText="Header Specific Data">Variable-length field, Fields specific to the
+        extension header.</t>
+      </list></t>
+      </list></t>
+
+   </section>
+
   </section> <!-- ends: "4 from line 268-->
 
   <section title="Packet Size Issues"> <!-- 5, line 1205-->
@@ -1532,7 +1588,8 @@
 
      <t><list>
 
-     <t>RFC6564:  tbd</t>
+     <t>RFC6564: Added new Section 4.8 that describe recommendations for
+     defining new Extension headers and options</t>
 
      <t>RFC7045: The changes were to add a reference to RFC7045, change
      the requirement for processing the hop-by-hop option to a should,
