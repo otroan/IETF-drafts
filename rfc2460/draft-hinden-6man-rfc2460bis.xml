@@ -126,7 +126,12 @@
   The format and semantics of IPv6 addresses are specified separately
   in <xref  target="RFC2373"/>.  The IPv6 version of ICMP, which all IPv6
   implementations are required to include, is specified in
-  <xref  target="RFC2463"/> </t>
+  <xref target="RFC2463"/> </t>
+
+  <t>Note: As this document obsoletes <xref target="RFC2460"/>, any
+  document referenced in this document that includes pointers to RFC2460,
+  should be interpreted as referencing this document.</t>
+
 
 </section> <!-- ends: "1 from line 83-->
 <section title=" Terminology"> <!-- 2, line 143-->
@@ -284,17 +289,16 @@
   each of the set of nodes, in the case of multicast) identified in the
   Destination Address field of the IPv6 header. Note: If an intermediate
   forwarding node examines an extension header for any reason, it must do
-  so in accordance with the provisions of <xref target="RFC7045"/>, with
-  references to <xref target="RFC2460"/> interpreted as references to the
-  present document.  At the Destination node, normal demultiplexing on
-  the Next Header field of the IPv6 header invokes the module to process
-  the first extension header, or the upper-layer header if no extension
-  header is present.  The contents and semantics of each extension header
-  determine whether or not to proceed to the next header.  Therefore,
-  extension headers must be processed strictly in the order they appear
-  in the packet; a receiver must not, for example, scan through a packet
-  looking for a particular kind of extension header and process that
-  header prior to processing all preceding ones.</t>
+  so in accordance with the provisions of <xref target="RFC7045"/>.  At
+  the Destination node, normal demultiplexing on the Next Header field of
+  the IPv6 header invokes the module to process the first extension
+  header, or the upper-layer header if no extension header is present.
+  The contents and semantics of each extension header determine whether
+  or not to proceed to the next header.  Therefore, extension headers
+  must be processed strictly in the order they appear in the packet; a
+  receiver must not, for example, scan through a packet looking for a
+  particular kind of extension header and process that header prior to
+  processing all preceding ones.</t>
 
   <t>The exception referred to in the preceding paragraph is the
   Hop-by-Hop Options header, which carries information that should be
@@ -732,12 +736,15 @@
     header if present, else the Hop-by-Hop Options header if present,
     else no extension headers.</t>
 
-    <t>The Ext Hdrs are all other extension headers.  The Upper-Layer
-    Header is the first upper-layer header.  Examples of upper-layer
-    headers include TCP, UDP, IPv4, IPv6, ICMPv6, and Encapsulating
-    Security Payload (ESP).  </t>
+    <t>The Ext Hdrs are all other extension headers that are not included
+    in the Unfragmentable headers part of the packet.  The Upper-Layer
+    Header is the first upper-layer header that is not an IPv6
+    extension header.  Examples of upper-layer headers include TCP, UDP,
+    IPv4, IPv6, ICMPv6, and Encapsulating Security Payload (ESP).</t>
 
-    <t>The Fragmentable Part consists of the rest of the packet.</t>
+    <t>The Fragmentable Part consists of the rest of the packet after the
+    upper-layer header.</t>
+
  
   </list></t>
 
@@ -1076,8 +1083,8 @@
       <t>No new extension headers that require hop-by-hop behavior should be
       defined.</t>
 
-      <t>New hop-by-hop options are not recommended because due to
-      performance restrictions nodes may ignore the Hop-by-Hop Option
+      <t>New hop-by-hop options are not recommended because, due to
+      performance restrictions, nodes may ignore the Hop-by-Hop Option
       header, drop packets containing a hop-by-hop header, or assign
       packets containing this option to a slow processing path.
       Designers considering defining new hop-by-hop options need to be
@@ -1091,7 +1098,7 @@
       node(s), because they provide better handling and backward
       compatibility. Defining new IPv6 extension headers is not
       recommended.  There has to a very clear justification why any new
-      extension header is needed before it is be standardized.  If they
+      extension header is needed before it is standardized.  If they
       are defined, they need to use the following format:</t>
 
 <figure><artwork align="left"><![CDATA[
@@ -1596,8 +1603,8 @@
      and added a note that due to performance restrictions some nodes	
      won't process the Hop-by-Hop Option header.</t>
      
-     <t>RFC7112:  The changes were to revise the Fragmentation Section to
-     require that all headers through the first Upper-Layer Header was in
+     <t>RFC7112: The changes were to revise the Fragmentation Section to
+     require that all headers through the first Upper-Layer Header are in
      the first fragment.  This changed how packets were fragmented and
      reassembled and added a new error case.</t>
 
