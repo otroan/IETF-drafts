@@ -9,6 +9,7 @@
 #      Changed to create -04
 #      Changed to create -05
 #      Changed to create -06
+#      Changed to create -07
 #
 
 XML2RFC=xml2rfc
@@ -18,7 +19,7 @@ all:	drafts
 rfc2460:	rfc2460.xml
 	$(XML2RFC) $< -o $@-gen.txt
 draft-hinden-6man-rfc2460bis:	draft-hinden-6man-rfc2460bis.xml
-	$(XML2RFC) $< -o $@-06.txt
+	$(XML2RFC) $< -o $@-07.txt
 
 drafts: \
 	draft-hinden-6man-rfc2460bis

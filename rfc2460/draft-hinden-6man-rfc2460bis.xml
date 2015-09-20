@@ -28,7 +28,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc2460bis-06" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc2460bis-07" obsoletes="2460" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -1579,6 +1579,21 @@
     <t>This memo has the following changes from RFC2460.  Numbers
     identify the Internet-Draft version in which the change was made.</t>
 
+     <t><list>
+
+     <t><list hangIndent="5" style="hanging">
+
+     <t hangText="07)">The purpose of this draft is to update references
+     to current versions and correctly assign references to normative and
+     informative.</t>
+
+     <t hangText="07)">Editorial changes.
+     </t>
+
+    </list></t>
+    </list></t>
+
+    <t>--------------------------------------------------------</t>
 
      <t><list>
 
@@ -1601,8 +1616,8 @@
      
      <t>RFC7112: The changes were to revise the Fragmentation Section to
      require that all headers through the first Upper-Layer Header are in
-     the first fragment.  This changed how packets were fragmented and
-     reassembled and added a new error case.</t>
+     the first fragment.  This changed the text describing how packets
+     are fragmented and reassembled and added a new error case.</t>
 
      </list></t>
 
