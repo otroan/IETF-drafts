@@ -308,11 +308,11 @@
   presence is indicated by the value zero in the Next Header field of the
   IPv6 header.</t>
 
-  <t>It should be noted that due to performance restrictions nodes
-  may ignore the Hop-by-Hop Option header, drop packets containing a
-  hop-by-hop header, or assign packets containing this option to a slow
-  processing path.  Designers planning to use a hop-by-hop option need to
-  be aware of this likely behaviour.</t>
+  <t>It should be noted that due to performance restrictions nodes may
+  ignore the Hop-by-Hop Option header, drop packets containing a
+  hop-by-hop option header, or assign packets containing a hop-by-hop
+  option header to a slow processing path.  Designers planning to use a
+  hop-by-hop option need to be aware of this likely behaviour.</t>
 
   <t>If, as a result of processing a header, a node is required to
   proceed to the next header but the Next Header value in the current
@@ -737,10 +737,12 @@
     else no extension headers.</t>
 
     <t>The Ext Hdrs are all other extension headers that are not included
-    in the Unfragmentable headers part of the packet.  The Upper-Layer
-    Header is the first upper-layer header that is not an IPv6
-    extension header.  Examples of upper-layer headers include TCP, UDP,
-    IPv4, IPv6, ICMPv6, and Encapsulating Security Payload (ESP).</t>
+    in the Unfragmentable headers part of the packet.  For this purpose,
+    the IP Authentication Header (AH) and the Encapsulating Security
+    Payload (ESP) are not considered extension headers. The Upper-Layer
+    Header is the first upper-layer header that is not an IPv6 extension
+    header.  Examples of upper-layer headers include TCP, UDP, IPv4, IPv6,
+    ICMPv6, and as noted AH and ESP.</t>
 
     <t>The Fragmentable Part consists of the rest of the packet after the
     upper-layer header.</t>
@@ -764,16 +766,15 @@
 <t>fragment packets:</t>
 
     <figure><artwork align="left"><![CDATA[
-                             |<------ first fragment --------->|                             
-+------------------+---------+------------------+--------------+
-|  Unfragmentable  |Fragment | Ext & Upper-Layer|first fragment|
-|      Headers     | Header  |   Headers        |  data        |
-+------------------+---------+------------------+--------------+
++------------------+---------+-------------------+----------+
+|  Unfragmentable  |Fragment | Ext & Upper-Layer |  first   |
+|      Headers     | Header  |   Headers         | fragment |
++------------------+---------+-------------------+----------+
 
-+------------------+--------+--------------+
-|  Unfragmentable  |Fragment|    second    |
-|      Headers     | Header |   fragment   |
-+------------------+--------+--------------+
++------------------+--------+-------------------------------+
+|  Unfragmentable  |Fragment|    second                     |
+|      Headers     | Header |   fragment                    |
++------------------+--------+-------------------------------+
                       o
                       o
                       o
@@ -810,16 +811,10 @@
 
       </list></t>
 
-      <t>(3) The first fragment containing:</t> 
-
-      <t><list>
-
-      <t>Extension Headers, if any, and the Upper-Layer header.
+      <t>(3) Extension Headers, if any, and the Upper-Layer header.
       These headers must be in the first fragment.</t>
 
-      <t>The first fragment data.</t>
-
-      </list></t>
+      <t>(4) The first fragment.</t>
 
     </list></t>
 
@@ -865,7 +860,6 @@
       <t>reassembled original packet:</t>
 
       <figure><artwork align="left"><![CDATA[
-                |<---- first fragment ----->|                             
 +---------------+-----------------+---------+--------+-//--+--------+
 | Unfragmentable|Ext & Upper-Layer|  first  | second |     | last   |
 |    Headers    |   Headers       |frag data|fragment|.....|fragment|
@@ -1086,11 +1080,11 @@
       <t>New hop-by-hop options are not recommended because, due to
       performance restrictions, nodes may ignore the Hop-by-Hop Option
       header, drop packets containing a hop-by-hop header, or assign
-      packets containing this option to a slow processing path.
+      packets containing a hop-by-hop header to a slow processing path.
       Designers considering defining new hop-by-hop options need to be
       aware of this likely behaviour.  There has to a very clear
-      justification why any new hop-by-hop options is needed before it is
-      be standardized.</t>
+      justification why any new hop-by-hop option is needed before it is
+      standardized.</t>
       
       <t>Instead of defining new Extension Headers, it is recommended
       that the Destination Options header is used to carry optional
@@ -1098,8 +1092,10 @@
       node(s), because they provide better handling and backward
       compatibility. Defining new IPv6 extension headers is not
       recommended.  There has to a very clear justification why any new
-      extension header is needed before it is standardized.  If they
-      are defined, they need to use the following format:</t>
+      extension header is needed before it is standardized.</t>
+
+      <t>If new Extension Headers are defined, they need to use the
+      following format:</t>
 
 <figure><artwork align="left"><![CDATA[
  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
