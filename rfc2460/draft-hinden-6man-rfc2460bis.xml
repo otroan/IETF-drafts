@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-<!ENTITY rfc2401 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2401.xml">
-<!ENTITY rfc2402 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2402.xml">
 <!ENTITY rfc2406 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2406.xml">
-<!ENTITY rfc2463 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2463.xml">
-<!ENTITY rfc2373 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2373.xml">
 <!ENTITY rfc1981 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1981.xml">
-<!ENTITY rfc1700 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1700.xml">
 <!ENTITY rfc1661 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1661.xml">
 <!ENTITY rfc0791 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.0791.xml">
 <!ENTITY rfc6437 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6437.xml">
@@ -16,9 +11,14 @@
 <!ENTITY rfc6936 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6936.xml">
 <!ENTITY rfc7045 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7045.xml">
 <!ENTITY rfc2460 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2460.xml">
-
-
-
+<!ENTITY rfc3232 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3232.xml">
+<!ENTITY rfc3513 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3513.xml">
+<!ENTITY rfc4301 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4301.xml">
+<!ENTITY rfc4302 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4302.xml">
+<!ENTITY rfc4303 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4303.xml">
+<!ENTITY rfc4305 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4305.xml">
+<!ENTITY rfc4443 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4443.xml">
+<!ENTITY I-D.hinden-6man-rfc4291bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.draft-hinden-6man-rfc4291bis-00.xml">
 ]>
 
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
@@ -121,12 +121,12 @@
 
   <t>This document specifies the basic IPv6 header and the
   initially-defined IPv6 extension headers and options.  It also
-  discusses packet size issues, the semantics of flow labels and
-  traffic classes, and the effects of IPv6 on upper-layer protocols.
-  The format and semantics of IPv6 addresses are specified separately
-  in <xref  target="RFC2373"/>.  The IPv6 version of ICMP, which all IPv6
-  implementations are required to include, is specified in
-  <xref target="RFC2463"/> </t>
+  discusses packet size issues, the semantics of flow labels and traffic
+  classes, and the effects of IPv6 on upper-layer protocols.  The format
+  and semantics of IPv6 addresses are specified separately in
+  <xref target="I-D.hinden-6man-rfc4291bis"/>.
+  The IPv6 version of ICMP, which all IPv6 implementations are required
+  to include, is specified in <xref target="RFC4443"/> </t>
 
   <t>Note: As this document obsoletes <xref target="RFC2460"/>, any
   document referenced in this document that includes pointers to RFC2460,
@@ -184,7 +184,8 @@
   the latter (non-forwarding) interfaces.</t>
 </section> <!-- ends: "2 from line 143-->
 
-<section title=" IPv6 Header Format"> <!-- 3, line 202-->
+<section title=" IPv6 Header Format">
+
 
   <figure><artwork align="left"><![CDATA[
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -222,22 +223,23 @@
     length count.)</t>
     <t hangText="Next Header">8-bit selector.  Identifies the type of
     header immediately following the IPv6 header.  Uses the same
-    values as the IPv4 Protocol field <xref target="RFC1700"/> et seq.</t>
+    values as the IPv4 Protocol field <xref target="IANA-PN"/>.</t>
     <t hangText="Hop Limit">8-bit unsigned integer.  
     Decremented by 1 by each node that forwards the packet. The packet is
     discarded if Hop Limit is decremented to zero, or is received with a
     zero Hop Limit.</t>
     <t hangText="Source Address">128-bit address of the originator of
-    the packet.  See <xref  target="RFC2373"/>.</t>
+    the packet.  See <xref target="I-D.hinden-6man-rfc4291bis"/>.</t>
     <t hangText="Destination Address">128-bit address of the intended
     recipient of the packet (possibly not the ultimate recipient, if a
-    Routing header is present).  See <xref  target="RFC2373"/> and section 4.4.</t>
+    Routing header is present).  See <xref target="I-D.hinden-6man-rfc4291bis"/>
+    and section 4.4.</t>
   </list></t>
   </list></t>
 
 </section> <!-- ends: "3 from line 202-->
 
-<section title=" IPv6 Extension Headers"> <!-- 4, line 268-->
+<section title="IPv6 Extension Headers"> <!-- 4, line 268-->
   <t>In IPv6, optional internet-layer information is encoded in
   separate headers that may be placed between the IPv6 header and the
   upper-layer header in a packet.  There are a small number of such
@@ -345,7 +347,7 @@
   <?rfc subcompact="no" ?>
   
   <t>The first three are specified in this document; the last two are
-  specified in <xref target="RFC2402"/> and <xref target="RFC2406"/>,
+  specified in <xref target="RFC4302"/> and <xref target="RFC4303"/>,
   respectively.</t>
 
   <section title="Extension Header Order">
@@ -372,7 +374,7 @@
 
     <t hangText="note 2:">additional recommendations regarding the relative order
     of the Authentication and Encapsulating Security Payload headers
-    are given in <xref target="RFC2406"/>.</t>
+    are given in <xref target="RFC4303"/>.</t>
 
     <t hangText="note 3:">for options to be processed only by the final
     destination of the packet.</t>
@@ -561,8 +563,7 @@
     <t><list hangIndent="20" style="hanging">
       <t hangText="Next Header">8-bit selector.  Identifies the type
       of header immediately following the Hop-by-Hop Options header.
-      Uses the same values as the IPv4 Protocol field <xref
-      target="RFC1700"/> et seq.</t>
+      Uses the same values as the IPv4 Protocol field <xref target="IANA-PN"/>.</t>
       <t hangText="Hdr Ext Len">8-bit unsigned integer.  Length of the
       Hop-by-Hop Options header in 8-octet units, not including the
       first 8 octets.</t>
@@ -603,8 +604,7 @@
     <t><list hangIndent="20" style="hanging">
       <t hangText="Next Header">8-bit selector.  Identifies the type
       of header immediately following the Routing header.  Uses the
-      same values as the IPv4 Protocol field <xref target="RFC1700"/>
-      et seq.</t>
+      same values as the IPv4 Protocol field <xref target="IANA-PN"/>.</t>      
       <t hangText="Hdr Ext Len">8-bit unsigned integer.  Length of the
       Routing header in 8-octet units, not including the first 8
       octets.</t>
@@ -674,7 +674,7 @@
       <t hangText="Next Header">8-bit selector.  Identifies the
       initial header type of the Fragmentable Part of the original
       packet (defined below).  Uses the same values as the IPv4
-      Protocol field <xref target="RFC1700"/> et seq.</t>
+      Protocol field <xref target="IANA-PN"/>.</t>
       <t hangText="Reserved">8-bit reserved field.  Initialized to
       zero for transmission; ignored on reception.</t>
       <t hangText="Fragment Offset">13-bit unsigned integer.  The
@@ -1017,7 +1017,7 @@
 	<t hangText="Next Header">8-bit selector.  Identifies the type
 	of header immediately following the Destination Options
 	header.  Uses the same values as the IPv4 Protocol field
-	<xref target="RFC1700"/> et seq.</t>
+	<xref target="IANA-PN"/>.</t>
 	<t hangText="Hdr Ext Len">8-bit unsigned integer.  Length of
 	the Destination Options header in 8-octet units, not including
 	the first 8 octets.</t>
@@ -1114,7 +1114,7 @@
 	<t hangText="Next Header">8-bit selector.  Identifies the type
 	of header immediately following the extension
 	header.  Uses the same values as the IPv4 Protocol field
-	<xref target="RFC1700"/> et seq.</t>
+	<xref target="IANA-PN"/>.</t>
 	<t hangText="Hdr Ext Len">8-bit unsigned integer.  Length of
 	the Destination Options header in 8-octet units, not including
 	the first 8 octets.</t>
@@ -1289,7 +1289,7 @@
     </list></t>
     </list></t>
 
-    <t>The IPv6 version of ICMP  <xref  target="RFC2463"/>
+    <t>The IPv6 version of ICMP  <xref  target="RFC4443"/>
       includes the above
       pseudo-header in its checksum computation; this is a change from
       the IPv4 version of ICMP, which does not include a pseudo-header
@@ -1374,7 +1374,7 @@
 
     <t>The security features of IPv6 are described in the Security
     Architecture for the Internet Protocol <xref
-    target="RFC2401"/>.</t>
+    target="RFC4301"/>.</t>
 
   </section>
 
@@ -1393,33 +1393,42 @@
 
 
   <references title="Normative References">
+    &rfc4443;
     &rfc0791;
-    &rfc2401;
-    &rfc2402;
-    &rfc2406;
-    &rfc2463;
-    &rfc2373;
     &rfc1981;
-    &rfc1700;
     &rfc6437;
     &rfc2474;
     &rfc3168;
     &rfc7045;
+    &I-D.hinden-6man-rfc4291bis;
+    
   </references>
 
   <references title="Informative References">
 
+    &rfc4302;
+    &rfc4303;
     &rfc5871;
 
-    <reference anchor="IANA-RH"
+ <reference anchor="IANA-RH"
       target="https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml#ipv6-parameters-3">
     <front>
     <title>IANA Routing Types Parameter Registry</title>
     <author/>
     <date/>
    </front>
-</reference>
+ </reference>
 
+  <reference anchor="IANA-PN"
+      target="https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml">
+    <front>
+    <title>Assigned Internet Protocol Numbers</title>
+    <author/>
+    <date/>
+   </front>
+ </reference>
+
+   &rfc4301;
    &rfc1661;
    &rfc6936;
    &rfc2460;
@@ -1584,7 +1593,7 @@
      <t><list hangIndent="5" style="hanging">
 
      <t hangText="07)">The purpose of this draft is to update references
-     to current versions and correctly assign references to normative and
+     to current versions and assign references to normative and
      informative.</t>
 
      <t hangText="07)">Editorial changes.
