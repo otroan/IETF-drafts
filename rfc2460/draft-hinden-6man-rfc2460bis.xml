@@ -28,7 +28,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc2460bis-07" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc2460bis-08" obsoletes="2460" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -1365,7 +1365,19 @@
 
    <section anchor="IANA" title="IANA Considerations">
 
-   <t>None.</t>
+   <t>RFC2460 is referenced in a number of IANA registries.  These
+   include:</t>
+
+   <t><list>
+   <t><list style="hanging" hangIndent="3">
+     <t hangText="o">Internet Protocol Version 6 (IPv6) Parameters
+     <xref target="IANA-6P"/></t>
+     <t hangText="o">Assigned Internet Protocol Numbers
+     <xref target="IANA-PN"/></t>
+   </list></t>
+   </list></t>
+
+   <t>The IANA should update these references to point to this document.</t>
 
    </section>
 
@@ -1384,19 +1396,21 @@
     of the members of the IPng working group, the End-to-End Protocols
     research group, and the Internet Community At Large.</t>
 
+    <t>Authors would also like to ackowledge the authors of the updating
+    RFCs that were used in this version of the document to make IPv6 an
+    Internet Standard.  This includes xxx, yyy, zzz, and aaaa.</t>
+
   </section>
 
 </middle>
 
 <back>
 
-
-
   <references title="Normative References">
     &rfc6437;
     &rfc2474;
     &rfc3168;
-    &rfc7045;
+    &rfc4443;
     &I-D.hinden-6man-rfc4291bis;
     
   </references>
@@ -1410,9 +1424,19 @@
     &rfc4301;
     &rfc4302;
     &rfc4303;
-    &rfc4443;
     &rfc5871;
     &rfc6936;
+    &rfc7045;
+
+
+ <reference anchor="IANA-6P"
+      target="https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml">
+    <front>
+    <title>Internet Protocol Version 6 (IPv6) Parameters</title>
+    <author/>
+    <date/>
+   </front>
+ </reference>
 
  <reference anchor="IANA-RH"
       target="https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml#ipv6-parameters-3">
@@ -1423,7 +1447,7 @@
    </front>
  </reference>
 
-  <reference anchor="IANA-PN"
+ <reference anchor="IANA-PN"
       target="https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml">
     <front>
     <title>Assigned Internet Protocol Numbers</title>
@@ -1592,7 +1616,15 @@
 
      <t><list hangIndent="5" style="hanging">
 
-     <t hangText="07)">The purpose of this draft is to update references
+     <t hangText="08)">Add instruction to
+     the IANA to change references to RFC2460 to this document</t>
+
+     <t hangText="08)">Add note to the refernece section acknowleging the
+     authors of the updating documents</t>
+
+     <t hangText="08)">Editorial changes.</t>
+
+     <t hangText="07)">Update references
      to current versions and assign references to normative and
      informative.</t>
 

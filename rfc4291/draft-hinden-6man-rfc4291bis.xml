@@ -23,7 +23,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc4291bis-00" obsoletes="4291" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc4291bis-01" obsoletes="4291" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification"> IP Version 6 Addressing Architecture</title>
 <author fullname="Robert M. Hinden" initials="R"
@@ -167,6 +167,8 @@
 
 <section title=" Text Representation of Addresses"> 
 
+ <section title=" Text Representation of IPv6 Addresses"> 
+
    <t>There are three conventional forms for representing IPv6 addresses as
    text strings:</t>
 
@@ -178,8 +180,8 @@
 
       <?rfc subcompact="yes" ?>
       <t><list>
-         <t>ABCD:EF01:2345:6789:ABCD:EF01:2345:6789</t>
-         <t>2001:DB8:0:0:8:800:200C:417A</t>
+         <t>abcd:ef01:2345:6789:abcd:ef01:2345:6789</t>
+         <t>2001:db8:0:0:8:800:200c:417a</t>
        </list></t>
        <?rfc subcompact="no" ?>
        
@@ -201,8 +203,8 @@
 
       <t><list>
       <t><list hangIndent="30" style="hanging">
-         <t hangText="2001:DB8:0:0:8:800:200C:417A">a unicast address</t>
-         <t hangText="FF01:0:0:0:0:0:0:101">a multicast address</t>
+         <t hangText="2001:db8:0:0:8:800:200c:417a">a unicast address</t>
+         <t hangText="ff01:0:0:0:0:0:0:101">a multicast address</t>
          <t hangText="0:0:0:0:0:0:0:1">the loopback address</t>
          <t hangText="0:0:0:0:0:0:0:0">the unspecified address</t>
        </list></t>
@@ -214,10 +216,10 @@
       <?rfc subcompact="yes" ?>
       <t><list>
        <t><list hangIndent="30" style="hanging">
-       <t hangText="2001:DB8::8:800:200C:417A">a unicast address</t>
-      <t hangText="FF01::101">a multicast address</t>
-      <t hangText="::1">the loopback address</t>
-      <t hangText="::">the unspecified address</t>
+       <t hangText="2001:db8::8:800:200c:417a">a unicast address</t>
+       <t hangText="ff01::101">a multicast address</t>
+       <t hangText="::1">the loopback address</t>
+       <t hangText="::">the unspecified address</t>
      </list></t>
      </list></t>
      <?rfc subcompact="no" ?>
@@ -232,7 +234,7 @@
       <t><list>
       <?rfc subcompact="yes" ?>
         <t>0:0:0:0:0:0:13.1.68.3</t>
-        <t>0:0:0:0:0:FFFF:129.144.52.38</t>
+        <t>0:0:0:0:0:ffff:129.144.52.38</t>
      <?rfc subcompact="no" ?>
      </list></t>
      
@@ -241,7 +243,7 @@
      <?rfc subcompact="yes" ?>
       <t><list>
       <t> ::13.1.68.3</t>
-       <t>::FFFF:129.144.52.38</t>
+       <t>::ffff:129.144.52.38</t>
       </list></t>
     <?rfc subcompact="no" ?>
      
@@ -275,26 +277,26 @@
   </list></t>
   
    <t>For example, the following are legal representations of the 60-bit
-   prefix 20010DB80000CD3 (hexadecimal):</t>
+   prefix 20010db80000cd3 (hexadecimal):</t>
 
    <t><list>
-      <t>2001:0DB8:0000:CD30:0000:0000:0000:0000/60</t>
-      <t>2001:0DB8::CD30:0:0:0:0/60</t>
-      <t>2001:0DB8:0:CD30::/60</t>
+      <t>2001:0db8:0000:cd30:0000:0000:0000:0000/60</t>
+      <t>2001:0db8::cd30:0:0:0:0/60</t>
+      <t>2001:0db8:0:cd30::/60</t>
    </list></t>
    
    <t>The following are NOT legal representations of the above prefix:</t>
 
     <t><list>
    <t><list hangIndent="21" style="hanging">
-    <t  hangText="2001:0DB8:0:CD3/60">may drop leading zeros, but not trailing
+    <t  hangText="2001:0db8:0:cd3/60">may drop leading zeros, but not trailing
      zeros, within any 16-bit chunk of the address</t>
 
-      <t  hangText="2001:0DB8::CD30/60">address to left of "/" expands to
-      2001:0DB8:0000:0000:0000:0000:0000:CD30</t>
+      <t  hangText="2001:0db8::cd30/60">address to left of "/" expands to
+      2001:0db8:0000:0000:0000:0000:0000:cd30</t>
 
-      <t  hangText="2001:0DB8::CD3/60">address to left of "/" expands to
-      2001:0DB8:0000:0000:0000:0000:0000:0CD3</t>
+      <t  hangText="2001:0db8::cd3/60">address to left of "/" expands to
+      2001:0db8:0000:0000:0000:0000:0000:0cd3</t>
     </list></t>
     </list></t>
 
@@ -304,19 +306,115 @@
     <t><list>
      <?rfc subcompact="yes" ?>
     <t><list hangIndent="24" style="hanging">
-     <t  hangText="the node address">2001:0DB8:0:CD30:123:4567:89AB:CDEF</t>
-     <t  hangText="and its subnet number"> 2001:0DB8:0:CD30::/60</t>
+     <t hangText="the node address">2001:0db8:0:cd30:123:4567:89ab:cdef</t>
+     <t hangText="and its subnet number"> 2001:0db8:0:cd30::/60</t>
     </list></t>
     <?rfc subcompact="no" ?>
 
     <t><list hangIndent="24" style="hanging">
-      <t  hangText="can be abbreviated as">2001:0DB8:0:CD30:123:4567:89AB:CDEF/60</t>
+      <t hangText="can be abbreviated as">2001:0db8:0:cd30:123:4567:89ab:cdef/60</t>
     </list></t>
     </list></t>
 
     </section>
 
-    <section title="Address Type Identification"> 
+  <section title="Recommendation for sytems generating IPv6 addresses"> 
+
+   <t>This section provides a recommendation for systems generating and
+   outputting IPv6 addresses as text.  Note, all implementations must
+   accept and process all addresses in the formats defined in the
+   previous two sections of this document.  The recommendations are:</t>
+
+   <t><list>
+
+   <t>The characters "a", "b", "c", "d", "e", and "f" in an IPv6 address
+   must be represented in lowercase.</t>
+
+  <t>Leading zeros in a 16-Bit Field must be suppressed.  For example,</t>
+
+  <t><list>
+  <t>2001:0db8::0001</t>
+  </list></t>
+
+  <t>is not acceptable and must be represented as</t>
+  
+  <t><list>
+   <t>2001:db8::1</t>
+  </list></t>
+  
+  <t>A single 16-bit 0000 field must be represented as 0.</t>
+
+  <t>The use of the symbol "::" must be used to its maximum capability.
+  For example:</t>
+
+  <t><list>
+    <t>2001:db8:0:0:0:0:2:1</t>
+  </list></t>
+
+  <t>must be shortened to</t>
+
+  <t><list>
+  <t>2001:db8::2:1</t>
+  </list></t>
+  
+  <t>Likewise,</t>
+
+  <t><list>
+  <t>2001:db8::0:1</t>
+  </list></t>
+
+  <t>is not correct, because the symbol "::" could
+  have been used to produce a shorter representation</t>
+
+  <t><list>
+  <t>2001:db8::1.</t>
+  </list></t>
+
+  <t>When there is an alternative choice in the placement of a "::", the
+  longest run of consecutive 16-bit 0 fields must be shortened, that is, the
+  sequence with three consecutive zero fields is shortened in</t>
+
+  <t><list>
+  <t>2001:0:0:1:0:0:0:1</t>
+  </list></t>
+
+  <t>When the length of the consecutive 16-bit 0 fields are
+  equal, that is</t>
+
+  <t><list>
+  <t>2001:db8:0:0:1:0:0:1</t>
+  </list></t>
+
+  <t>the first sequence of zero bits
+  must be shortened.  For example</t>
+
+  <t><list>
+  <t>2001:db8::1:0:0:1</t>
+  </list></t>
+
+  <t>is the correct representation.</t>
+
+  <t>The symbol "::" must not be used to shorten just one
+  16-bit 0 field.  For example, the representation</t>
+
+  <t><list>
+  <t>2001:db8:0:1:1:1:1:1</t>
+  </list></t>
+  
+  <t>is correct, but</t>
+
+  <t><list>
+  <t>2001:db8::1:1:1:1:1</t>
+  </list></t>
+  
+  <t>is not correct.</t>
+
+  </list></t>
+
+  </section>
+ </section>
+
+ <section title="Address Type Identification"> 
 
    <t>The type of an IPv6 address is identified by the high-order bits of
    the address, as follows:</t>
@@ -326,8 +424,8 @@
    ------------         -------------        -------------   -------
    Unspecified          00...0  (128 bits)   ::/128          2.5.2
    Loopback             00...1  (128 bits)   ::1/128         2.5.3
-   Multicast            11111111             FF00::/8        2.7
-   Link-Local unicast   1111111010           FE80::/10       2.5.6
+   Multicast            11111111             ff00::/8        2.7
+   Link-Local unicast   1111111010           fe80::/10       2.5.6
    Global Unicast       (everything else)
   ]]></artwork></figure>
 
@@ -573,7 +671,7 @@
 <figure><artwork align="left"><![CDATA[
 |                80 bits               | 16 |      32 bits        |
 +--------------------------------------+--------------------------+
-|0000..............................0000|FFFF|    IPv4 address     |
+|0000..............................0000|ffff|    IPv4 address     |
 +--------------------------------------+----+---------------------+
 ]]></artwork></figure>
 
@@ -806,16 +904,16 @@
    101 (hex), then</t>
 
    <t><list>
-   <t>FF01:0:0:0:0:0:0:101 means all NTP servers on the same interface
+   <t>ff01:0:0:0:0:0:0:101 means all NTP servers on the same interface
       (i.e., the same node) as the sender.</t>
 
-   <t>FF02:0:0:0:0:0:0:101 means all NTP servers on the same link as the
+   <t>ff02:0:0:0:0:0:0:101 means all NTP servers on the same link as the
       sender.</t>
 
-   <t>FF05:0:0:0:0:0:0:101 means all NTP servers in the same site as the
+   <t>ff05:0:0:0:0:0:0:101 means all NTP servers in the same site as the
       sender.</t>
 
-   <t>FF0E:0:0:0:0:0:0:101 means all NTP servers in the Internet.</t>
+   <t>ff0e:0:0:0:0:0:0:101 means all NTP servers in the Internet.</t>
    </list></t>
    
    <t>Non-permanently-assigned multicast addresses are meaningful only
@@ -851,22 +949,22 @@
    <t><list>
    <?rfc subcompact="yes" ?>
    <t><list hangIndent="30" style="hanging">
-    <t  hangText="Reserved Multicast Addresses:">FF00:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF01:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF02:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF03:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF04:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF05:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF06:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF07:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF08:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF09:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF0A:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF0B:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF0C:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF0D:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF0E:0:0:0:0:0:0:0</t>
-    <t  hangText="">FF0F:0:0:0:0:0:0:0</t>
+    <t  hangText="reserved multicast addresses:">ff00:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff01:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff02:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff03:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff04:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff05:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff06:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff07:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff08:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff09:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff0a:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff0b:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff0c:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff0d:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff0e:0:0:0:0:0:0:0</t>
+    <t  hangText="">ff0f:0:0:0:0:0:0:0</t>
     </list></t>
     <?rfc subcompact="no" ?>
    </list></t>
@@ -877,8 +975,8 @@
    <t><list>
    <?rfc subcompact="yes" ?>
    <t><list hangIndent="30" style="hanging">
-    <t  hangText="All Nodes Addresses:">FF01:0:0:0:0:0:0:1</t>
-    <t  hangText="">FF02:0:0:0:0:0:0:1</t>
+    <t  hangText="all nodes addresses:">ff01:0:0:0:0:0:0:1</t>
+    <t  hangText="">ff02:0:0:0:0:0:0:1</t>
      </list></t>
      <?rfc subcompact="no" ?>
    </list></t>
@@ -889,9 +987,9 @@
    <t><list>
    <?rfc subcompact="yes" ?>
    <t><list hangIndent="30" style="hanging">
-   <t  hangText="All Routers Addresses: ">   FF01:0:0:0:0:0:0:2</t>
-   <t  hangText="">FF02:0:0:0:0:0:0:2</t>
-   <t  hangText="">FF05:0:0:0:0:0:0:2</t>
+   <t  hangText="all routers addresses: ">   ff01:0:0:0:0:0:0:2</t>
+   <t  hangText="">ff02:0:0:0:0:0:0:2</t>
+   <t  hangText="">ff05:0:0:0:0:0:0:2</t>
    </list></t>
    <?rfc subcompact="no" ?>
    </list></t>
@@ -901,7 +999,7 @@
 
    <t><list>
    <t><list hangIndent="30" style="hanging">
-   <t  hangText=" Solicited-Node Address: ">FF02:0:0:0:0:1:FFXX:XXXX</t>
+   <t  hangText=" Solicited-Node Address: ">ff02:0:0:0:0:1:ffxx:xxxx</t>
    </list></t>
 </list></t>
 
@@ -913,17 +1011,17 @@
    range</t>
 
    <t><list>
-   <t>FF02:0:0:0:0:1:FF00:0000</t>
+   <t>ff02:0:0:0:0:1:ff00:0000</t>
     </list></t>
 
    <t>to</t>
 
    <t><list>
-   <t>FF02:0:0:0:0:1:FFFF:FFFF</t>
+   <t>ff02:0:0:0:0:1:ffff:ffff</t>
     </list></t>
 
    <t>For example, the Solicited-Node multicast address corresponding to
-   the IPv6 address 4037::01:800:200E:8C6C is FF02::1:FF0E:8C6C.  IPv6
+   the IPv6 address 4037::01:800:200e:8c6c is ff02::1:ff0e:8c6c.  IPv6
    addresses that differ only in the high-order bits (e.g., due to
    multiple high-order prefixes associated with different aggregations)
    will map to the same Solicited-Node address, thereby reducing the
@@ -1222,67 +1320,42 @@
 
   </section>
 
-  <section title="CHANGES SINCE RFC 3513">
+  <section title="CHANGES SINCE RFC 4291">
 
-   <t>The following changes were made from RFC 3513, "IP Version 6
-   Addressing Architecture":</t>
+   <t>This document has the following changes from RFC4291, "IP Version 6
+   Addressing Architecture".  Numbers identify the Internet-Draft version
+   in which the change was made.:</t>
 
-   <t><list>
-  <t><list hangIndent="3" style="hanging">
 
-   <t  hangText="o">The restrictions on using IPv6 anycast addresses were removed
-      because there is now sufficient experience with the use of anycast
-      addresses, the issues are not specific to IPv6, and the GROW
-      working group is working in this area.</t>
+<t><list>
 
-   <t  hangText="o">Deprecated the Site-Local unicast prefix.  Changes include the
-      following:</t>
+     <t><list hangIndent="5" style="hanging">
 
-  <t><list hangIndent="3" style="hanging">
-   <t  hangText="-">Removed Site-Local from special list of prefixes in Section
-              2.4.</t>
+       <t hangText="01)">The purpose of this draft is as follows:</t>
+       
+       <t><list hangIndent="3" style="hanging">
 
-   <t  hangText="-">Split section titled "Local-use IPv6 Unicast Addresses" into
-         two sections, "Link-Local IPv6 Unicast Addresses" and "Site-
-         Local IPv6 Unicast Addresses".</t>
+       <t hangText="o">Incorporate the updates made by RFC5952
+       regarding the text format when outputting IPv6 addresses.  A new
+       section was added for this and addresses shown in this document
+       were changed to lower case.</t>
 
-   <t  hangText="-">Added text to new section describing Site-Local deprecation.</t>
-    </list></t>
+       <t hangText="o">Revision of this Section to document the changes
+       from RFC4291.</t>
 
-   <t  hangText="o">Changes to resolve issues raised in IAB response to Robert Elz
-      appeal.  Changes include the following:</t>
-
-  <t><list hangIndent="3" style="hanging">
-   <t  hangText="-"> Added clarification to Section 2.5 that nodes should make no
-         assumptions about the structure of an IPv6 address.</t>
-
-   <t  hangText="-"> Changed the text in Section 2.5.1 and Appendix A to refer to
-         the Modified EUI-64 format interface identifiers with the "u"
-         bit set to one (1) as universal.</t>
-
-   <t  hangText="-">Added clarification to Section 2.5.1 that IPv6 nodes are not
-         required to validate that interface identifiers created in
-         Modified EUI-64 format with the "u" bit set to one are unique.</t>
-       </list></t>
-
-   <t  hangText="o">Changed the reference indicated in Section 2.5.4 "Global Unicast
-      Addresses" to <xref target="RFC3587"/>.</t>
-
-   <t  hangText="o">Removed mention of NSAP addresses in examples.</t>
-
-   <t  hangText="o">Clarified that the "x" in the textual representation can be one to
-      four digits.</t>
-
-   <t  hangText="o">Deprecated the "IPv6 Compatible Address" because it is not being
-      used in the IPv6 transition mechanisms.</t>
-
-   <t  hangText="o">Added the "R" and "P" flags to Section 2.7 on multicast addresses,
-      and pointers to the documents that define them.</t>
-
-   <t  hangText="o">Editorial changes.</t>
-   </list></t>
+       <t hangText="o">Editorial changes.</t>
 
     </list></t>
+
+    <t hangText="00)">The purpose of this version
+     is to establish a baseline from RFC4391.  The only intended changes are
+     formatting (XML is slightly different from .nroff), differences
+     between an RFC and Internet Draft, fixing a few ID Nits, and updates
+     to the authors information.  There should not be any content changes
+     to the specification.</t>
+
+  </list></t>
+  </list></t>
 
   </section>
 
