@@ -165,9 +165,9 @@
 
 </section>
 
-<section title=" Text Representation of Addresses"> 
+<section title="Text Representation of IPv6 Addresses"> 
 
- <section title=" Text Representation of IPv6 Addresses"> 
+ <section title="Text Representation of Addresses"> 
 
    <t>There are three conventional forms for representing IPv6 addresses as
    text strings:</t>
@@ -286,7 +286,6 @@
    </list></t>
    
    <t>The following are NOT legal representations of the above prefix:</t>
-
     <t><list>
    <t><list hangIndent="21" style="hanging">
     <t  hangText="2001:0db8:0:cd3/60">may drop leading zeros, but not trailing
@@ -318,31 +317,32 @@
 
     </section>
 
-  <section title="Recommendation for sytems generating IPv6 addresses"> 
+  <section title="Recommendation for outputting IPv6 addresses"> 
 
    <t>This section provides a recommendation for systems generating and
    outputting IPv6 addresses as text.  Note, all implementations must
    accept and process all addresses in the formats defined in the
-   previous two sections of this document.  The recommendations are:</t>
+   previous two sections of this document.  The recommendations are as
+   follows:</t>
 
-   <t><list>
+  <t><list hangIndent="3" style="hanging">
 
-   <t>The characters "a", "b", "c", "d", "e", and "f" in an IPv6 address
+  <t hangText="1.">The hexadecimal digits "a", "b", "c", "d", "e", and "f" in an IPv6 address
    must be represented in lowercase.</t>
 
-  <t>Leading zeros in a 16-Bit Field must be suppressed.  For example,</t>
+  <t hangText="2.">Leading zeros in a 16-Bit Field must be suppressed.  For example,</t>
 
   <t><list>
   <t>2001:0db8::0001</t>
   </list></t>
 
-  <t>is not acceptable and must be represented as</t>
+  <t>is not correct and must be represented as</t>
   
   <t><list>
    <t>2001:db8::1</t>
   </list></t>
   
-  <t>A single 16-bit 0000 field must be represented as 0.</t>
+  <t hangText="3.">A single 16-bit 0000 field must be represented as 0.</t>
 
   <t>The use of the symbol "::" must be used to its maximum capability.
   For example:</t>
@@ -370,16 +370,23 @@
   <t>2001:db8::1.</t>
   </list></t>
 
-  <t>When there is an alternative choice in the placement of a "::", the
-  longest run of consecutive 16-bit 0 fields must be shortened, that is, the
-  sequence with three consecutive zero fields is shortened in</t>
+  <t hangText="4.">When there is an alternative choice in the placement of a "::", the
+  longest run of consecutive 16-bit 0 fields must be shortened, that is,
+  in</t>
 
   <t><list>
   <t>2001:0:0:1:0:0:0:1</t>
   </list></t>
 
-  <t>When the length of the consecutive 16-bit 0 fields are
-  equal, that is</t>
+  <t>the sequence with three consecutive zero fields is shortened to</t>
+
+  <t><list>
+  <t>2001:0:0:1::1</t>
+  </list></t>
+
+
+  <t hangText="5.">When the length of the consecutive 16-bit 0 fields are
+  equal, for example</t>
 
   <t><list>
   <t>2001:db8:0:0:1:0:0:1</t>
@@ -394,7 +401,7 @@
 
   <t>is the correct representation.</t>
 
-  <t>The symbol "::" must not be used to shorten just one
+  <t hangText="6.">The symbol "::" must not be used to shorten just one
   16-bit 0 field.  For example, the representation</t>
 
   <t><list>
@@ -408,6 +415,32 @@
   </list></t>
   
   <t>is not correct.</t>
+
+  <t hangText="7.">The text representation method describe in this section should also be
+  use for text Representation of IPv6 Address Prefixes.  For example</t>
+
+   <t><list>
+   <t>0:0:0:0:0:ffff:192.0.2.1</t>
+  </list></t>
+
+   <t>should be shown as</t>
+
+   <t><list>
+   <t>::ffff:192.0.2.1</t>
+  </list></t>
+
+  <t hangText="8.">The text representation method describe in this section should be applied
+   for IPv6 addresses with embedded IPv4 address.  For example</t>
+
+   <t><list>
+   <t>2001:0db8:0000:cd30:0000:0000:0000:0000/60</t>
+   </list></t>
+
+   <t>should be shown as</t>
+
+   <t><list>
+   <t>2001:0db8:0:cd30::/60</t>
+  </list></t>
 
   </list></t>
 
@@ -1348,7 +1381,7 @@
     </list></t>
 
     <t hangText="00)">The purpose of this version
-     is to establish a baseline from RFC4391.  The only intended changes are
+     is to establish a baseline from RFC4291.  The only intended changes are
      formatting (XML is slightly different from .nroff), differences
      between an RFC and Internet Draft, fixing a few ID Nits, and updates
      to the authors information.  There should not be any content changes
