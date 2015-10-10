@@ -2,18 +2,19 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 
 <!ENTITY rfc2460 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2460.xml">
-<!ENTITY rfc2402 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2402.xml">
-<!ENTITY rfc1519 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1519.xml">
+<!ENTITY rfc4302 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4302.xml">
+<!ENTITY rfc4632 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4632.xml">
 <!ENTITY rfc2464 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2464.xml">
 <!ENTITY rfc2467 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2467.xml">
 <!ENTITY rfc3587 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3587.xml">
-<!ENTITY rfc3041 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3041.xml">
+<!ENTITY rfc4941 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4941.xml">
 <!ENTITY rfc3513 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3513.xml">
 <!ENTITY rfc3306 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3306.xml">
 <!ENTITY rfc3956 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3956.xml">
 <!ENTITY rfc4038 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4038.xml">
 <!ENTITY rfc3879 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3879.xml">
 <!ENTITY rfc4291 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4291.xml">
+<!ENTITY I-D.hinden-6man-rfc2460bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.draft-hinden-6man-rfc2460bis-07.xml">
 ]>
 
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
@@ -23,7 +24,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc4291bis-01" obsoletes="4291" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc4291bis-02" obsoletes="4291" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification"> IP Version 6 Addressing Architecture</title>
 <author fullname="Robert M. Hinden" initials="R"
@@ -95,7 +96,7 @@
 
    <t>IPv6 addresses are 128-bit identifiers for interfaces and sets of
    interfaces (where "interface" is as defined in Section 2 of
-   <xref target="RFC2460"/>).
+   <xref target="I-D.hinden-6man-rfc2460bis"/>).
    There are three types of addresses:</t>
 
   <t><list>
@@ -256,7 +257,7 @@
    <t>The text representation of IPv6 address prefixes is similar to the
    way IPv4 address prefixes are written in Classless Inter-Domain
    Routing (CIDR) notation
-   <xref target="RFC1519"/>.
+   <xref target="RFC4632"/>.
    An IPv6 address prefix is
    represented by the notation:</t>
 
@@ -555,7 +556,7 @@
    48-bit MAC or IEEE EUI-64 identifiers <xref target="EUI64"/>) or may
    have local scope where a global token is not available (e.g., serial
    links, tunnel end-points) or where global tokens are undesirable
-   (e.g., temporary tokens for privacy <xref target="RFC3041"/>.</t>
+   (e.g., temporary tokens for privacy <xref target="RFC4941"/>.</t>
    
    <t>Modified EUI-64 format interface identifiers are formed by inverting
    the "u" bit (universal/local bit in IEEE EUI-64 terminology) when
@@ -903,8 +904,10 @@
          <t>F  reserved</t>
     <?rfc subcompact="no" ?>
     
-   <t>Interface-Local scope spans only a single interface on a node
-         and is useful only for loopback transmission of multicast.</t>
+   <t>Interface-Local scope spans only a single interface on a node and
+   is useful only for loopback transmission of multicast.  Packets with
+   interface-local scope received from another node must be
+   discarded.</t>
 
    <t>Link-Local multicast scope spans the same topological region as
          the corresponding unicast scope.</t>
@@ -960,7 +963,7 @@
    <t>Multicast addresses must not be used as source addresses in IPv6
    packets or appear in any Routing header.</t>
 
-   <t>Routers must not forward any multicast packets beyond of the scope
+   <t>Routers must not forward any multicast packets beyond the scope
    indicated by the scop field in the destination multicast address.</t>
 
    <t>Nodes must not originate a packet to a multicast address whose scop
@@ -1150,7 +1153,7 @@
 
    <t>IPv6 addressing documents do not have any direct impact on Internet
    infrastructure security.  Authentication of IPv6 packets is defined
-   in <xref target="RFC2402"/>.</t>
+   in <xref target="RFC4302"/>.</t>
 
      </section>
 
@@ -1173,13 +1176,13 @@
 
 
   <references title="Normative References">
-    &rfc2460;
+    &I-D.hinden-6man-rfc2460bis;
   </references>
 
   <references title="Informative References">
 
-    &rfc2402;
-    &rfc1519;
+    &rfc4302;
+    &rfc4632;
     &rfc2464;
     &rfc4291;
 
@@ -1195,7 +1198,7 @@
 
     &rfc2467;
     &rfc3587;
-    &rfc3041;
+    &rfc4941;
     &rfc3513;
     &rfc3306;
     &rfc3956;
@@ -1344,27 +1347,74 @@
     misunderstanding about the differences between IEEE MAC-48 and EUI-48
     identifiers.</t>
 
-   <t hangText="">This document purposely continues the use of 0xFF and 0xFE
-         because it meets the requirements for IPv6 interface
-         identifiers (i.e., that they must be unique on the link), IEEE
-         EUI-48 and MAC-48 identifiers are syntactically equivalent, and
-         that it doesn't cause any problems in practice.</t>
-       </list></t>
+   <t hangText="">This document purposely continues the use of 0xFF and
+   0xFE because it meets the requirements for IPv6 interface identifiers
+   (i.e., that they must be unique on the link), IEEE EUI-48 and MAC-48
+   identifiers are syntactically equivalent, and that it doesn't cause
+   any problems in practice.</t>
+   </list></t>
 
   </section>
+
 
   <section title="CHANGES SINCE RFC 4291">
 
    <t>This document has the following changes from RFC4291, "IP Version 6
    Addressing Architecture".  Numbers identify the Internet-Draft version
-   in which the change was made.:</t>
+   that the change was made.:</t>
 
-
-<t><list>
+   <t><list>
 
      <t><list hangIndent="5" style="hanging">
 
-       <t hangText="01)">The purpose of this draft is as follows:</t>
+     <t hangText="02)">The changes made in this draft include:</t>
+
+     <t><list hangIndent="3" style="hanging">
+
+    <t hangText="o">Updates to resolve the open Errata on RFC4291.  These
+    are: </t>
+
+    <t><list>
+
+      <t> Errata ID: 3480: Corrects the definition of Interface-Local
+      multicast scope include that packets with interface-local scope
+      received from another node must be discarded</t>
+
+      <t> Errata ID: 1627: Remove extraneous "of" in Section 2.7.</t>
+
+      <t>Errata ID: 2702: This errata is marked rejected.  No change
+       is required.</t>
+
+      <t>Errata ID: 2735: This errata is marked rejected.  No change
+       is required.</t>
+
+      <t>Errata ID: 4406: This errata is marked rejected.  No change
+       is required.</t>
+
+       <t>Errata ID: 2406: This errata is marked rejected.  No change
+       is required.</t>
+
+      <t>Errata ID: 863: This errata is marked rejected.  No change
+       is required.</t>
+
+      <t>Errata ID: 864: This errata is marked rejected.  No change
+       is required.</t>
+
+      <t>Errata ID: 866: This errata is marked rejected.  No change
+       is required.</t>
+
+     </list></t>
+
+     <t hangText="o">Update references
+     to current versions.</t>
+
+     <t hangText="o">Editorial changes.</t>
+
+
+     </list></t>
+
+       
+     <t hangText="01)">The changes made in this draft include:</t>
        
        <t><list hangIndent="3" style="hanging">
 
@@ -1387,7 +1437,8 @@
      to the authors information.  There should not be any content changes
      to the specification.</t>
 
-  </list></t>
+    </list></t>
+
   </list></t>
 
   </section>
