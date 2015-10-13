@@ -24,7 +24,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc4291bis-02" obsoletes="4291" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc4291bis-03" obsoletes="4291" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification"> IP Version 6 Addressing Architecture</title>
 <author fullname="Robert M. Hinden" initials="R"
@@ -532,14 +532,17 @@
 
   <section title="Interface Identifiers">
 
-   <t>Interface identifiers in IPv6 unicast addresses are used to identify
-   interfaces on a link.  They are required to be unique within a subnet
-   prefix.  It is recommended that the same interface identifier not be
-   assigned to different nodes on a link.  They may also be unique over
-   a broader scope.  In some cases, an interface's identifier will be
-   derived directly from that interface's link-layer address.  The same
-   interface identifier may be used on multiple interfaces on a single
-   node, as long as they are attached to different subnets.</t>
+   <t>Interface identifiers in IPv6 unicast addresses are used to
+   identify interfaces on a link.  They are required to be unique within
+   a subnet prefix.  It is recommended that the same interface identifier
+   not be assigned to different nodes on a link.  They may also be unique
+   over a broader scope.  The same interface identifier may be used on
+   multiple interfaces on a single node, as long as they are attached to
+   different subnets.</t>
+
+   <t>Interface IDs must be viewed outside of the node that created
+   Interface ID as an opaque bit string without any internal
+   structure.</t>
 
    <t>Note that the uniqueness of interface identifiers is independent of
    the uniqueness of IPv6 addresses.  For example, a Global Unicast
@@ -548,13 +551,14 @@
    identifier.</t>
 
    <t>For all unicast addresses, except those that start with the binary
-   value 000, Interface IDs are required to be 64 bits long and to be
-   constructed in Modified EUI-64 format.</t>
+   value 000, Interface IDs are required to be 64 bits long.  If derived
+   from an IEEE MAC-layer address, they must be constructed in Modified
+   EUI-64 format.</t>
 
    <t>Modified EUI-64 format-based interface identifiers may have
    universal scope when derived from a universal token (e.g., IEEE 802
    48-bit MAC or IEEE EUI-64 identifiers <xref target="EUI64"/>) or may
-   have local scope where a global token is not available (e.g., serial
+   have local scope where a global token is not being used (e.g., serial
    links, tunnel end-points) or where global tokens are undesirable
    (e.g., temporary tokens for privacy <xref target="RFC4941"/>.</t>
    
@@ -591,10 +595,6 @@
    <t>IPv6 nodes are not required to validate that interface identifiers
    created with modified EUI-64 tokens with the "u" bit set to universal
    are unique.</t>
-
-   <t>The use of the universal/local bit in the Modified EUI-64 format
-   identifier is to allow development of future technology that can take
-   advantage of interface identifiers with universal scope.</t>
 
    <t>The details of forming interface identifiers are defined in the
    appropriate "IPv6 over &lt;link>" specification, such as "IPv6 over
@@ -1167,6 +1167,10 @@
    Sue Thomson, Markku Savela, Larry Masinter, Jun-ichiro Itojun Hagino,
    Tatuya Jinmei, Suresh Krishnan, and Mahmood Ali.</t>
 
+   <t> Authors would also like to ackowledge the authors of the updating
+   RFCs that were used in this version of the document to move IPv6 to
+   Internet Standard.  This includes xxx, yyy, zzz, and aaaa.</t>
+
   </section>
 
 </middle>
@@ -1367,12 +1371,25 @@
 
      <t><list hangIndent="5" style="hanging">
 
+     <t hangText="03)">The changes made in this draft include:</t>
+
+     <t><list hangIndent="3" style="hanging">
+
+     <t hangText="o">Incorporate the updates made by RFC7136 to deprecate
+     the U and G bits in Modified EUI-64 format Internet IDs.</t>
+
+     <t hangText="o)">Add note to the reference section acknowleging the
+     authors of the updating documents</t>
+     
+     </list></t>
+
+
      <t hangText="02)">The changes made in this draft include:</t>
 
      <t><list hangIndent="3" style="hanging">
 
-    <t hangText="o">Updates to resolve the open Errata on RFC4291.  These
-    are: </t>
+     <t hangText="o">Updates to resolve the open Errata on RFC4291.
+     These are: </t>
 
     <t><list>
 
