@@ -1167,9 +1167,12 @@
    Sue Thomson, Markku Savela, Larry Masinter, Jun-ichiro Itojun Hagino,
    Tatuya Jinmei, Suresh Krishnan, and Mahmood Ali.</t>
 
-   <t> Authors would also like to ackowledge the authors of the updating
-   RFCs that were used in this version of the document to move IPv6 to
-   Internet Standard.  This includes xxx, yyy, zzz, and aaaa.</t>
+   <t>The authors would also like to acknowledge the authors of the updating
+   RFCs that were incorporated in this version of the document to move IPv6 to
+   Internet Standard.  This includes Marcelo Bagnulo, Congxiao Bao,
+   Mohamed Boucadair, Brian Carpenter, Ralph Droms, Christian Huitema,
+   Sheng Jiang, Seiichi Kawamura, Masanobu Kawashima, Xing Li, and Stig
+   Venaas.</t>
 
   </section>
 
@@ -1371,24 +1374,15 @@
 
      <t><list hangIndent="5" style="hanging">
 
-     <t hangText="03)">The changes made in this draft include:</t>
-
-     <t><list hangIndent="3" style="hanging">
-
-     <t hangText="o">Incorporate the updates made by RFC7136 to deprecate
+     <t hangText="03)">Incorporate the updates made by RFC7136 to deprecate
      the U and G bits in Modified EUI-64 format Internet IDs.</t>
 
-     <t hangText="o)">Add note to the reference section acknowleging the
-     authors of the updating documents</t>
-     
-     </list></t>
+     <t hangText="03)">Add note to the reference section acknowledging the
+     authors of the updating documents.</t>
 
+     <t hangText="03)">Editorial changes.</t>
 
-     <t hangText="02)">The changes made in this draft include:</t>
-
-     <t><list hangIndent="3" style="hanging">
-
-     <t hangText="o">Updates to resolve the open Errata on RFC4291.
+     <t hangText="02)">Updates to resolve the open Errata on RFC4291.
      These are: </t>
 
     <t><list>
@@ -1422,33 +1416,22 @@
 
      </list></t>
 
-     <t hangText="o">Update references
+     <t hangText="02)">Update references
      to current versions.</t>
 
-     <t hangText="o">Editorial changes.</t>
+     <t hangText="02)">Editorial changes.</t>
 
-
-     </list></t>
-
-       
-     <t hangText="01)">The changes made in this draft include:</t>
-       
-       <t><list hangIndent="3" style="hanging">
-
-       <t hangText="o">Incorporate the updates made by RFC5952
+     <t hangText="01)">Incorporate the updates made by RFC5952
        regarding the text format when outputting IPv6 addresses.  A new
        section was added for this and addresses shown in this document
        were changed to lower case.</t>
 
-       <t hangText="o">Revision of this Section to document the changes
+       <t hangText="01)">Revise this Section to document to show the the changes
        from RFC4291.</t>
 
-       <t hangText="o">Editorial changes.</t>
+       <t hangText="01)">Editorial changes.</t>
 
-    </list></t>
-
-    <t hangText="00)">The purpose of this version
-     is to establish a baseline from RFC4291.  The only intended changes are
+    <t hangText="00)">Establish a baseline from RFC4291.  The only intended changes are
      formatting (XML is slightly different from .nroff), differences
      between an RFC and Internet Draft, fixing a few ID Nits, and updates
      to the authors information.  There should not be any content changes
