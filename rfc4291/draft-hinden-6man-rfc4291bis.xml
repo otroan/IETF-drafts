@@ -14,6 +14,11 @@
 <!ENTITY rfc4038 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4038.xml">
 <!ENTITY rfc3879 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3879.xml">
 <!ENTITY rfc4291 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4291.xml">
+<!ENTITY rfc4007 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4007.xml">
+<!ENTITY rfc7371 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7371.xml">
+
+
+
 <!ENTITY I-D.hinden-6man-rfc2460bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.draft-hinden-6man-rfc2460bis-07.xml">
 ]>
 
@@ -24,7 +29,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc4291bis-04" obsoletes="4291" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc4291bis-05" obsoletes="4291" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification"> IP Version 6 Addressing Architecture</title>
 <author fullname="Robert M. Hinden" initials="R"
@@ -880,13 +885,22 @@
    <t>T = 1 indicates a non-permanently-assigned ("transient" or
    "dynamically" assigned) multicast address.</t>
 
-   <t>The P flag's definition and usage can be found in <xref target="RFC3306"/>.</t>
+   <t>The P flag's definition and usage can be found in <xref
+   target="RFC3306"/><!--  as updated by <xref target="RFC7371"/>-->.</t>
 
-   <t>The R flag's definition and usage can be found in <xref target="RFC3956"/>.</t>
+   <t>The R flag's definition and usage can be found in <xref
+   target="RFC3956"/><!-- as updated by <xref target="RFC7371"/> -->.</t>
+
+   <!-- comment
+
+   <t>The X flag's definition and usage can be found in <xref
+   target="RFC3956"/> as updated by <xref target="RFC7371"/>.</t>
+
+   -->
 
    </list></t>
 
-   <t>   scop is a 4-bit multicast scope value used to limit the scope of
+   <t>scop is a 4-bit multicast scope value used to limit the scope of
       the multicast group.  The values are as follows:</t>
  
       <?rfc subcompact="yes" ?>
@@ -894,7 +908,7 @@
 	 <t>0  reserved</t>
          <t>1  Interface-Local scope</t>
          <t>2  Link-Local scope</t>
-         <t>3  reserved</t>
+         <t>3  Realm-Local scope</t>
          <t>4  Admin-Local scope</t>
          <t>5  Site-Local scope</t>
          <t>6  (unassigned)</t>
@@ -908,24 +922,41 @@
          <t>E  Global scope</t>
          <t>F  reserved</t>
     <?rfc subcompact="no" ?>
-    
+
    <t>Interface-Local scope spans only a single interface on a node and
    is useful only for loopback transmission of multicast.  Packets with
    interface-local scope received from another node must be
    discarded.</t>
 
-   <t>Link-Local multicast scope spans the same topological region as
-         the corresponding unicast scope.</t>
+   <t>Link-Local multicast scope spans the same topological region as the
+   corresponding unicast scope.</t>
 
-   <t>Admin-Local scope is the smallest scope that must be
-         administratively configured, i.e., not automatically derived
-         from physical connectivity or other, non-multicast-related
-         configuration.</t>
+   <t>Interface-Local, Link-Local, and Realm-Local scope boundaries are
+   automatically derived from physical connectivity or other
+   non-multicast-related configurations.  Global scope has no boundary.
+   The boundaries of all other non-reserved scopes of Admin-Local or
+   larger are administratively configured.  For reserved scopes, the way
+   of configuring their boundaries will be defined when the semantics of
+   the scope are defined.</t>
+
+   <t>According to <xref target="RFC4007"/>, the zone of a Realm-Local scope
+   must fall within zones of larger scope.  Because the zone of a
+   Realm-Local scope is configured automatically while the zones of
+   larger scopes are configured manually, care must be taken in the
+   definition of those larger scopes to ensure that the inclusion
+   constraint is met.</t>
+
+   <t>Realm-Local scopes created by different network technologies are
+   considered to be independent and will have different zone indices (see
+   Section 6 of <xref target="RFC4007"/>).  A router with interfaces on
+   links using different network technologies does not forward traffic
+   between the Realm-Local multicast scopes defined by those
+   technologies.</t>
 
    <t>Site-Local scope is intended to span a single site.</t>
 
    <t>Organization-Local scope is intended to span multiple sites
-         belonging to a single organization.</t>
+   belonging to a single organization.</t>
 
    <t>scopes labeled "(unassigned)" are available for administrators
          to define additional multicast regions.</t>
@@ -959,7 +990,7 @@
    
    <t>Non-permanently-assigned multicast addresses are meaningful only
    within a given scope.  For example, a group identified by the non-
-   permanent, site-local multicast address FF15:0:0:0:0:0:0:101 at one
+   permanent, site-local multicast address ff15:0:0:0:0:0:0:101 at one
    site bears no relationship to a group using the same address at a
    different site, nor to a non-permanent group using the same group ID
    with a different scope, nor to a permanent group with the same group
@@ -1235,7 +1266,11 @@
     &rfc3956;
     &rfc4038;
     &rfc3879;
-
+    &rfc4007;
+   <!-- 
+    &rfc7371;
+   -->
+    
   </references>    
 
   <section title="Creating Modified EUI-64 Format Interface Identifiers">
@@ -1398,10 +1433,20 @@
 
      <t><list hangIndent="5" style="hanging">
 
-     <t hangText="04)">Incorporate the updates made by RFC6052. The
+     <!--
+     <t hangText="05)">Incorporate the updates made by RFC7371. The
+     changes were to the flag bits and their definitions in Section
+     2.6.</t>
+     -->
+
+     <t hangText="05)">Incorporate the updates made by RFC7346. The
+     change was to add Realm-Local scope to the multicast scope table in
+     Section 2.6, and add the updating text to the same section.</t>
+
+     <t hangText="04)">Incorporate the updates made by RFC6052.  The
      change was to add a text in Section 2.3 that points to the IANA
-     registries that records the prefix defined in RFC6052 and a number of
-     other special use prefixes.</t>
+     registries that records the prefix defined in RFC6052 and a number
+     of other special use prefixes.</t>
 
      <t hangText="03)">Incorporate the updates made by RFC7136 to deprecate
      the U and G bits in Modified EUI-64 format Internet IDs.</t>
