@@ -29,7 +29,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc4291bis-05" obsoletes="4291" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc4291bis-06" obsoletes="4291" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification"> IP Version 6 Addressing Architecture</title>
 <author fullname="Robert M. Hinden" initials="R"
@@ -857,7 +857,7 @@
 <figure><artwork align="left"><![CDATA[
 |   8    |  4 |  4 |                  112 bits                   |
 +------ -+----+----+---------------------------------------------+
-|11111111|flgs|scop|                  group ID                   |
+|11111111|ff1 |scop|                  group ID                   |
 +--------+----+----+---------------------------------------------+
 ]]></artwork></figure>
 
@@ -870,7 +870,7 @@
 
 <figure><artwork align="left"><![CDATA[
                                  +-+-+-+-+
-   flgs is a set of 4 flags:     |0|R|P|T|
+   ff1 is a set of 4 flags:      |X|R|P|T|
                                  +-+-+-+-+
 ]]></artwork></figure>
       
@@ -886,17 +886,13 @@
    "dynamically" assigned) multicast address.</t>
 
    <t>The P flag's definition and usage can be found in <xref
-   target="RFC3306"/><!--  as updated by <xref target="RFC7371"/>-->.</t>
+   target="RFC3306"/> as updated by <xref target="RFC7371"/>.</t>
 
    <t>The R flag's definition and usage can be found in <xref
-   target="RFC3956"/><!-- as updated by <xref target="RFC7371"/> -->.</t>
-
-   <!-- comment
+   target="RFC3956"/> as updated by <xref target="RFC7371"/>.</t>
 
    <t>The X flag's definition and usage can be found in <xref
    target="RFC3956"/> as updated by <xref target="RFC7371"/>.</t>
-
-   -->
 
    </list></t>
 
@@ -1267,9 +1263,7 @@
     &rfc4038;
     &rfc3879;
     &rfc4007;
-   <!-- 
     &rfc7371;
-   -->
     
   </references>    
 
@@ -1433,11 +1427,9 @@
 
      <t><list hangIndent="5" style="hanging">
 
-     <!--
-     <t hangText="05)">Incorporate the updates made by RFC7371. The
+     <t hangText="06)">Incorporate the updates made by RFC7371. The
      changes were to the flag bits and their definitions in Section
      2.6.</t>
-     -->
 
      <t hangText="05)">Incorporate the updates made by RFC7346. The
      change was to add Realm-Local scope to the multicast scope table in
