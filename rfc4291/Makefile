@@ -2,7 +2,7 @@
 # Bob Hinden, bob.hinden@gmail.com
 # September 2010
 #
-# Bob, Intial Makefile for Addressing Arch update RFC4291bis
+# Makefile for Addressing Arch update RFC4291bis
 #
 # Changes for version 01
 # Changes for version 02

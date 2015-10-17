@@ -12,6 +12,7 @@
 #      Changed to create -07
 #      Changed to create -08
 #
+#      Changed to create -00 version of 6man draft
 
 XML2RFC=xml2rfc
 
@@ -19,11 +20,11 @@ all:	drafts
 
 rfc2460:	rfc2460.xml
 	$(XML2RFC) $< -o $@-gen.txt
-draft-hinden-6man-rfc2460bis:	draft-hinden-6man-rfc2460bis.xml
-	$(XML2RFC) $< -o $@-08.txt
+draft-ietf-6man-rfc2460bis:	draft-ietf-6man-rfc2460bis.xml
+	$(XML2RFC) $< -o $@-00.txt
 
 drafts: \
-	draft-hinden-6man-rfc2460bis
+	draft-ietf-6man-rfc2460bis
 
 .PHONY: clean draft commit
 clean:
