@@ -1625,7 +1625,7 @@
      <t><list hangIndent="5" style="hanging">
 
      <t hangText="01)">XXXX XXXXX XXXXX XXXX XXXX XXXXX XXXXX XXXX XXXX
-     XXXXX XXXXX XXXX</t>
+     XXXXX XXXXX XXXX XXXXX XXXXX XXXX</t>
 
      <t hangText="00)">Add instruction to
      the IANA to change references to RFC2460 to this document</t>
