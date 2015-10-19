@@ -18,7 +18,7 @@
 <!ENTITY rfc4303 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4303.xml">
 <!ENTITY rfc4305 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4305.xml">
 <!ENTITY rfc4443 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4443.xml">
-<!ENTITY I-D.hinden-6man-rfc4291bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.draft-hinden-6man-rfc4291bis-00.xml">
+<!ENTITY I-D.hinden-6man-rfc4291bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.draft-hinden-6man-rfc4291bis-05.xml">
 ]>
 
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
@@ -1618,7 +1618,7 @@
     <t>This memo has the following changes from RFC2460.  Numbers
     identify the Internet-Draft version in which the change was made.</t>
 
-    <t>Working Group Internet Draft</t>
+    <t>Working Group Internet Drafts</t>
 
      <t><list>
 
@@ -1630,12 +1630,15 @@
      <t hangText="00)">Add a paragraph to the reference section acknowledging the
      authors of the updating documents</t>
 
+     <t hangText="00)">Remove old paragraph in Section 4 that should have
+     been removed when incorporating the update from RFC7045.</t>
+
      <t hangText="00)">Editorial changes.</t>
 
     </list></t>
     </list></t>
 
-    <t>Individual Internet Draft</t>
+    <t>Individual Internet Drafts</t>
 
      <t><list>
 
