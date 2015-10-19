@@ -271,21 +271,6 @@
 +---------------+----------------+-----------------+-----------------
 ]]></artwork></figure>
 
-
-  <t>With one exception, extension headers are not examined or
-  processed by any node along a packet's delivery path, until the
-  packet reaches the node (or each of the set of nodes, in the case of
-  multicast) identified in the Destination Address field of the IPv6
-  header.  There, normal demultiplexing on the Next Header field of
-  the IPv6 header invokes the module to process the first extension
-  header, or the upper-layer header if no extension header is present.
-  The contents and semantics of each extension header determine
-  whether or not to proceed to the next header.  Therefore, extension
-  headers must be processed strictly in the order they appear in the
-  packet; a receiver must not, for example, scan through a packet
-  looking for a particular kind of extension header and process that
-  header prior to processing all preceding ones.</t>
-
   <t>With one exception, extension headers are not processed by any node
   along a packet's delivery path, until the packet reaches the node (or
   each of the set of nodes, in the case of multicast) identified in the
