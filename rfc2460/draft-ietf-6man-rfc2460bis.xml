@@ -18,9 +18,9 @@
 <!ENTITY rfc4303 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4303.xml">
 <!ENTITY rfc4305 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4305.xml">
 <!ENTITY rfc4443 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4443.xml">
-<!ENTITY I-D.hinden-6man-rfc4291bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.draft-hinden-6man-rfc4291bis-05.xml">
+<!ENTITY rfc2473 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2473.xml">
+<!ENTITY I-D.hinden-6man-rfc4291bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.hinden-6man-rfc4291bis.xml">
 ]>
-
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
 <?rfc toc="yes"?>
 <?rfc tocdepth="4"?>
@@ -127,6 +127,9 @@
   <xref target="I-D.hinden-6man-rfc4291bis"/>.
   The IPv6 version of ICMP, which all IPv6 implementations are required
   to include, is specified in <xref target="RFC4443"/> </t>
+
+  <t>The data transmission order for IPv6 is the same as for IPv4 as
+  defined in Appendix B of <xref target="RFC0791"/>.</t>
 
   <t>Note: As this document obsoletes <xref target="RFC2460"/>, any
   document referenced in this document that includes pointers to RFC2460,
@@ -270,6 +273,11 @@
 |    Routing    |    Fragment    |       TCP       |
 +---------------+----------------+-----------------+-----------------
 ]]></artwork></figure>
+
+  <t>Extension headers must never be inserted by any node other than the
+  source of the packet.  IP Encapsulation must be used to meet any
+  requirement for inserting headers, for example, as defined in <xref
+  target="RFC2473"/>.</t>
 
   <t>With one exception, extension headers are not processed by any node
   along a packet's delivery path, until the packet reaches the node (or
@@ -526,7 +534,7 @@
   <section title="Hop-by-Hop Options Header">
 
     <t>The Hop-by-Hop Options header is used to carry optional
-    information that must be examined by every node along a packet's
+    information that should be examined by every node along a packet's
     delivery path.  The Hop-by-Hop Options header is identified by a
     Next Header value of 0 in the IPv6 header, and has the following
     format:</t>
@@ -723,15 +731,15 @@
 
     <t>The Ext Hdrs are all other extension headers that are not included
     in the Unfragmentable headers part of the packet.  For this purpose,
-    the IP Authentication Header (AH) and the Encapsulating Security
-    Payload (ESP) are not considered extension headers. The Upper-Layer
+    the Encapsulating Security
+    Payload (ESP) is not considered an extension headers. The Upper-Layer
     Header is the first upper-layer header that is not an IPv6 extension
     header.  Examples of upper-layer headers include TCP, UDP, IPv4, IPv6,
-    ICMPv6, and as noted AH and ESP.</t>
+    ICMPv6, and as noted ESP.</t>
 
     <t>The Fragmentable Part consists of the rest of the packet after the
-    upper-layer header.</t>
-
+    upper-layer header or after any header (i.e., initial IPv6 header or extension
+    header) that contains a Next Header value of No Next Header.</t>
  
   </list></t>
 
@@ -811,7 +819,7 @@
       length of this fragment packet only (excluding the length of the
       IPv6 header itself), and the Next Header field of the last header
       of the Unfragmentable Headers changed to 44.</t>
-
+      
       <t>(2) A Fragment header containing:</t>
       <t><list>
 
@@ -1417,13 +1425,13 @@
     &rfc2474;
     &rfc3168;
     &rfc4443;
+    &rfc0791;
     &I-D.hinden-6man-rfc4291bis;
-    
+
   </references>
 
   <references title="Informative References">
 
-    &rfc0791;
     &rfc1661;
     &rfc1981;
     &rfc2460;
@@ -1433,7 +1441,7 @@
     &rfc5871;
     &rfc6936;
     &rfc7045;
-
+    &rfc2473;
 
  <reference anchor="IANA-6P"
       target="https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml">
@@ -1624,8 +1632,17 @@
 
      <t><list hangIndent="5" style="hanging">
 
-     <t hangText="01)">XXXX XXXXX XXXXX XXXX XXXX XXXXX XXXXX XXXX XXXX
-     XXXXX XXXXX XXXX XXXXX XXXXX XXXX</t>
+     <t hangText="01)">Added text that Extension headers must never be
+     inserted by any node other than the source of the packet.</t>
+
+     <t hangText="01)">Change "must" to "should" in Section 4.3 on the
+     Hop-by-Hop header.</t>
+
+     <t hangText="01)">Added text that the Data Transmission Order is the
+     same as IPv4 as defined in RFC791.</t>
+
+     <t hangText="01)">Updated the Fragmentation header text to correct
+     the inclusion of AH and note no next header.</t>
 
      <t hangText="00)">Add instruction to
      the IANA to change references to RFC2460 to this document</t>
