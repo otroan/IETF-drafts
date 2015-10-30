@@ -717,20 +717,20 @@
 
     <figure><artwork align="left"><![CDATA[
 +------------------+-------------------------+---//----------------+
-|  Unfragmentable  | Extention & Upper-Layer |   Fragmentable      |
-|      Headers     |       Headers           |      Part           |
+|  Per-Fragment    | Extention & Upper-Layer |   Fragmentable      |
+|    Headers       |       Headers           |      Part           |
 +------------------+-------------------------+---//----------------+
 ]]></artwork></figure>
 
     <t><list>
-    <t>The Unfragmentable Headers consists of the IPv6 header plus any
+    <t>The Per-Fragment Headers consists of the IPv6 header plus any
     extension headers that must be processed by nodes en route to the
     destination, that is, all headers up to and including the Routing
     header if present, else the Hop-by-Hop Options header if present,
     else no extension headers.</t>
 
     <t>The Ext Hdrs are all other extension headers that are not included
-    in the Unfragmentable headers part of the packet.  For this purpose,
+    in the Per-Fragment headers part of the packet.  For this purpose,
     the Encapsulating Security
     Payload (ESP) is not considered an extension headers. The Upper-Layer
     Header is the first upper-layer header that is not an IPv6 extension
@@ -751,8 +751,8 @@
     <t>original packet:</t>
     <figure><artwork align="left"><![CDATA[
 +-----------------+-----------------+--------+--------+-//-+--------+
-|  Unfragmentable |Ext & Upper-Layer|  first | second |    |  last  |
-|      Headers    |    Headers      |fragment|fragment|....|fragment|
+|  Per-Fragment   |Ext & Upper-Layer|  first | second |    |  last  |
+|    Headers      |    Headers      |fragment|fragment|....|fragment|
 +-----------------+-----------------+--------+--------+-//-+--------+
 ]]></artwork></figure>
 
@@ -760,20 +760,20 @@
 
     <figure><artwork align="left"><![CDATA[
 +------------------+---------+-------------------+----------+
-|  Unfragmentable  |Fragment | Ext & Upper-Layer |  first   |
-|      Headers     | Header  |   Headers         | fragment |
+|  Per-Fragment    |Fragment | Ext & Upper-Layer |  first   |
+|    Headers       | Header  |   Headers         | fragment |
 +------------------+---------+-------------------+----------+
 
 +------------------+--------+-------------------------------+
-|  Unfragmentable  |Fragment|    second                     |
-|      Headers     | Header |   fragment                    |
+|  Per-Fragment    |Fragment|    second                     |
+|    Headers       | Header |   fragment                    |
 +------------------+--------+-------------------------------+
                       o
                       o
                       o
 +------------------+--------+----------+
-|  Unfragmentable  |Fragment|   last   |
-|      Headers     | Header | fragment |
+|  Per-Fragment    |Fragment|   last   |
+|    Headers       | Header | fragment |
 +------------------+--------+----------+
 ]]></artwork></figure>
 
@@ -781,17 +781,17 @@
     <t>The first fragment packet is composed of:</t>
 
     <t><list>
-      <t>(1) The Unfragmentable Headers of the original packet, with the
+      <t>(1) The Per-Fragment Headers of the original packet, with the
       Payload Length of the original IPv6 header changed to contain the
       length of this fragment packet only (excluding the length of the
       IPv6 header itself), and the Next Header field of the last header
-      of the Unfragmentable Headers changed to 44.</t>
+      of the Per-Fragment Headers changed to 44.</t>
 
       <t>(2) A Fragment header containing:</t>
       <t><list>
 
 	<t>The Next Header value that identifies the first header after
-	the Unfragmentable Headers of the original packet.</t>
+	the Per-Fragment Headers of the original packet.</t>
 
 	<t>A Fragment Offset containing the offset of the fragment, in
 	8-octet units, relative to the start of the Fragmentable Part
@@ -814,17 +814,17 @@
     <t>The subsequent fragment packets are composed of:</t>
 
     <t><list>
-      <t>(1) The Unfragmentable Headers of the original packet, with the
+      <t>(1) The Per-Fragment Headers of the original packet, with the
       Payload Length of the original IPv6 header changed to contain the
       length of this fragment packet only (excluding the length of the
       IPv6 header itself), and the Next Header field of the last header
-      of the Unfragmentable Headers changed to 44.</t>
+      of the Per-Fragment Headers changed to 44.</t>
       
       <t>(2) A Fragment header containing:</t>
       <t><list>
 
 	<t>The Next Header value that identifies the first header after
-	the Unfragmentable Headers of the original packet.</t>
+	the Per-Fragment Headers of the original packet.</t>
 	
 	<t>A Fragment Offset containing the offset of the fragment, in
 	8-octet units, relative to the start of the Fragmentable part
@@ -854,7 +854,7 @@
 
       <figure><artwork align="left"><![CDATA[
 +---------------+-----------------+---------+--------+-//--+--------+
-| Unfragmentable|Ext & Upper-Layer|  first  | second |     | last   |
+| Per-Fragment|Ext & Upper-Layer|  first  | second |     | last   |
 |    Headers    |   Headers       |frag data|fragment|.....|fragment|
 +---------------+-----------------+---------+--------+-//--+--------+
 ]]></artwork></figure>
@@ -866,18 +866,18 @@
       that have the same Source Address, Destination Address, and
       Fragment Identification.</t>
 
-      <t>The Unfragmentable Headers of the reassembled packet consists of
+      <t>The Per-Fragment Headers of the reassembled packet consists of
       all headers up to, but not including, the Fragment header of the
       first fragment packet (that is, the packet whose Fragment Offset is
       zero), with the following two changes:</t>
 
       <t><list>
 	<t>The Next Header field of the last header of the
-	Unfragmentable Headers is obtained from the Next Header field of
+	Per-Fragment Headers is obtained from the Next Header field of
 	the first fragment's Fragment header.</t>
 
 	<t>The Payload Length of the reassembled packet is computed
-	from the length of the Unfragmentable Headers and the length and
+	from the length of the Per-Fragment Headers and the length and
 	offset of the last fragment.  For example, a formula for
 	computing the Payload Length of the reassembled original
 	packet is:</t>
@@ -1160,6 +1160,8 @@
     assurance that the destination is capable of reassembling packets
     of that larger size.</t>
 
+    <!-- Remove text based on <draft-ietf-6man-deprecate-atomfrag-generation-03>
+
     <t>In response to an IPv6 packet that is sent to an IPv4
     destination (i.e., a packet that undergoes translation from IPv6
     to IPv4), the originating IPv6 node may receive an ICMP Packet Too
@@ -1172,6 +1174,7 @@
     have to be reduced to 1232 octets (1280 minus 40 for the IPv6
     header and 8 for the Fragment header), and smaller still if
     additional extension headers are used.</t>
+    -->
 
   </section> <!-- ends: "5 from line 1205-->
 
@@ -1496,6 +1499,7 @@
       <t hangText="o">It may be assumed that, when either of the option-bearing
       headers are present, they carry a very small number of options,
       usually only one.</t>
+
     </list></t>
     </list></t>
 
@@ -1642,7 +1646,18 @@
      same as IPv4 as defined in RFC791.</t>
 
      <t hangText="01)">Updated the Fragmentation header text to correct
-     the inclusion of AH and note no next header.</t>
+     the inclusion of AH and note no next header case.</t>
+
+     <t hangText="01)">Change terminology in Fragment header section from
+     "Unfragmentable Headers" to "Per-Fragment Headers".</t>
+
+     <t hangText="01">Removed paragraph in Section 5 that required
+     including a fragment header to outgoing packets if a ICMP Packet Too
+     Big message reporting a Next-Hop MTU less than 1280.  This is based
+     on the update in
+     draft-ietf-6man-deprecate-atomfrag-generation-03.</t>
+
+     <t hangText="01)">Editorial changes.</t>
 
      <t hangText="00)">Add instruction to
      the IANA to change references to RFC2460 to this document</t>
