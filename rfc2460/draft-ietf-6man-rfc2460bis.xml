@@ -744,9 +744,15 @@
   </list></t>
 
     <t>The Fragmentable Part of the original packet is divided into
-    fragments, each, except possibly the last ("rightmost") one, being
-    an integer multiple of 8 octets long.  The fragments are
-    transmitted in separate "fragment packets" as illustrated:</t>
+    fragments.  
+    The lengths of the fragments must be chosen such that the
+    resulting fragment packets fit within the MTU of the path to the
+    packets' destination(s).
+    Each complete fragment, except possibly the last ("rightmost") one, being
+    an integer multiple of 8 octets long.</t>
+
+    <t>The fragments are transmitted in separate "fragment packets" as
+    illustrated:</t>
 
     <t>original packet:</t>
     <figure><artwork align="left"><![CDATA[
@@ -805,7 +811,10 @@
       </list></t>
 
       <t>(3) Extension Headers, if any, and the Upper-Layer header.
-      These headers must be in the first fragment.</t>
+      These headers must be in the first fragment.  Note: This restricts
+      the size of the headers through the Upper-Layer header to the MTU of the
+      path to the packets' destinations(s).
+      </t>
 
       <t>(4) The first fragment.</t>
 
@@ -840,10 +849,6 @@
       <t>(3) The fragment itself.</t>
     </list></t>
     
-      <t>The lengths of the fragments must be chosen such that the
-      resulting fragment packets fit within the MTU of the path to the
-      packets' destination(s).</t>
-
       <t>Fragments must not be created that overlap with any other
       fragments created from the original packet.</t>
 
@@ -854,7 +859,7 @@
 
       <figure><artwork align="left"><![CDATA[
 +---------------+-----------------+---------+--------+-//--+--------+
-| Per-Fragment|Ext & Upper-Layer|  first  | second |     | last   |
+| Per-Fragment  |Ext & Upper-Layer|  first  | second |     | last   |
 |    Headers    |   Headers       |frag data|fragment|.....|fragment|
 +---------------+-----------------+---------+--------+-//--+--------+
 ]]></artwork></figure>
@@ -1651,18 +1656,22 @@
      <t hangText="01)">Change terminology in Fragment header section from
      "Unfragmentable Headers" to "Per-Fragment Headers".</t>
 
-     <t hangText="01">Removed paragraph in Section 5 that required
+     <t hangText="01)">Removed paragraph in Section 5 that required
      including a fragment header to outgoing packets if a ICMP Packet Too
      Big message reporting a Next-Hop MTU less than 1280.  This is based
      on the update in
      draft-ietf-6man-deprecate-atomfrag-generation-03.</t>
+
+     <t hangText="01)">Changed to Fragmentation Header section to clarify
+     MTU restriction and 8-byte restrictions, and noting the restriction
+     on headers in first fragment.</t>
 
      <t hangText="01)">Editorial changes.</t>
 
      <t hangText="00)">Add instruction to
      the IANA to change references to RFC2460 to this document</t>
 
-     <t hangText="00)">Add a paragraph to the reference section acknowledging the
+     <t hangText="00)">Add a paragraph to the acknowledgement section acknowledging the
      authors of the updating documents</t>
 
      <t hangText="00)">Remove old paragraph in Section 4 that should have
