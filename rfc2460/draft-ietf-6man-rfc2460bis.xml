@@ -28,7 +28,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc2460bis-01" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc2460bis-02" obsoletes="2460" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -1640,6 +1640,9 @@
      <t><list>
 
      <t><list hangIndent="5" style="hanging">
+
+     <t hangText="02)">Template for 02 version
+     </t>
 
      <t hangText="01)">Added text that Extension headers must never be
      inserted by any node other than the source of the packet.</t>

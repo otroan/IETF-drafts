@@ -29,7 +29,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc4291bis-06" obsoletes="4291" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc4291bis-07" obsoletes="4291" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification"> IP Version 6 Addressing Architecture</title>
 <author fullname="Robert M. Hinden" initials="R"
@@ -1427,6 +1427,8 @@
 
      <t><list hangIndent="5" style="hanging">
 
+     <t hangText="07)">Editorial changes.</t>
+
      <t hangText="06)">Incorporate the updates made by RFC7371. The
      changes were to the flag bits and their definitions in Section
      2.6.</t>
@@ -1453,9 +1455,9 @@
 
     <t><list>
 
-      <t> Errata ID: 3480: Corrects the definition of Interface-Local
-      multicast scope include that packets with interface-local scope
-      received from another node must be discarded</t>
+       <t>Errata ID: 3480: Corrects the definition of Interface-Local
+       multicast scope to also state that packets with interface-local
+       scope received from another node must be discarded.</t>
 
       <t> Errata ID: 1627: Remove extraneous "of" in Section 2.7.</t>
 
@@ -1492,7 +1494,7 @@
        section was added for this and addresses shown in this document
        were changed to lower case.</t>
 
-       <t hangText="01)">Revise this Section to document to show the the changes
+       <t hangText="01)">Revise this Section to document to show the changes
        from RFC4291.</t>
 
        <t hangText="01)">Editorial changes.</t>
