@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 
-<!ENTITY rfc4443 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4443.xml">
 <!ENTITY rfc1191 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1191.xml">
-<!ENTITY rfc1057 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1057.xml">
-<!ENTITY rfc0905 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.0905.xml">
-<!ENTITY rfc4861 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4861.xml">
 <!ENTITY I-D.ietf-6man-rfc2460bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6man-rfc2460bis.xml">
 ]>
 
@@ -126,7 +122,7 @@
 
 <section title="Terminology"> 
 
-  <t><list hangIndent="17" style="hanging">
+  <t><list hangIndent="20" style="hanging">
 
    <t hangText="node">a device that implements IPv6.</t>
 
@@ -187,7 +183,7 @@
    the PMTU of a path is the (known) MTU of the first hop in the path.
    If any of the packets sent on that path are too large to be forwarded
    by some node along the path, that node will discard them and return
-   ICMPv6 Packet Too Big messages <xref target="RFC4443"/>.  Upon receipt
+   ICMPv6 Packet Too Big messages <xref target="ICMPv6"/>.  Upon receipt
    of such a message, the source node reduces its assumed PMTU for the
    path based on the MTU of the constricting hop as reported in the
    Packet Too Big message.
@@ -227,7 +223,7 @@
    <t>Note that Path MTU Discovery must be performed even in cases where
    a node "thinks" a destination is attached to the same link as itself.
    In a situation such as when a neighboring router acts as proxy <xref
-   target="RFC4861"/> for some destination, the destination can to appear
+   target="ND"/> for some destination, the destination can to appear
    to be directly connected but is in fact more than one hop away.
    </t>
    
@@ -383,7 +379,7 @@
    consisting of a single path.  This approach will result in the use of
    optimally sized packets on a per-destination basis.  This approach
    integrates nicely with the conceptual model of a host as described in
-   <xref target="RFC4861"/>: a PMTU value could be stored with the
+   <xref target="ND"/>: a PMTU value could be stored with the
    corresponding entry in the destination cache.</t>
 
    <t>If flows <xref target="I-D.ietf-6man-rfc2460bis"/> are in use, an implementation could use the flow
@@ -553,9 +549,10 @@
 
    <t>The value sent in the TCP MSS option is independent of the PMTU.
    This MSS option value is used by the other end of the connection,
-   which may be using an unrelated PMTU value.  See <xref target="I-D.ietf-6man-rfc2460bis"/> sections
-   "Packet Size Issues" and "Maximum Upper-Layer Payload Size" for
-   information on selecting a value for the TCP MSS option.</t>
+   which may be using an unrelated PMTU value.  See <xref
+   target="I-D.ietf-6man-rfc2460bis"/> sections "Packet Size Issues" and
+   "Maximum Upper-Layer Payload Size" for information on selecting a
+   value for the TCP MSS option.</t>
 
    <t>When a Packet Too Big message is received, it implies that a packet
    was dropped by the node that sent the ICMP message.  It is sufficient
@@ -611,7 +608,7 @@
 
 <section title="Issues for other transport protocols">
 
-  <t>Some transport protocols (such as ISO TP4 <xref target="RFC0905"/>)
+  <t>Some transport protocols (such as ISO TP4 <xref target="ISOTP"/>)
   are not allowed to repacketize when doing a retransmission.  That is,
   once an attempt is made to transmit a segment of a certain size, the
   transport cannot split the contents of the segment into smaller
@@ -622,7 +619,7 @@
 
    <t>The Sun Network File System (NFS) uses a Remote Procedure Call (RPC)
    protocol
-   <xref target="RFC1057"/>
+   <xref target="RPC"/>
    that, when used over UDP, in many cases will generate
    payloads that must be fragmented even for the first-hop link.  This
    might improve performance in certain cases, but it is known to cause
@@ -716,17 +713,25 @@
 
 <back>
 
+<references>
+
+<!--
 <references title="Normative References">
+-->
+
     &I-D.ietf-6man-rfc2460bis;
+
+<!--
 </references>
 
 <references title="Informative References">
 
     &rfc4443;
+
+-->
+
+
     &rfc1191;
-    &rfc1057;
-    &rfc0905;
-    &rfc4861;
 
     <reference anchor="CONG">
     <front>
@@ -751,11 +756,92 @@
 		     Computer Communications Technology" value=""/>
    </reference>
 
-<!--
-   [FRAG]      C. Kent and J. Mogul.  Fragmentation Considered Harmful.
-               In Proc. SIGCOMM '87 Workshop on Frontiers in Computer
-               Communications Technology.  August, 1987.
--->
+<reference anchor="ISOTP" target="http://www.rfc-editor.org/info/rfc905">
+<front>
+<title>ISO Transport Protocol specification ISO DP 8073</title>
+<author initials="ISO" surname="" fullname="ISO">
+<organization/>
+</author>
+<date year="1984" month="April"/>
+<abstract>
+<t>
+This is the current specification of the ISO Transport Protocol. This document is the text of ISO/TC97/SC16/N1576 as corrected by ISO/TC97/SC16/N1695. This is the specification currently being voted on in ISO as a Draft International Standard (DIS). This document is distributed as an RFC for your information only, it does not specify a standard for the ARPA-Internet or DARPA research community. Our thanks to Alex McKenzie of BBN for making this online version available. Please note the size of this document, the file contains 258,729 characters.
+</t>
+</abstract>
+</front>
+<seriesInfo name="RFC" value="905"/>
+<seriesInfo name="DOI" value="10.17487/RFC0905"/>
+</reference>
+
+<reference anchor="ND" target="http://www.rfc-editor.org/info/rfc4861">
+<front>
+<title>Neighbor Discovery for IP version 6 (IPv6)</title>
+<author initials="T." surname="Narten" fullname="T. Narten">
+<organization/>
+</author>
+<author initials="E." surname="Nordmark" fullname="E. Nordmark">
+<organization/>
+</author>
+<author initials="W." surname="Simpson" fullname="W. Simpson">
+<organization/>
+</author>
+<author initials="H." surname="Soliman" fullname="H. Soliman">
+<organization/>
+</author>
+<date year="2007" month="September"/>
+<abstract>
+<t>
+This document specifies the Neighbor Discovery protocol for IP Version 6. IPv6 nodes on the same link use Neighbor Discovery to discover each other's presence, to determine each other's link-layer addresses, to find routers, and to maintain reachability information about the paths to active neighbors. [STANDARDS-TRACK]
+</t>
+</abstract>
+</front>
+<seriesInfo name="RFC" value="4861"/>
+<seriesInfo name="DOI" value="10.17487/RFC4861"/>
+</reference>
+
+<reference anchor="ICMPv6" target="http://www.rfc-editor.org/info/rfc4443">
+<front>
+<title>
+Internet Control Message Protocol (ICMPv6) for the Internet Protocol Version 6 (IPv6) Specification
+</title>
+<author initials="A." surname="Conta" fullname="A. Conta">
+<organization/>
+</author>
+<author initials="S." surname="Deering" fullname="S. Deering">
+<organization/>
+</author>
+<author initials="M." surname="Gupta" fullname="M. Gupta" role="editor">
+<organization/>
+</author>
+<date year="2006" month="March"/>
+<abstract>
+<t>
+This document describes the format of a set of control messages used in ICMPv6 (Internet Control Message Protocol). ICMPv6 is the Internet Control Message Protocol for Internet Protocol version 6 (IPv6). [STANDARDS-TRACK]
+</t>
+</abstract>
+</front>
+<seriesInfo name="RFC" value="4443"/>
+<seriesInfo name="DOI" value="10.17487/RFC4443"/>
+</reference>
+
+<reference anchor="RPC" target="http://www.rfc-editor.org/info/rfc1057">
+<front>
+<title>
+RPC: Remote Procedure Call Protocol specification: Version 2
+</title>
+<author>
+<organization>Sun Microsystems</organization>
+</author>
+<date year="1988" month="June"/>
+<abstract>
+<t>
+This RFC describes a standard that Sun Microsystems and others are using, and is one we wish to propose for the Internet's consideration. This memo is not an Internet standard at this time.
+</t>
+</abstract>
+</front>
+<seriesInfo name="RFC" value="1057"/>
+<seriesInfo name="DOI" value="10.17487/RFC1057"/>
+</reference>
 
 </references>
 
@@ -769,7 +855,7 @@
    <t><list style="hanging" hangIndent="22">
 
    <t hangText="router specification">Packet Too Big messages and
-   corresponding router behavior are defined in <xref target="RFC4443"/></t>
+   corresponding router behavior are defined in <xref target="ICMPv6"/></t>
 
    <t hangText="Don't Fragment bit">there is no DF bit in IPv6
    packets</t>
@@ -786,7 +872,7 @@
 
   </section>
 
-  <section title="CHANGES SINCE RFC 1981">
+  <section title="Changes Since RFC 1981">
 
    <t>This document has the following changes from RFC1981.
    Numbers identify the Internet-Draft version
@@ -796,11 +882,11 @@
 
      <t><list hangIndent="5" style="hanging">
 
-    <t hangText="00)">Establish a baseline from RFC4291.  The only intended changes are
-     formatting (XML is slightly different from .nroff), differences
-     between an RFC and Internet Draft, fixing a few ID Nits, and updates
-     to the authors information.  There should not be any content changes
-     to the specification.</t>
+    <t hangText="00)">Establish a baseline from RFC4291.  The only
+    intended changes are formatting (XML is slightly different from
+    .nroff), differences between an RFC and Internet Draft, fixing a few
+    ID Nits, updating references, and updates to the authors information.
+    There should not be any content changes to the specification.</t>
 
     </list></t>
 
