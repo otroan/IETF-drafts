@@ -5,6 +5,7 @@
 # Makefile for Path MTU Discover RFC1981
 #
 # Changes for version 00
+# Changes for version 01
 #
 
 XML2RFC=xml2rfc
@@ -14,7 +15,7 @@ all:	drafts
 rfc1981:	rfc1981.xml
 	$(XML2RFC) $< -o $@-gen.txt
 draft-hinden-6man-rfc1981bis:	draft-hinden-6man-rfc1981bis.xml
-	$(XML2RFC) $< -o $@-00.txt
+	$(XML2RFC) $< -o $@-01.txt
 
 drafts: \
 	draft-hinden-6man-rfc1981bis

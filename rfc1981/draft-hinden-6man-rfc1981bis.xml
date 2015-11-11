@@ -2,6 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 
 <!ENTITY rfc1191 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1191.xml">
+<!ENTITY rfc4821 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4821.xml">
 <!ENTITY I-D.ietf-6man-rfc2460bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6man-rfc2460bis.xml">
 ]>
 
@@ -13,14 +14,14 @@
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
 
-<rfc category="std" docName="draft-hinden-6man-rfc1981bis-00" obsoletes="1981" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc1981bis-01" obsoletes="1981" ipr="pre5378Trust200902">
 
 <front>
 
 <title abbrev="IPv6 Path MTU Disc">Path MTU Discovery for IP version 6</title>
 <author fullname="Jack McCann" initials="J"
             surname="McCann">
-      <organization></organization>
+      <organization>Digital Equipment Corporation</organization>
       <address>
         <postal>
           <street></street>
@@ -58,7 +59,7 @@
 
 <author fullname="Jeffrey Mogul" initials="J"
             surname="Mogul">
-      <organization></organization>
+      <organization>Digital Equipment Corporation</organization>
       <address>
         <postal>
           <street></street>
@@ -232,6 +233,25 @@
 
 <section title="Protocol Requirements"> 
 
+   <t>All nodes MUST NOT drop the ICMPv6 Packet Too Big messages.
+   However, we observe that some non-standard nodes drop all ICMPv6
+   packets in the misguided belief that doing so improves security. The
+   transport protocols will sometimes to transmit packets that are too
+   large, and are thus dropped before reaching destination. If the ICMPv6
+   messages are dropped, the transport protocol will just retransmit the
+   failing packets with the too-large MTU, and the connection will
+   eventually fail.</t>
+
+   <t>Transport protocol implementers MAY deploy the algorithm specified
+   in <xref target="RFC4821"/> to compensate for the damage caused by
+   non-standard node behavior.  This algorithm will eventually
+   discover the correct path MTU in the absence of ICMPv6 Packet Too Big
+   messages. However, the discovery will require several trials and
+   errors. Discovery aided by ICMPv6 Packet Too Big messages will be much
+   faster. The existence of RFC4821 MUST NOT be used as an excuse to
+   justify the filtering of ICMPv6 Packet Too Big messages by broken
+   nodes.</t>
+  
    <t>As discussed in section 1, IPv6 nodes are not required to implement
    Path MTU Discovery.  The requirements in this section apply only to
    those implementations that include Path MTU Discovery.
@@ -269,15 +289,20 @@
    minimum link MTU.
    </t>
    
+<!--
+
    <t><list>
    <t>Note: A node may receive a Packet Too Big message reporting a
    next-hop MTU that is less than the IPv6 minimum link MTU.  In that
    case, the node is not required to reduce the size of subsequent
    packets sent on the path to less than the IPv6 minimun link MTU, but
-   rather must include a Fragment header in those packets <xref target="I-D.ietf-6man-rfc2460bis"/>.
+   rather must include a Fragment header in those packets <xref
+   target="I-D.ietf-6man-rfc2460bis"/>.
    </t>
    </list></t>
 
+-->
+   
    <t>A node MUST NOT increase its estimate of the Path MTU in response to
    the contents of a Packet Too Big message.  A message purporting to
    announce an increase in the Path MTU might be a stale packet that has
@@ -713,26 +738,17 @@
 
 <back>
 
-<references>
-
-<!--
 <references title="Normative References">
--->
 
     &I-D.ietf-6man-rfc2460bis;
 
-<!--
 </references>
 
 <references title="Informative References">
 
-    &rfc4443;
-
--->
-
-
     &rfc1191;
-
+    &rfc4821;
+    
     <reference anchor="CONG">
     <front>
     <title>Congestion Avoidance and Control</title>
@@ -880,13 +896,28 @@ This RFC describes a standard that Sun Microsystems and others are using, and is
 
    <t><list>
 
-     <t><list hangIndent="5" style="hanging">
+   <t><list hangIndent="5" style="hanging">
 
-    <t hangText="00)">Establish a baseline from RFC4291.  The only
-    intended changes are formatting (XML is slightly different from
-    .nroff), differences between an RFC and Internet Draft, fixing a few
-    ID Nits, updating references, and updates to the authors information.
-    There should not be any content changes to the specification.</t>
+   <t hangText="01)">Added text to Section 4 "Protocol Requirements" to
+   required that ICMP Packet Too Big must not be dropped, and provide a
+   link to RFC4821 along with a discussion of it's benefits and
+   issues.</t>
+
+   <t hangText="01)">Remove Note about a Packet Too Big message
+   reporting a next-hop MTU that is less than the IPv6 minimum link MTU.
+   This was removed from <xref target="I-D.ietf-6man-rfc2460bis"/>
+   </t>
+
+   <t hangText="01)">Assigned references to informative and
+   normative.</t>
+
+   <t hangText="01)">Editorial changes </t>
+
+   <t hangText="00)">Establish a baseline from RFC1981.  The only
+   intended changes are formatting (XML is slightly different from
+   .nroff), differences between an RFC and Internet Draft, fixing a few
+   ID Nits, updating references, and updates to the authors information.
+   There should not be any content changes to the specification.</t>
 
     </list></t>
 
