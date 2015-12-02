@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-
 <!ENTITY rfc1191 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1191.xml">
 <!ENTITY rfc4821 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4821.xml">
 <!ENTITY I-D.ietf-6man-rfc2460bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6man-rfc2460bis.xml">
@@ -14,7 +13,7 @@
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
 
-<rfc category="std" docName="draft-hinden-6man-rfc1981bis-01" obsoletes="1981" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc1981bis-02" obsoletes="1981" ipr="pre5378Trust200902">
 
 <front>
 
@@ -118,6 +117,40 @@
    than the Path MTU allows is wasting network resources and probably
    getting suboptimal throughput.
    </t>
+   
+   <t>An extension to Path MTU Discovery defined in this document can
+   be found in <xref target="RFC4821"/>.  It defines a method for
+   Packetization Layer Path MTU Discovery (PLPMTUD).  In the absence of
+   ICMP messages, the proper MTU is determined by starting with small
+   packets and probing with successively larger packets.  The bulk of the
+   algorithm is implemented above IP, in the transport layer (e.g., TCP)
+   or other "Packetization Protocol" that is responsible for determining
+   packet boundaries.</t>
+   
+<!--
+
+   Christian's proposed text:
+
+   <t>All nodes MUST NOT drop the ICMPv6 Packet Too Big messages.
+   However, we observe that some non-standard nodes drop all ICMPv6
+   packets in the misguided belief that doing so improves security. The
+   transport protocols will sometimes to transmit packets that are too
+   large, and are thus dropped before reaching destination. If the ICMPv6
+   messages are dropped, the transport protocol will just retransmit the
+   failing packets with the too-large MTU, and the connection will
+   eventually fail.</t>
+
+   <t>Transport protocol implementers MAY deploy the algorithm specified
+   in <xref target="RFC4821"/> to compensate for the damage caused by
+   non-standard node behavior.  This algorithm will eventually
+   discover the correct path MTU in the absence of ICMPv6 Packet Too Big
+   messages. However, the discovery will require several trials and
+   errors. Discovery aided by ICMPv6 Packet Too Big messages will be much
+   faster. The existence of RFC4821 MUST NOT be used as an excuse to
+   justify the filtering of ICMPv6 Packet Too Big messages by broken
+   nodes.</t>
+  
+-->
    
 </section>
 
@@ -233,25 +266,6 @@
 
 <section title="Protocol Requirements"> 
 
-   <t>All nodes MUST NOT drop the ICMPv6 Packet Too Big messages.
-   However, we observe that some non-standard nodes drop all ICMPv6
-   packets in the misguided belief that doing so improves security. The
-   transport protocols will sometimes to transmit packets that are too
-   large, and are thus dropped before reaching destination. If the ICMPv6
-   messages are dropped, the transport protocol will just retransmit the
-   failing packets with the too-large MTU, and the connection will
-   eventually fail.</t>
-
-   <t>Transport protocol implementers MAY deploy the algorithm specified
-   in <xref target="RFC4821"/> to compensate for the damage caused by
-   non-standard node behavior.  This algorithm will eventually
-   discover the correct path MTU in the absence of ICMPv6 Packet Too Big
-   messages. However, the discovery will require several trials and
-   errors. Discovery aided by ICMPv6 Packet Too Big messages will be much
-   faster. The existence of RFC4821 MUST NOT be used as an excuse to
-   justify the filtering of ICMPv6 Packet Too Big messages by broken
-   nodes.</t>
-  
    <t>As discussed in section 1, IPv6 nodes are not required to implement
    Path MTU Discovery.  The requirements in this section apply only to
    those implementations that include Path MTU Discovery.
@@ -742,6 +756,31 @@
 
     &I-D.ietf-6man-rfc2460bis;
 
+<reference anchor="ICMPv6" target="http://www.rfc-editor.org/info/rfc4443">
+<front>
+<title>
+Internet Control Message Protocol (ICMPv6) for the Internet Protocol Version 6 (IPv6) Specification
+</title>
+<author initials="A." surname="Conta" fullname="A. Conta">
+<organization/>
+</author>
+<author initials="S." surname="Deering" fullname="S. Deering">
+<organization/>
+</author>
+<author initials="M." surname="Gupta" fullname="M. Gupta" role="editor">
+<organization/>
+</author>
+<date year="2006" month="March"/>
+<abstract>
+<t>
+This document describes the format of a set of control messages used in ICMPv6 (Internet Control Message Protocol). ICMPv6 is the Internet Control Message Protocol for Internet Protocol version 6 (IPv6). [STANDARDS-TRACK]
+</t>
+</abstract>
+</front>
+<seriesInfo name="RFC" value="4443"/>
+<seriesInfo name="DOI" value="10.17487/RFC4443"/>
+</reference>
+
 </references>
 
 <references title="Informative References">
@@ -815,30 +854,6 @@ This document specifies the Neighbor Discovery protocol for IP Version 6. IPv6 n
 <seriesInfo name="DOI" value="10.17487/RFC4861"/>
 </reference>
 
-<reference anchor="ICMPv6" target="http://www.rfc-editor.org/info/rfc4443">
-<front>
-<title>
-Internet Control Message Protocol (ICMPv6) for the Internet Protocol Version 6 (IPv6) Specification
-</title>
-<author initials="A." surname="Conta" fullname="A. Conta">
-<organization/>
-</author>
-<author initials="S." surname="Deering" fullname="S. Deering">
-<organization/>
-</author>
-<author initials="M." surname="Gupta" fullname="M. Gupta" role="editor">
-<organization/>
-</author>
-<date year="2006" month="March"/>
-<abstract>
-<t>
-This document describes the format of a set of control messages used in ICMPv6 (Internet Control Message Protocol). ICMPv6 is the Internet Control Message Protocol for Internet Protocol version 6 (IPv6). [STANDARDS-TRACK]
-</t>
-</abstract>
-</front>
-<seriesInfo name="RFC" value="4443"/>
-<seriesInfo name="DOI" value="10.17487/RFC4443"/>
-</reference>
 
 <reference anchor="RPC" target="http://www.rfc-editor.org/info/rfc1057">
 <front>
@@ -898,20 +913,21 @@ This RFC describes a standard that Sun Microsystems and others are using, and is
 
    <t><list hangIndent="5" style="hanging">
 
-   <t hangText="01)">Added text to Section 4 "Protocol Requirements" to
-   required that ICMP Packet Too Big must not be dropped, and provide a
-   link to RFC4821 along with a discussion of it's benefits and
-   issues.</t>
+   <t hangText="02)">xxxxx.</t>
+
 
    <t hangText="01)">Remove Note about a Packet Too Big message
    reporting a next-hop MTU that is less than the IPv6 minimum link MTU.
-   This was removed from <xref target="I-D.ietf-6man-rfc2460bis"/>
+   This was removed from <xref target="I-D.ietf-6man-rfc2460bis"/>.
    </t>
+
+   <t hangText="01)">Include a link to RFC4821 along with a short summary
+   of what it does.</t>
 
    <t hangText="01)">Assigned references to informative and
    normative.</t>
 
-   <t hangText="01)">Editorial changes </t>
+   <t hangText="01)">Editorial changes.</t>
 
    <t hangText="00)">Establish a baseline from RFC1981.  The only
    intended changes are formatting (XML is slightly different from
