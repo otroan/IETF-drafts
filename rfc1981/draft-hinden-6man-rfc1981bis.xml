@@ -915,7 +915,6 @@ This RFC describes a standard that Sun Microsystems and others are using, and is
 
    <t hangText="02)">xxxxx.</t>
 
-
    <t hangText="01)">Remove Note about a Packet Too Big message
    reporting a next-hop MTU that is less than the IPv6 minimum link MTU.
    This was removed from <xref target="I-D.ietf-6man-rfc2460bis"/>.

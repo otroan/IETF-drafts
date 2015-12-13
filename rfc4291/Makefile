@@ -12,6 +12,8 @@
 # Changes for version 06
 # Changes for version 07
 #
+# Working Group Daft
+# Changes for version 00 
 
 XML2RFC=xml2rfc
 
@@ -19,11 +21,11 @@ all:	drafts
 
 rfc4291:	rfc4291.xml
 	$(XML2RFC) $< -o $@-gen.txt
-draft-hinden-6man-rfc4291bis:	draft-hinden-6man-rfc4291bis.xml
-	$(XML2RFC) $< -o $@-07.txt
+draft-ietf-6man-rfc4291bis:	draft-ietf-6man-rfc4291bis.xml
+	$(XML2RFC) $< -o $@-00.txt
 
 drafts: \
-	draft-hinden-6man-rfc4291bis
+	draft-ietf-6man-rfc4291bis
 
 .PHONY: clean draft commit
 clean:
