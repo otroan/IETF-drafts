@@ -75,6 +75,26 @@
       </address>
 </author>
 
+<author fullname="Robert M. Hinden" initials="R"
+            surname="Hinden" role="editor">
+      <organization>Check Point Software</organization>
+      <address>
+        <postal>
+          <street>959 Skyway Road</street>
+          <!-- Reorder these if your country does things differently -->
+          <city>San Carlos</city>
+          <region>CA</region>
+          <code>94070</code>
+          <country>USA</country>
+        </postal>
+        <phone></phone>
+	<facsimile></facsimile>
+        <email>bob.hinden@gmail.com</email>
+        <!-- uri and facsimile elements may also be added -->
+      </address>
+</author>
+
+
 <date day="" month="" year="" />
 
 <abstract>
@@ -820,7 +840,14 @@ This document describes the format of a set of control messages used in ICMPv6 (
 <date year="1984" month="April"/>
 <abstract>
 <t>
-This is the current specification of the ISO Transport Protocol. This document is the text of ISO/TC97/SC16/N1576 as corrected by ISO/TC97/SC16/N1695. This is the specification currently being voted on in ISO as a Draft International Standard (DIS). This document is distributed as an RFC for your information only, it does not specify a standard for the ARPA-Internet or DARPA research community. Our thanks to Alex McKenzie of BBN for making this online version available. Please note the size of this document, the file contains 258,729 characters.
+This is the current specification of the ISO Transport Protocol. This
+document is the text of ISO/TC97/SC16/N1576 as corrected by
+ISO/TC97/SC16/N1695. This is the specification currently being voted on
+in ISO as a Draft International Standard (DIS). This document is
+distributed as an RFC for your information only, it does not specify a
+standard for the ARPA-Internet or DARPA research community. Our thanks to
+Alex McKenzie of BBN for making this online version available. Please
+note the size of this document, the file contains 258,729 characters.
 </t>
 </abstract>
 </front>
@@ -913,7 +940,7 @@ This RFC describes a standard that Sun Microsystems and others are using, and is
 
    <t><list hangIndent="5" style="hanging">
 
-   <t hangText="02)">xxxxx.</t>
+   <t hangText="02)">Added R. Hinden as Editor to facilitate ID submission.</t>
 
    <t hangText="01)">Remove Note about a Packet Too Big message
    reporting a next-hop MTU that is less than the IPv6 minimum link MTU.

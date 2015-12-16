@@ -29,6 +29,7 @@
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
 <rfc category="std" docName="draft-ietf-6man-rfc2460bis-02" obsoletes="2460" ipr="pre5378Trust200902">
+
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
 <author fullname="Stephen E. Deering" initials="S"
@@ -717,7 +718,7 @@
 
     <figure><artwork align="left"><![CDATA[
 +------------------+-------------------------+---//----------------+
-|  Per-Fragment    | Extention & Upper-Layer |   Fragmentable      |
+|  Per-Fragment    | Extension & Upper-Layer |   Fragmentable      |
 |    Headers       |       Headers           |      Part           |
 +------------------+-------------------------+---//----------------+
 ]]></artwork></figure>
@@ -729,13 +730,12 @@
     header if present, else the Hop-by-Hop Options header if present,
     else no extension headers.</t>
 
-    <t>The Ext Hdrs are all other extension headers that are not included
-    in the Per-Fragment headers part of the packet.  For this purpose,
-    the Encapsulating Security
-    Payload (ESP) is not considered an extension headers. The Upper-Layer
-    Header is the first upper-layer header that is not an IPv6 extension
-    header.  Examples of upper-layer headers include TCP, UDP, IPv4, IPv6,
-    ICMPv6, and as noted ESP.</t>
+    <t>The Extension Headers are all other extension headers that are not
+    included in the Per-Fragment headers part of the packet.  For this
+    purpose, the Encapsulating Security Payload (ESP) is not considered
+    an extension headers. The Upper-Layer Header is the first upper-layer
+    header that is not an IPv6 extension header.  Examples of upper-layer
+    headers include TCP, UDP, IPv4, IPv6, ICMPv6, and as noted ESP.</t>
 
     <t>The Fragmentable Part consists of the rest of the packet after the
     upper-layer header or after any header (i.e., initial IPv6 header or extension
@@ -924,6 +924,12 @@
      received for that packet must be discarded.
      </t>
 
+     <t>It should be noted that fragments may be duplicated in
+     the network. These exact duplicate fragments will be treated as
+     overlapping fragments and handled as described in the previous
+     paragraph.  An implementation may choose to detect this case and not
+     drop the other fragments of the same packet.</t>
+
      <t>If the fragment is a whole datagram (that is, both the Fragment
      Offset field and the M flag are zero), then it does not need any
      further reassembly and should be processed as a fully reassembled
@@ -1070,10 +1076,12 @@
     </section>
 
 
-     <section title="Defining New Extention Headers and Options">
+     <section title="Defining New Extension Headers and Options">
 
-      <t>No new extension headers that require hop-by-hop behavior should be
-      defined.</t>
+      <t>No new extension headers that require hop-by-hop behavior should
+      be defined because as specified in Section 4 of this document, the
+      only Extension Header that has hop-by-hop behavior is the
+      Hop-by-Hop Options header.</t>
 
       <t>New hop-by-hop options are not recommended because, due to
       performance restrictions, nodes may ignore the Hop-by-Hop Option
@@ -1641,9 +1649,16 @@
 
      <t><list hangIndent="5" style="hanging">
 
-     <t hangText="02)">Template for 02 version
+     <t hangText="02)">Added text to Section 4.8 "Defining New Extension
+     Headers and Options" clarifying why no new hop by hop extension
+     headers should be define.</t>
+
+     <t hangText="02)">Added text to Fragment Header process on handling
+     exact duplicate fragments.
      </t>
 
+     <t hangText="02)">Editorial changes.</t>
+     
      <t hangText="01)">Added text that Extension headers must never be
      inserted by any node other than the source of the packet.</t>
 
