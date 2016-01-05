@@ -28,7 +28,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc2460bis-02" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc2460bis-03" obsoletes="2460" ipr="pre5378Trust200902">
 
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
@@ -342,7 +342,9 @@
   
   <t>The first three are specified in this document; the last two are
   specified in <xref target="RFC4302"/> and <xref target="RFC4303"/>,
-  respectively.</t>
+  respectively.
+  The current list of IPv6 extention headers can be found at <xref target="IANA-EH"/>.
+  </t>
 
   <section title="Extension Header Order">
 
@@ -733,7 +735,7 @@
     <t>The Extension Headers are all other extension headers that are not
     included in the Per-Fragment headers part of the packet.  For this
     purpose, the Encapsulating Security Payload (ESP) is not considered
-    an extension headers. The Upper-Layer Header is the first upper-layer
+    an extension header. The Upper-Layer Header is the first upper-layer
     header that is not an IPv6 extension header.  Examples of upper-layer
     headers include TCP, UDP, IPv4, IPv6, ICMPv6, and as noted ESP.</t>
 
@@ -1468,6 +1470,16 @@
    </front>
  </reference>
 
+ <reference anchor="IANA-EH"
+      target="https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml#extension-header">
+    <front>
+    <title>IPv6 Extension Header Types</title>
+    <author/>
+    <date/>
+   </front>
+ </reference>
+
+ 
  <reference anchor="IANA-RH"
       target="https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml#ipv6-parameters-3">
     <front>
@@ -1649,9 +1661,14 @@
 
      <t><list hangIndent="5" style="hanging">
 
+     <t hangText="03)">Add reference to the end of Section 4 to IPv6
+     Extension Header IANA registry.</t>
+
+     <t hangText="03)">Editorial changes.</t>
+
      <t hangText="02)">Added text to Section 4.8 "Defining New Extension
      Headers and Options" clarifying why no new hop by hop extension
-     headers should be define.</t>
+     headers should be defined.</t>
 
      <t hangText="02)">Added text to Fragment Header process on handling
      exact duplicate fragments.
