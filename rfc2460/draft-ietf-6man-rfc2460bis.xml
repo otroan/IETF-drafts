@@ -228,10 +228,15 @@
     <t hangText="Next Header">8-bit selector.  Identifies the type of
     header immediately following the IPv6 header.  Uses the same
     values as the IPv4 Protocol field <xref target="IANA-PN"/>.</t>
-    <t hangText="Hop Limit">8-bit unsigned integer.  
-    Decremented by 1 by each node that forwards the packet. The packet is
-    discarded if Hop Limit is decremented to zero, or is received with a
-    zero Hop Limit.</t>
+
+    <t hangText="Hop Limit">8-bit unsigned integer.  Decremented by 1 by
+    each node that forwards the packet.  When forwarding, the packet is
+    discarded if Hop Limit was zero when received or is decremented to zero.
+    A node that is the destination of a packet should not discard a
+    packet with hop limit equal to zero, it should process the packet
+    normally.
+     </t>
+
     <t hangText="Source Address">128-bit address of the originator of
     the packet.  See <xref target="I-D.hinden-6man-rfc4291bis"/>.</t>
     <t hangText="Destination Address">128-bit address of the intended
@@ -240,6 +245,7 @@
     and section 4.4.</t>
   </list></t>
   </list></t>
+  
 
 </section> <!-- ends: "3 from line 202-->
 
@@ -342,8 +348,8 @@
   
   <t>The first three are specified in this document; the last two are
   specified in <xref target="RFC4302"/> and <xref target="RFC4303"/>,
-  respectively.
-  The current list of IPv6 extention headers can be found at <xref target="IANA-EH"/>.
+  respectively.  The current list of IPv6 extention headers can be found
+  at <xref target="IANA-EH"/>.
   </t>
 
   <section title="Extension Header Order">
@@ -401,9 +407,9 @@
 
   <section title="Options">
 
-    <t>Two of the currently-defined extension headers -- the
-    Hop-by-Hop Options header and the Destination Options header --
-    carry a variable number of type-length-value (TLV) encoded
+    <t>Two of the currently-defined extension headers defined in this
+    document -- the Hop-by-Hop Options header and the Destination Options
+    header -- carry a variable number of type-length-value (TLV) encoded
     "options", of the following format:</t>
 
     <figure><artwork align="left"><![CDATA[
@@ -1660,6 +1666,8 @@
      <t><list>
 
      <t><list hangIndent="5" style="hanging">
+
+     <t hangText="03)">Clarified the text about decrementing the hop limit.</t>
 
      <t hangText="03)">Add reference to the end of Section 4 to IPv6
      Extension Header IANA registry.</t>
