@@ -29,7 +29,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc4291bis-00" obsoletes="4291" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc4291bis-01" obsoletes="4291" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification"> IP Version 6 Addressing Architecture</title>
 <author fullname="Robert M. Hinden" initials="R"
@@ -1428,6 +1428,8 @@
     <t><list>
 
     <t><list hangIndent="5" style="hanging">
+
+    <t hangText="01)">Editorial changes.</t>
 
     <t hangText="00)">Working Group Draft.</t>
 
