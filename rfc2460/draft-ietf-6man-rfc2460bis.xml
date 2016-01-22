@@ -72,9 +72,8 @@
 <date day="" month="" year="" />
 
 <abstract>
-  <t>This document specifies version 6 of the Internet Protocol (IPv6),
-  also sometimes referred to as IP Next Generation or IPng.  It obsoletes
-  RFC2460</t>
+  <t>This document specifies version 6 of the Internet Protocol (IPv6).
+  It obsoletes RFC2460</t>
 </abstract>
 
 </front>
@@ -348,7 +347,7 @@
   
   <t>The first three are specified in this document; the last two are
   specified in <xref target="RFC4302"/> and <xref target="RFC4303"/>,
-  respectively.  The current list of IPv6 extention headers can be found
+  respectively.  The current list of IPv6 extension headers can be found
   at <xref target="IANA-EH"/>.
   </t>
 
@@ -1668,6 +1667,8 @@
      <t><list hangIndent="5" style="hanging">
 
      <t hangText="03)">Clarified the text about decrementing the hop limit.</t>
+
+     <t hangText="03)">Removed IP Next Generation from the Abstract.</t>
 
      <t hangText="03)">Add reference to the end of Section 4 to IPv6
      Extension Header IANA registry.</t>
