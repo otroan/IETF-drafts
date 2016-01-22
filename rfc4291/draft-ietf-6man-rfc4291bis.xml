@@ -5,7 +5,6 @@
 <!ENTITY rfc4302 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4302.xml">
 <!ENTITY rfc4632 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4632.xml">
 <!ENTITY rfc2464 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2464.xml">
-<!ENTITY rfc2467 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2467.xml">
 <!ENTITY rfc3587 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3587.xml">
 <!ENTITY rfc4941 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4941.xml">
 <!ENTITY rfc3513 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3513.xml">
@@ -16,10 +15,12 @@
 <!ENTITY rfc4291 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4291.xml">
 <!ENTITY rfc4007 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4007.xml">
 <!ENTITY rfc7371 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7371.xml">
+<!ENTITY rfc7428 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7428.xml">
 
+<!ENTITY I-D.ietf-6man-rfc2460bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6man-rfc2460bis.xml">
 
+<!ENTITY I-D.ietf-6man-default-iids SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6man-default-iids.xml">
 
-<!ENTITY I-D.hinden-6man-rfc2460bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.draft-hinden-6man-rfc2460bis-07.xml">
 ]>
 
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
@@ -101,7 +102,7 @@
 
    <t>IPv6 addresses are 128-bit identifiers for interfaces and sets of
    interfaces (where "interface" is as defined in Section 2 of
-   <xref target="I-D.hinden-6man-rfc2460bis"/>).
+   <xref target="I-D.ietf-6man-rfc2460bis"/>).
    There are three types of addresses:</t>
 
   <t><list>
@@ -539,7 +540,6 @@
    previous paragraphs, nodes should not make any assumptions about the
    structure of an IPv6 address.</t>
 
-
   <section title="Interface Identifiers">
 
    <t>Interface identifiers in IPv6 unicast addresses are used to
@@ -556,60 +556,25 @@
 
    <t>Note that the uniqueness of interface identifiers is independent of
    the uniqueness of IPv6 addresses.  For example, a Global Unicast
-   address may be created with a local scope interface identifier and a
-   Link-Local address may be created with a universal scope interface
-   identifier.</t>
-
+   address may be created with an interface identifier that is only
+   unique on a single subnet, and a Link-Local address may be created
+   with interface identifier that is unique over multiple subnets.</t>
+   
    <t>For all unicast addresses, except those that start with the binary
-   value 000, Interface IDs are required to be 64 bits long.  If derived
-   from an IEEE MAC-layer address, they must be constructed in Modified
-   EUI-64 format.</t>
+   value 000, Interface IDs are required to be 64 bits long.</t>
 
-   <t>Modified EUI-64 format-based interface identifiers may have
-   universal scope when derived from a universal token (e.g., IEEE 802
-   48-bit MAC or IEEE EUI-64 identifiers <xref target="EUI64"/>) or may
-   have local scope where a global token is not being used (e.g., serial
-   links, tunnel end-points) or where global tokens are undesirable
-   (e.g., temporary tokens for privacy <xref target="RFC4941"/>.</t>
-   
-   <t>Modified EUI-64 format interface identifiers are formed by inverting
-   the "u" bit (universal/local bit in IEEE EUI-64 terminology) when
-   forming the interface identifier from IEEE EUI-64 identifiers.  In
-   the resulting Modified EUI-64 format, the "u" bit is set to one (1)
-   to indicate universal scope, and it is set to zero (0) to indicate
-   local scope.  The first three octets in binary of an IEEE EUI-64
-   identifier are as follows:</t>
+   <t>The details of forming interface identifiers are defined in other
+   specifications, such as "Privacy Extensions for Stateless Address
+   Autoconfiguration in IPv6" <xref target="RFC4941"/> and "Recommendation on Stable
+   IPv6 Interface Identifiers" <xref target="I-D.ietf-6man-default-iids"/>.  Specific
+   cases are described in appropriate "IPv6 over &lt;link>" specifications,
+   such as "IPv6 over Ethernet" <xref target="RFC2464"/> and "Transmission of IPv6
+   Packets over ITU-T G.9959 Networks" <xref target="RFC7428"/>.</t>
 
-<figure><artwork align="left"><![CDATA[
-       0       0 0       1 1       2
-      |0       7 8       5 6       3|
-      +----+----+----+----+----+----+
-      |cccc|ccug|cccc|cccc|cccc|cccc|
-      +----+----+----+----+----+----+
-]]></artwork></figure>
-   
-   <t>written in Internet standard bit-order, where "u" is the
-   universal/local bit, "g" is the individual/group bit, and "c" is the
-   bits of the company_id.  Appendix A, "Creating Modified EUI-64 Format
-   Interface Identifiers", provides examples on the creation of Modified
-   EUI-64 format-based interface identifiers.</t>
-
-   <t>The motivation for inverting the "u" bit when forming an interface
-   identifier is to make it easy for system administrators to hand
-   configure non-global identifiers when hardware tokens are not
-   available.  This is expected to be the case for serial links and
-   tunnel end-points, for example.  The alternative would have been for
-   these to be of the form 0200:0:0:1, 0200:0:0:2, etc., instead of the
-   much simpler 0:0:0:1, 0:0:0:2, etc.</t>
-
-   <t>IPv6 nodes are not required to validate that interface identifiers
-   created with modified EUI-64 tokens with the "u" bit set to universal
-   are unique.</t>
-
-   <t>The details of forming interface identifiers are defined in the
-   appropriate "IPv6 over &lt;link>" specification, such as "IPv6 over
-   Ethernet" <xref target="RFC2464"/>, and "IPv6 over FDDI" <xref
-   target="RFC2467"/>.</t>
+   <t>Earlier versions of this document described a method of forming
+   interface identifiers derived
+   from IEEE MAC-layer addresses call Modified EUI-64 format. These are
+   described in Appendix A and are no longer recommended. </t>
 
   </section>
 
@@ -1069,7 +1034,7 @@
    <t><list hangIndent="30" style="hanging">
    <t  hangText=" Solicited-Node Address: ">ff02:0:0:0:0:1:ffxx:xxxx</t>
    </list></t>
-</list></t>
+   </list></t>
 
    <t>Solicited-Node multicast address are computed as a function of a
    node's unicast and anycast addresses.  A Solicited-Node multicast
@@ -1102,14 +1067,14 @@
   </section>
   </section>
 
-      <section title="A Node's Required Addresses">
+  <section title="A Node's Required Addresses">
 
    <t>A host is required to recognize the following addresses as
    identifying itself:</t>
 
-   <t><list >
+   <t><list>
 
-  <t><list hangIndent="3" style="hanging">
+   <t><list hangIndent="3" style="hanging">
    <t  hangText="o">Its required Link-Local address for each interface.</t>
 
    <t  hangText="o">Any additional Unicast and Anycast addresses that have been
@@ -1215,7 +1180,9 @@
 
 
   <references title="Normative References">
-    &I-D.hinden-6man-rfc2460bis;
+
+    &I-D.ietf-6man-rfc2460bis;
+
   </references>
 
   <references title="Informative References">
@@ -1224,6 +1191,18 @@
     &rfc4632;
     &rfc2464;
     &rfc4291;
+    &rfc7428;
+    &rfc3587;
+    &rfc4941;
+    &rfc3513;
+    &rfc3306;
+    &rfc3956;
+    &rfc4038;
+    &rfc3879;
+    &rfc4007;
+    &rfc7371;
+
+    &I-D.ietf-6man-default-iids;
 
 
   <reference anchor="IANA-AD"
@@ -1254,18 +1233,55 @@
    </front>
    </reference>
 
-    &rfc2467;
-    &rfc3587;
-    &rfc4941;
-    &rfc3513;
-    &rfc3306;
-    &rfc3956;
-    &rfc4038;
-    &rfc3879;
-    &rfc4007;
-    &rfc7371;
+
+
+
+
     
   </references>    
+
+  <section title="Modified EUI-64 Format Interface Identifiers">
+
+   <t>Modified EUI-64 format-based interface identifiers may have
+   universal scope when derived from a universal token (e.g., IEEE 802
+   48-bit MAC or IEEE EUI-64 identifiers <xref target="EUI64"/>) or may
+   have local scope where a global token is not being used (e.g., serial
+   links, tunnel end-points) or where global tokens are undesirable
+   (e.g., temporary tokens for privacy <xref target="RFC4941"/>.</t>
+   
+   <t>Modified EUI-64 format interface identifiers are formed by inverting
+   the "u" bit (universal/local bit in IEEE EUI-64 terminology) when
+   forming the interface identifier from IEEE EUI-64 identifiers.  In
+   the resulting Modified EUI-64 format, the "u" bit is set to one (1)
+   to indicate universal scope, and it is set to zero (0) to indicate
+   local scope.  The first three octets in binary of an IEEE EUI-64
+   identifier are as follows:</t>
+
+<figure><artwork align="left"><![CDATA[
+       0       0 0       1 1       2
+      |0       7 8       5 6       3|
+      +----+----+----+----+----+----+
+      |cccc|ccug|cccc|cccc|cccc|cccc|
+      +----+----+----+----+----+----+
+]]></artwork></figure>
+   
+   <t>written in Internet standard bit-order, where "u" is the
+   universal/local bit, "g" is the individual/group bit, and "c" is the
+   bits of the company_id.  Appendix A, "Creating Modified EUI-64 Format
+   Interface Identifiers", provides examples on the creation of Modified
+   EUI-64 format-based interface identifiers.</t>
+
+   <t>The motivation for inverting the "u" bit when forming an interface
+   identifier is to make it easy for system administrators to hand
+   configure non-global identifiers when hardware tokens are not
+   available.  This is expected to be the case for serial links and
+   tunnel end-points, for example.  The alternative would have been for
+   these to be of the form 0200:0:0:1, 0200:0:0:2, etc., instead of the
+   much simpler 0:0:0:1, 0:0:0:2, etc.</t>
+
+   <t>IPv6 nodes are not required to validate that interface identifiers
+   created with modified EUI-64 tokens with the "u" bit set to universal
+   are unique.</t>
 
   <section title="Creating Modified EUI-64 Format Interface Identifiers">
 
@@ -1415,6 +1431,7 @@
    </list></t>
 
   </section>
+  </section>
 
 
   <section title="CHANGES SINCE RFC 4291">
@@ -1428,6 +1445,11 @@
     <t><list>
 
     <t><list hangIndent="5" style="hanging">
+
+    <t hangText="01)">Revised Section 2.4.1 on Interface Identifiers to
+    reflect current approach, this included saying Modified EUI-64
+    identifiers not recommended and moved the text describing the format
+    to Appendix A.</t>
 
     <t hangText="01)">Editorial changes.</t>
 
