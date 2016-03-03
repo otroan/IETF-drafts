@@ -13,7 +13,7 @@
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
 
-<rfc category="std" docName="draft-hinden-6man-rfc1981bis-02" obsoletes="1981" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc1981bis-00" obsoletes="1981" ipr="pre5378Trust200902">
 
 <front>
 
@@ -138,6 +138,9 @@
    getting suboptimal throughput.
    </t>
    
+<!--
+   -01 Text
+
    <t>An extension to Path MTU Discovery defined in this document can
    be found in <xref target="RFC4821"/>.  It defines a method for
    Packetization Layer Path MTU Discovery (PLPMTUD).  In the absence of
@@ -146,11 +149,9 @@
    algorithm is implemented above IP, in the transport layer (e.g., TCP)
    or other "Packetization Protocol" that is responsible for determining
    packet boundaries.</t>
+-->
    
-<!--
-  Fred Baker's proposed text:
-
-  An extension to Path MTU Discovery defined in this document can be
+  <t>An extension to Path MTU Discovery defined in this document can be
   found in <xref target="RFC4821"/>.  It defines a method for
   Packetization Layer Path MTU Discovery (PLPMTUD) designed for use in
   environments in which delivery of ICMP messages to a host are not
@@ -158,7 +159,9 @@
   with small packets and probing with successively larger packets.  The
   bulk of the algorithm is implemented above IP, in the transport layer
   (e.g., TCP) or other "Packetization Protocol" that is responsible for
-  determining packet boundaries.
+  determining packet boundaries.</t>
+
+<!--
 
    Christian's proposed text:
 
@@ -333,7 +336,11 @@
    <t>A node MUST NOT reduce its estimate of the Path MTU below the IPv6
    minimum link MTU.
    </t>
-   
+
+   <t>If a node receives a Packet Too Big message reporting a
+   next-hop MTU that is less than the IPv6 minimum link MTU, it should
+   discard it.
+   </t>
 <!--
 
    <t><list>
@@ -947,11 +954,30 @@ This RFC describes a standard that Sun Microsystems and others are using, and is
    Numbers identify the Internet-Draft version
    that the change was made.:</t>
 
+    <t>Working Group Internet Drafts</t>
+
    <t><list>
 
    <t><list hangIndent="5" style="hanging">
 
-   <t hangText="02)">Added R. Hinden as Editor to facilitate ID submission.</t>
+    <t hangText="00)">Added text to discard an ICMP Packet Too Big
+    message containing an MTU less than the IPv6 minimum link MTU.</t>
+
+    <t hangText="00)">Revision of text regarding RFC4821.</t>
+
+    <t hangText="00)">Added R. Hinden as Editor to facilitate ID submission.</t>
+
+    <t hangText="00)">Editorial changes.</t>
+
+
+    </list></t>
+    </list></t>
+
+   <t>Individual Internet Drafts</t>
+
+   <t><list>
+
+   <t><list hangIndent="5" style="hanging">
 
    <t hangText="01)">Remove Note about a Packet Too Big message
    reporting a next-hop MTU that is less than the IPv6 minimum link MTU.

@@ -19,6 +19,7 @@
 <!ENTITY rfc4305 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4305.xml">
 <!ENTITY rfc4443 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4443.xml">
 <!ENTITY rfc2473 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2473.xml">
+<!ENTITY rfc7739 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7739.xml">
 <!ENTITY I-D.hinden-6man-rfc4291bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.hinden-6man-rfc4291bis.xml">
 ]>
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
@@ -28,7 +29,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc2460bis-03" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc2460bis-04" obsoletes="2460" ipr="pre5378Trust200902">
 
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
@@ -704,7 +705,10 @@
     <t><list>
 
     <t><list hangIndent="3" style="hanging">
-     <t hangText="*">"recently" means within the maximum likely lifetime of a
+
+<!--
+
+    <t hangText="*">OLD "recently" means within the maximum likely lifetime of a
     packet, including transit time from source to destination and time
     spent awaiting reassembly with other fragments of the same packet.
     However, it is not required that a source node know the maximum
@@ -715,6 +719,17 @@
     a single counter for the node or multiple counters, e.g., one for
     each of the node's possible source addresses, or one for each
     active (source address, destination address) combination.</t>
+-->
+
+    <t hangText="*">"recently" means within the maximum likely lifetime
+    of a packet, including transit time from source to destination and
+    time spent awaiting reassembly with other fragments of the same
+    packet.  However, it is not required that a source node know the
+    maximum packet lifetime.  Rather, it is assumed that the requirement
+    can be met by implementing an algorithm that results in a low
+    identification reuse frequency. Examples of algorithms that can meet
+    this requirement are described in <xref target="RFC7739"/>.</t>
+
   </list></t>
   </list></t>
 
@@ -1465,7 +1480,8 @@
     &rfc6936;
     &rfc7045;
     &rfc2473;
-
+    &rfc7739;
+    
  <reference anchor="IANA-6P"
       target="https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml">
     <front>
@@ -1665,6 +1681,11 @@
      <t><list>
 
      <t><list hangIndent="5" style="hanging">
+
+     <t hangText="04)">Changed text discussing Fragment ID selection to
+     refer to RFC7739 for example algorithms.</t>
+
+     <t hangText="04)">Editorial changes.</t>
 
      <t hangText="03)">Clarified the text about decrementing the hop limit.</t>
 
