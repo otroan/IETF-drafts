@@ -13,11 +13,11 @@
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
 
-<rfc category="std" docName="draft-ietf-6man-rfc1981bis-00" obsoletes="1981" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc1981bis-01" obsoletes="1981" ipr="pre5378Trust200902">
 
 <front>
 
-<title abbrev="IPv6 Path MTU Disc">Path MTU Discovery for IP version 6</title>
+<title abbrev="IPv6 Path MTU Discovery">Path MTU Discovery for IP version 6</title>
 <author fullname="Jack McCann" initials="J"
             surname="McCann">
       <organization>Digital Equipment Corporation</organization>
@@ -137,54 +137,17 @@
    than the Path MTU allows is wasting network resources and probably
    getting suboptimal throughput.
    </t>
-   
-<!--
-   -01 Text
 
-   <t>An extension to Path MTU Discovery defined in this document can
-   be found in <xref target="RFC4821"/>.  It defines a method for
-   Packetization Layer Path MTU Discovery (PLPMTUD).  In the absence of
-   ICMP messages, the proper MTU is determined by starting with small
-   packets and probing with successively larger packets.  The bulk of the
-   algorithm is implemented above IP, in the transport layer (e.g., TCP)
-   or other "Packetization Protocol" that is responsible for determining
-   packet boundaries.</t>
--->
-   
   <t>An extension to Path MTU Discovery defined in this document can be
-  found in <xref target="RFC4821"/>.  It defines a method for
-  Packetization Layer Path MTU Discovery (PLPMTUD) designed for use in
-  environments in which delivery of ICMP messages to a host are not
-  assured.  In this algorithm, the proper MTU is determined by starting
+  found in <xref target="RFC4821"/>.
+  It defines a method for Packetization Layer Path MTU Discovery
+  (PLPMTUD) designed for use over paths where delivery of ICMP messages
+  to a host is not assured.
+  In this algorithm, the proper MTU is determined by starting
   with small packets and probing with successively larger packets.  The
   bulk of the algorithm is implemented above IP, in the transport layer
   (e.g., TCP) or other "Packetization Protocol" that is responsible for
   determining packet boundaries.</t>
-
-<!--
-
-   Christian's proposed text:
-
-   <t>All nodes MUST NOT drop the ICMPv6 Packet Too Big messages.
-   However, we observe that some non-standard nodes drop all ICMPv6
-   packets in the misguided belief that doing so improves security. The
-   transport protocols will sometimes to transmit packets that are too
-   large, and are thus dropped before reaching destination. If the ICMPv6
-   messages are dropped, the transport protocol will just retransmit the
-   failing packets with the too-large MTU, and the connection will
-   eventually fail.</t>
-
-   <t>Transport protocol implementers MAY deploy the algorithm specified
-   in <xref target="RFC4821"/> to compensate for the damage caused by
-   non-standard node behavior.  This algorithm will eventually
-   discover the correct path MTU in the absence of ICMPv6 Packet Too Big
-   messages. However, the discovery will require several trials and
-   errors. Discovery aided by ICMPv6 Packet Too Big messages will be much
-   faster. The existence of RFC4821 MUST NOT be used as an excuse to
-   justify the filtering of ICMPv6 Packet Too Big messages by broken
-   nodes.</t>
-  
--->
    
 </section>
 
@@ -959,6 +922,10 @@ This RFC describes a standard that Sun Microsystems and others are using, and is
    <t><list>
 
    <t><list hangIndent="5" style="hanging">
+
+    <t hangText="01)">Revised the text about PLPMTUD to use the word "path".</t>
+
+    <t hangText="01)">Editorial changes.</t>
 
     <t hangText="00)">Added text to discard an ICMP Packet Too Big
     message containing an MTU less than the IPv6 minimum link MTU.</t>
