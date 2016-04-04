@@ -29,7 +29,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc2460bis-04" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc2460bis-05" obsoletes="2460" ipr="pre5378Trust200902">
 
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
@@ -1681,6 +1681,8 @@
      <t><list>
 
      <t><list hangIndent="5" style="hanging">
+
+     <t hangText="05)">Editorial changes.</t>
 
      <t hangText="04)">Changed text discussing Fragment ID selection to
      refer to RFC7739 for example algorithms.</t>
