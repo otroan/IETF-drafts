@@ -286,6 +286,13 @@
   requirement for inserting headers, for example, as defined in <xref
   target="RFC2473"/>.</t>
 
+  <t>Extension headers must never be deleted or changed in size by any
+  node on the path the packet takes.</t>
+
+  <t>The contents of an Extension header or Option in an Extension
+  header may be modified if this is permitted by the definition of the
+  Extension header or option.</t>
+
   <t>With one exception, extension headers are not processed by any node
   along a packet's delivery path, until the packet reaches the node (or
   each of the set of nodes, in the case of multicast) identified in the
