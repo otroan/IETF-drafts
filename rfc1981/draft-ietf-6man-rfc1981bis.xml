@@ -13,7 +13,7 @@
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
 
-<rfc category="std" docName="draft-ietf-6man-rfc1981bis-01" obsoletes="1981" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc1981bis-02" obsoletes="1981" ipr="pre5378Trust200902">
 
 <front>
 
@@ -213,13 +213,13 @@
    a path.  The basic idea is that a source node initially assumes that
    the PMTU of a path is the (known) MTU of the first hop in the path.
    If any of the packets sent on that path are too large to be forwarded
-   by some node along the path, that node will discard them and return
-   ICMPv6 Packet Too Big messages <xref target="ICMPv6"/>.  Upon receipt
-   of such a message, the source node reduces its assumed PMTU for the
-   path based on the MTU of the constricting hop as reported in the
-   Packet Too Big message.
+   by some node (regardless of whether it decrements the Hop Limit) along
+   the path, that node will discard them and return ICMPv6 Packet Too Big
+   messages <xref target="ICMPv6"/>.  Upon receipt of such a message, the
+   source node reduces its assumed PMTU for the path based on the MTU of
+   the constricting hop as reported in the Packet Too Big message.
    </t>
-   
+
    <t>The Path MTU Discovery process ends when the node's estimate of the
    PMTU is less than or equal to the actual PMTU.  Note that several
    iterations of the packet-sent/Packet-Too-Big-message-received cycle
@@ -922,6 +922,9 @@ This RFC describes a standard that Sun Microsystems and others are using, and is
    <t><list>
 
    <t><list hangIndent="5" style="hanging">
+
+    <t hangText="02)">Clarified in Section 3. that ICMP Packet Too Big
+    should be sent even if the node doesn't decrement the hop limit</t>
 
     <t hangText="01)">Revised the text about PLPMTUD to use the word "path".</t>
 
