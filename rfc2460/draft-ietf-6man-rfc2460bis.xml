@@ -20,7 +20,10 @@
 <!ENTITY rfc4443 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4443.xml">
 <!ENTITY rfc2473 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2473.xml">
 <!ENTITY rfc7739 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7739.xml">
-<!ENTITY I-D.hinden-6man-rfc4291bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.hinden-6man-rfc4291bis.xml">
+
+
+<!ENTITY I-D.ietf-6man-rfc4291bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6man-rfc4291bis.xml">
+
 ]>
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
 <?rfc toc="yes"?>
@@ -125,7 +128,7 @@
   discusses packet size issues, the semantics of flow labels and traffic
   classes, and the effects of IPv6 on upper-layer protocols.  The format
   and semantics of IPv6 addresses are specified separately in
-  <xref target="I-D.hinden-6man-rfc4291bis"/>.
+  <xref target="I-D.ietf-6man-rfc4291bis"/>.
   The IPv6 version of ICMP, which all IPv6 implementations are required
   to include, is specified in <xref target="RFC4443"/> </t>
 
@@ -238,10 +241,10 @@
      </t>
 
     <t hangText="Source Address">128-bit address of the originator of
-    the packet.  See <xref target="I-D.hinden-6man-rfc4291bis"/>.</t>
+    the packet.  See <xref target="I-D.ietf-6man-rfc4291bis"/>.</t>
     <t hangText="Destination Address">128-bit address of the intended
     recipient of the packet (possibly not the ultimate recipient, if a
-    Routing header is present).  See <xref target="I-D.hinden-6man-rfc4291bis"/>
+    Routing header is present).  See <xref target="I-D.ietf-6man-rfc4291bis"/>
     and section 4.4.</t>
   </list></t>
   </list></t>
@@ -281,10 +284,28 @@
 +---------------+----------------+-----------------+-----------------
 ]]></artwork></figure>
 
+  <t>The insertion of Extension Headers by any node other than the source
+  of the packet breaks PMTU-discovery and can result in ICMP error
+  messages being sent to the source of the packet that did not insert the
+  header.</t>
+
+  <t>One approach to allowing a header to be inserted is to encapsulate
+  the packet using another IPv6 header and including the additional
+  extension header after the first IPv6 header, for example, as defined
+  in <xref target="RFC2473"/>.</t>
+
+
+<!-- 
+     reasons for rejection: insertion of extension headers en-route breaks
+     PMTU-discovery and can result in ICMP error messages being sent to
+     non-guilty parties.  The desired effect can be achieved, and those
+     problems avoided, by using en-route encapsulation (with optional
+     Routing Header) rather than header insertion.
+
   <t>Extension headers must never be inserted by any node other than the
-  source of the packet.  IP Encapsulation must be used to meet any
-  requirement for inserting headers, for example, as defined in <xref
-  target="RFC2473"/>.</t>
+  source of the packet.  One approach to meet a requirement to add
+  extension headers is to use IP Encapsulation, for example, as defined in
+  <xref target="RFC2473"/>.</t>
 
   <t>Extension headers must never be deleted or changed in size by any
   node on the path the packet takes.</t>
@@ -292,6 +313,9 @@
   <t>The contents of an Extension header or Option in an Extension
   header may be modified if this is permitted by the definition of the
   Extension header or option.</t>
+
+-->
+
 
   <t>With one exception, extension headers are not processed by any node
   along a packet's delivery path, until the packet reaches the node (or
@@ -310,19 +334,26 @@
   processing all preceding ones.</t>
 
   <t>The exception referred to in the preceding paragraph is the
-  Hop-by-Hop Options header, which carries information that should be
+  Hop-by-Hop Options header, which carries information that may be
   examined and processed by every node along a packet's delivery path,
   including the source and destination nodes.  The Hop-by-Hop Options
   header, when present, must immediately follow the IPv6 header.  Its
   presence is indicated by the value zero in the Next Header field of the
   IPv6 header.</t>
 
+  <t>NOTE: While <xref target="RFC2460"/> required that all nodes must
+  examine and process the Hop-by- Hop Options header, it is now expected
+  that nodes only examine the Hop-by-Hop Options header, and process the
+  packet accordingly if explicitly configured to do so.</t>
+
+<!--
   <t>It should be noted that due to performance restrictions nodes may
   ignore the Hop-by-Hop Option header, drop packets containing a
   hop-by-hop option header, or assign packets containing a hop-by-hop
   option header to a slow processing path.  Designers planning to use a
   hop-by-hop option need to be aware of this likely behaviour.</t>
-
+-->
+  
   <t>If, as a result of processing a header, a node is required to
   proceed to the next header but the Next Header value in the current
   header is unrecognized by the node, it should discard the packet and
@@ -550,9 +581,9 @@
   <section title="Hop-by-Hop Options Header">
 
     <t>The Hop-by-Hop Options header is used to carry optional
-    information that should be examined by every node along a packet's
-    delivery path.  The Hop-by-Hop Options header is identified by a
-    Next Header value of 0 in the IPv6 header, and has the following
+    information that may be examined and processed by every node along a
+    packet's delivery path.  The Hop-by-Hop Options header is identified
+    by a Next Header value of 0 in the IPv6 header, and has the following
     format:</t>
 
     <figure><artwork align="left"><![CDATA[
@@ -1471,7 +1502,7 @@
     &rfc3168;
     &rfc4443;
     &rfc0791;
-    &I-D.hinden-6man-rfc4291bis;
+    &I-D.ietf-6man-rfc4291bis;
 
   </references>
 
@@ -1689,7 +1720,23 @@
 
      <t><list hangIndent="5" style="hanging">
 
-     <t hangText="05)">Editorial changes.</t>
+     <t hangText="05)">Changed requirement for HBH header from a should
+     to a may, and added a note to indicate what is expected.</t>
+
+     <t hangText="05)">Corrected reference to point to
+     draft-ietf-6man-rfc4291bis instead of
+     draft-hinden-6man-rfc4291bis.</t>
+
+     <t hangText="05)">Change to text regarding not inserting extension
+     headers to cite using encapsulation as an example.</t>
+
+<!--
+     <t hangText="05)">Added clarification that extension headers should
+     not be deleted or changed in size, and that rules for changing the
+     content of an extension headers are defined in the individual
+     option.
+     </t>
+-->
 
      <t hangText="04)">Changed text discussing Fragment ID selection to
      refer to RFC7739 for example algorithms.</t>

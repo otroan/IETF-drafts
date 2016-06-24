@@ -14,14 +14,20 @@
 <!ENTITY rfc3879 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3879.xml">
 <!ENTITY rfc4291 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4291.xml">
 <!ENTITY rfc4007 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4007.xml">
+<!ENTITY rfc7217 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7217.xml">
+<!ENTITY rfc7721 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7721.xml">
+
 <!--
-   <!ENTITY rfc7371 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7371.xml">
+<!ENTITY rfc7371 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7371.xml">
 -->
+
 <!ENTITY rfc7428 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7428.xml">
 
 <!ENTITY I-D.ietf-6man-rfc2460bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6man-rfc2460bis.xml">
 
+<!--
 <!ENTITY I-D.ietf-6man-default-iids SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6man-default-iids.xml">
+-->
 
 ]>
 
@@ -32,7 +38,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc4291bis-02" obsoletes="4291" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc4291bis-03" obsoletes="4291" ipr="pre5378Trust200902">
 <front>
 <title abbrev="IPv6 Specification"> IP Version 6 Addressing Architecture</title>
 
@@ -568,16 +574,20 @@
 
    <t>The details of forming interface identifiers are defined in other
    specifications, such as "Privacy Extensions for Stateless Address
-   Autoconfiguration in IPv6" <xref target="RFC4941"/> and "Recommendation on Stable
-   IPv6 Interface Identifiers" <xref target="I-D.ietf-6man-default-iids"/>.  Specific
-   cases are described in appropriate "IPv6 over &lt;link>" specifications,
-   such as "IPv6 over Ethernet" <xref target="RFC2464"/> and "Transmission of IPv6
-   Packets over ITU-T G.9959 Networks" <xref target="RFC7428"/>.</t>
+   Autoconfiguration in IPv6" <xref target="RFC4941"/> or "A Method for
+   Generating Semantically Opaque Interface Identifiers with IPv6
+   Stateless Address Autoconfiguration (SLAAC)"<xref target="RFC7217"/>.
+   Specific cases are described in appropriate "IPv6 over &lt;link>"
+   specifications, such as "IPv6 over Ethernet" <xref target="RFC2464"/>
+   and "Transmission of IPv6 Packets over ITU-T G.9959 Networks" <xref
+   target="RFC7428"/>.  The security and privacy considerations for IPv6
+   address generation is described in <xref target="RFC7721"/>.
+   </t>
 
    <t>Earlier versions of this document described a method of forming
-   interface identifiers derived
-   from IEEE MAC-layer addresses call Modified EUI-64 format. These are
-   described in Appendix A and are no longer recommended. </t>
+   interface identifiers derived from IEEE MAC-layer addresses call
+   Modified EUI-64 format. These are described in Appendix A and are no
+   longer recommended. </t>
 
   </section>
 
@@ -1205,10 +1215,14 @@
     &rfc4038;
     &rfc3879;
     &rfc4007;
+    &rfc7217;
+    &rfc7721;
 
-<!-- &rfc7371; -->
+<!--
+    &rfc7371; 
 
     &I-D.ietf-6man-default-iids;
+-->
 
 
   <reference anchor="IANA-AD"
@@ -1451,6 +1465,8 @@
     <t><list>
 
     <t><list hangIndent="5" style="hanging">
+
+    <t hangText="03)">Editorial changes.</t>
 
     <t hangText="02)">Remove changes made by RFC7371 because there isn't
     any known implementation experience.</t>
