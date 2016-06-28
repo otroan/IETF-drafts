@@ -1466,7 +1466,8 @@
 
     <t><list hangIndent="5" style="hanging">
 
-    <t hangText="03)">Editorial changes.</t>
+    <t hangText="03)">Changes references in Section 2.4.1 that describes
+    the details of forming IIDs to RFC7271 and RFC7721.</t>
 
     <t hangText="02)">Remove changes made by RFC7371 because there isn't
     any known implementation experience.</t>
