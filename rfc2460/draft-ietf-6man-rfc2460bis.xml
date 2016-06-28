@@ -289,7 +289,7 @@
   messages being sent to the source of the packet that did not insert the
   header.</t>
 
-  <t>One approach to allowing a header to be inserted is to encapsulate
+  <t>The current approach to allowing a header to be inserted is to encapsulate
   the packet using another IPv6 header and including the additional
   extension header after the first IPv6 header, for example, as defined
   in <xref target="RFC2473"/>.</t>
@@ -342,9 +342,9 @@
   IPv6 header.</t>
 
   <t>NOTE: While <xref target="RFC2460"/> required that all nodes must
-  examine and process the Hop-by- Hop Options header, it is now expected
-  that nodes only examine the Hop-by-Hop Options header, and process the
-  packet accordingly if explicitly configured to do so.</t>
+  examine and process the Hop-by-Hop Options header, it is now expected
+  that nodes along a packet's delivery path only examine and process the
+  Hop-by-Hop Options header if explicitly configured to do so.</t>
 
 <!--
   <t>It should be noted that due to performance restrictions nodes may
