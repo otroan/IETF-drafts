@@ -13,6 +13,7 @@
 <!ENTITY rfc4038 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4038.xml">
 <!ENTITY rfc3879 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3879.xml">
 <!ENTITY rfc4291 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4291.xml">
+<!ENTITY rfc4193 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4193.xml">
 <!ENTITY rfc4007 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4007.xml">
 <!ENTITY rfc7217 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7217.xml">
 <!ENTITY rfc7721 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7721.xml">
@@ -38,9 +39,10 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc4291bis-03" obsoletes="4291" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc4291bis-04" obsoletes="4291" ipr="pre5378Trust200902">
+
 <front>
-<title abbrev="IPv6 Specification"> IP Version 6 Addressing Architecture</title>
+<title abbrev="IPv6 Addressing Architecture">IP Version 6 Addressing Architecture</title>
 
 <author fullname="Robert M. Hinden" initials="R"
             surname="Hinden">
@@ -752,6 +754,11 @@
    <t>Existing implementations and deployments may continue to use this
    prefix.</t>
 
+   <t>A new type of address has been defined that can be generated
+   locally and is intended to be used as an alternative to Site-Local
+   addresses.  These are called Unique Local Addresses (ULA) <xref
+   target="RFC4193"/>.</t>
+
   </section>
   </section>
 
@@ -1134,29 +1141,7 @@
 
    <section anchor="IANA" title="IANA Considerations">
 
-   <t>The "IPv4-Compatible IPv6 address" is deprecated by this document.
-   The IANA should continue to list the address block containing these
-   addresses at http://www.iana.org/assignments/ipv6-address-space as
-   "Reserved by IETF" and not reassign it for any other purpose.  For
-   example:</t>
-
-<figure><artwork align="left"><![CDATA[
-   0000::/8        Reserved by IETF        [RFC3513]      [1]
-]]></artwork></figure>
-
-   <t>The IANA has added the following note and link to this address block.</t>
-
-    <t><list>
-     <t><list hangIndent="5" style="hanging">
-     <t hangText="[5]">0000::/96 was previously defined as the
-     "IPv4-Compatible IPv6 address" prefix.  This definition has been
-     deprecated by <xref target="RFC4291"/>.</t>
-     </list></t>
-     </list></t>
-
-   <t>The IANA has updated the references for the IPv6 Address Architecture
-   in the IANA registries accordingly.</t>
-
+   <t>This document does not contain any IANA Considerations.</t>
 
    </section>
 
@@ -1205,7 +1190,6 @@
     &rfc4302;
     &rfc4632;
     &rfc2464;
-    &rfc4291;
     &rfc7428;
     &rfc3587;
     &rfc4941;
@@ -1215,8 +1199,10 @@
     &rfc4038;
     &rfc3879;
     &rfc4007;
+    &rfc4193;
     &rfc7217;
     &rfc7721;
+    &rfc4291;
 
 <!--
     &rfc7371; 
@@ -1466,6 +1452,14 @@
 
     <t><list hangIndent="5" style="hanging">
 
+    <t hangText="04)">Added text and a pointer to the ULA specification in Section 2.4.7</t>
+
+    <t hangText="04)">Removed old IANA Considerations text, this was left
+    from the baseline text from RFC4291 and should have been removed earlier.
+    </t>
+
+    <t hangText="04)">Editorial changes.</t>
+
     <t hangText="03)">Changes references in Section 2.4.1 that describes
     the details of forming IIDs to RFC7271 and RFC7721.</t>
 
@@ -1552,21 +1546,21 @@
 
      <t hangText="02)">Editorial changes.</t>
 
-     <t hangText="01)">Incorporate the updates made by RFC5952
-       regarding the text format when outputting IPv6 addresses.  A new
-       section was added for this and addresses shown in this document
-       were changed to lower case.</t>
+     <t hangText="01)">Incorporate the updates made by RFC5952 regarding
+     the text format when outputting IPv6 addresses.  A new section was
+     added for this and addresses shown in this document were changed to
+     lower case.</t>
 
-       <t hangText="01)">Revise this Section to document to show the changes
-       from RFC4291.</t>
+     <t hangText="01)">Revise this Section to document to show the changes
+     from RFC4291.</t>
 
-       <t hangText="01)">Editorial changes.</t>
+     <t hangText="01)">Editorial changes.</t>
 
-    <t hangText="00)">Establish a baseline from RFC4291.  The only intended changes are
-     formatting (XML is slightly different from .nroff), differences
-     between an RFC and Internet Draft, fixing a few ID Nits, and updates
-     to the authors information.  There should not be any content changes
-     to the specification.</t>
+     <t hangText="00)">Establish a baseline from RFC4291.  The only
+     intended changes are formatting (XML is slightly different from
+     .nroff), differences between an RFC and Internet Draft, fixing a few
+     ID Nits, and updates to the authors information.  There should not
+     be any content changes to the specification.</t>
 
     </list></t>
 
@@ -1577,4 +1571,8 @@
 </back>
 
 </rfc>
+
+
 <!-- Created by hand from RFC4291 by Bob Hinden, August 2015 -->
+
+

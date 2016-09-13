@@ -18,6 +18,7 @@
 #      Changed to create -03 version of 6man draft
 #      Changed to create -04 version of 6man draft
 #      Changed to create -05 version of 6man draft
+#      Changed to create -06 version of 6man draft
 
 XML2RFC=xml2rfc
 
@@ -26,7 +27,7 @@ all:	drafts
 rfc2460:	rfc2460.xml
 	$(XML2RFC) $< -o $@-gen.txt
 draft-ietf-6man-rfc2460bis:	draft-ietf-6man-rfc2460bis.xml
-	$(XML2RFC) $< -o $@-05.txt
+	$(XML2RFC) $< -o $@-06.txt
 
 drafts: \
 	draft-ietf-6man-rfc2460bis

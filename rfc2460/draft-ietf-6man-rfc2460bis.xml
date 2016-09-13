@@ -32,7 +32,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc2460bis-05" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc2460bis-06" obsoletes="2460" ipr="pre5378Trust200902">
 
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
@@ -115,7 +115,7 @@
 
     <t hangText="o">Flow Labeling Capability<vspace/><vspace/>
       A new capability is added to enable the labeling of sequences of packets
-      for which the sender requests to be treated in the network as a single flow.</t>
+      that the sender requests to be treated in the network as a single flow.</t>
 
     <t hangText="o">Authentication and Privacy Capabilities<vspace/><vspace/>
       Extensions to support authentication, data integrity, and
@@ -284,11 +284,38 @@
 +---------------+----------------+-----------------+-----------------
 ]]></artwork></figure>
 
+<!--
+
+  [New proposed text, not ready to release]
+
+  <t>The insertion of Extension Headers by any node other than the source
+  of the packet causes serious problems.  Two examples include breaking
+  the integrity checks provided by the Authentication Header Integrity
+  <xref target="RFC4302"/>, and breaking Path MTU Discovery and can
+  result in ICMP error messages being sent to the source of the packet
+  that did not insert the header.</t>
+  
+  <t>One approach to avoid these problems is to encapsulate the packet
+  using another IPv6 header and including the additional extension header
+  after the first IPv6 header, for example, as defined in <xref
+  target="RFC2473"/>.</t>
+
+-->
+  
   <t>The insertion of Extension Headers by any node other than the source
   of the packet breaks PMTU-discovery and can result in ICMP error
   messages being sent to the source of the packet that did not insert the
   header.</t>
 
+
+<!-- 
+  <t>The insertion or deletion of Extension Headers by any node other
+  than the source of the packet is incompatible with Authentication
+  Header Integrity validation [RFC4302] and breaks PMTU-discovery and can
+  result in ICMP error messages being sent to the source of the packet
+  that did not insert the header.</t>
+-->
+  
   <t>The current approach to allowing a header to be inserted is to encapsulate
   the packet using another IPv6 header and including the additional
   extension header after the first IPv6 header, for example, as defined
@@ -379,12 +406,13 @@
     <t>Hop-by-Hop Options</t>
     <t>Fragment</t>
     <t>Destination Options</t>
+    <t>Routing</t>
     <t>Authentication</t>
     <t>Encapsulating Security Payload</t>
   </list></t>
   <?rfc subcompact="no" ?>
   
-  <t>The first three are specified in this document; the last two are
+  <t>The first four are specified in this document; the last two are
   specified in <xref target="RFC4302"/> and <xref target="RFC4303"/>,
   respectively.  The current list of IPv6 extension headers can be found
   at <xref target="IANA-EH"/>.
@@ -978,11 +1006,16 @@
       <t>The Fragment header is not present in the final, reassembled
       packet.</t>
 
+<!--
+
+  [Moved to the error conditions below]
+
      <t>If any of the fragments being reassembled overlaps with any other
      fragments being reassembled for the same packet, reassembly of that
      packet must be abandoned and all the fragments that have been
      received for that packet must be discarded.
      </t>
+-->
 
      <t>It should be noted that fragments may be duplicated in
      the network. These exact duplicate fragments will be treated as
@@ -1033,6 +1066,13 @@
       Upper-Layer header, then that fragment should be discarded and an
       ICMP Parameter Problem, Code 3, message should be sent to the
       source of the fragment, with the Pointer field set to zero.</t>
+
+      <t>If any of the fragments being reassembled overlaps with any
+      other fragments being reassembled for the same packet, reassembly
+      of that packet must be abandoned and all the fragments that have
+      been received for that packet must be discarded.
+     </t>
+      
       </list></t>
       
       <t>The following conditions are not expected to occur, but are
@@ -1143,23 +1183,27 @@
       only Extension Header that has hop-by-hop behavior is the
       Hop-by-Hop Options header.</t>
 
-      <t>New hop-by-hop options are not recommended because, due to
-      performance restrictions, nodes may ignore the Hop-by-Hop Option
-      header, drop packets containing a hop-by-hop header, or assign
-      packets containing a hop-by-hop header to a slow processing path.
-      Designers considering defining new hop-by-hop options need to be
-      aware of this likely behaviour.  There has to a very clear
-      justification why any new hop-by-hop option is needed before it is
-      standardized.</t>
-      
-      <t>Instead of defining new Extension Headers, it is recommended
+      <t>New hop-by-hop options are not recommended because it is
+      expected that nodes along a packet's delivery path will only
+      examine and process the hop-by-hop option header if explicitly
+      configured to do so.</t>
+
+<!--
+      <t>Defining new IPv6 extension headers is not
+      recommended.  There has to a very clear justification why any new
+      extension header is needed before it is standardized.
+      Instead of defining new Extension Headers, it is recommended
       that the Destination Options header is used to carry optional
       information that need be examined only by a packet's destination
       node(s), because they provide better handling and backward
-      compatibility. Defining new IPv6 extension headers is not
-      recommended.  There has to a very clear justification why any new
-      extension header is needed before it is standardized.</t>
+      compatibility. </t>
+-->
 
+      <t>Defining new IPv6 extension headers is not recommended.  Instead
+      of defining new Extension Headers, it is recommended that the
+      Destination Options header is used to carry optional information
+      that need be examined only by a packet's destination node(s).</t>
+      
       <t>If new Extension Headers are defined, they need to use the
       following format:</t>
 
@@ -1720,6 +1764,20 @@
 
      <t><list hangIndent="5" style="hanging">
 
+     <t hangText="06)">Added the Routing Header to the list required
+     extension headers that a full implementation includes.</t>
+
+     <t hangText="06)">Moved the text in Section 4.5 regarding the
+     handling of received overlapping fragments to the list of error
+     conditions</t>
+
+     <t hangText="06)">Rewrote the text in Section 4.8 "Defining New
+     Extension Headers and Options" to be clearer and remove redundant
+     text.
+     </t>
+
+     <t hangText="06)">Editorial changes.</t>     
+
      <t hangText="05)">Changed requirement for HBH header from a should
      to a may, and added a note to indicate what is expected.</t>
 
@@ -1781,7 +1839,7 @@
      including a fragment header to outgoing packets if a ICMP Packet Too
      Big message reporting a Next-Hop MTU less than 1280.  This is based
      on the update in
-     draft-ietf-6man-deprecate-atomfrag-generation-03.</t>
+     draft-ietf-6man-deprecate-atomfrag-generation.</t>
 
      <t hangText="01)">Changed to Fragmentation Header section to clarify
      MTU restriction and 8-byte restrictions, and noting the restriction
