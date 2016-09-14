@@ -12,7 +12,6 @@
 <!ENTITY rfc3956 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3956.xml">
 <!ENTITY rfc4038 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4038.xml">
 <!ENTITY rfc3879 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3879.xml">
-<!ENTITY rfc4291 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4291.xml">
 <!ENTITY rfc4193 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4193.xml">
 <!ENTITY rfc4007 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4007.xml">
 <!ENTITY rfc7217 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7217.xml">
@@ -20,6 +19,8 @@
 
 <!--
 <!ENTITY rfc7371 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7371.xml">
+<!ENTITY rfc4291 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4291.xml">
+
 -->
 
 <!ENTITY rfc7428 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7428.xml">
@@ -1202,10 +1203,10 @@
     &rfc4193;
     &rfc7217;
     &rfc7721;
-    &rfc4291;
 
 <!--
     &rfc7371; 
+    &rfc4291;
 
     &I-D.ietf-6man-default-iids;
 -->
