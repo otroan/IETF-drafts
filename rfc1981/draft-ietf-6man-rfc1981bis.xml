@@ -13,7 +13,7 @@
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
 
-<rfc category="std" docName="draft-ietf-6man-rfc1981bis-02" obsoletes="1981" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc1981bis-03" obsoletes="1981" ipr="pre5378Trust200902">
 
 <front>
 
@@ -110,7 +110,7 @@
 
 <middle>
 
-<section title=" Introduction">
+<section title="Introduction" anchor="Intro">
     
    <t>When one IPv6 node has a large amount of data to send to another
    node, the data is transmitted in a series of IPv6 packets.  It is
@@ -151,7 +151,7 @@
    
 </section>
 
-<section title="Terminology"> 
+<section title="Terminology" anchor="Term"> 
 
   <t><list hangIndent="20" style="hanging">
 
@@ -207,7 +207,7 @@
 
 </section>
 
-<section title="Protocol Overview"> 
+<section title="Protocol Overview" anchor="Overview"> 
 
    <t>This memo describes a technique to dynamically discover the PMTU of
    a path.  The basic idea is that a source node initially assumes that
@@ -261,7 +261,7 @@
 </section>
 
 
-<section title="Protocol Requirements"> 
+<section title="Protocol Requirements" anchor="Req"> 
 
    <t>As discussed in section 1, IPv6 nodes are not required to implement
    Path MTU Discovery.  The requirements in this section apply only to
@@ -328,7 +328,7 @@
    
 </section>
 
-<section title="Implementation Issues">
+<section title="Implementation Issues" anchor="Implementation">
 
    <t>This section discusses a number of issues related to the
    implementation of Path MTU Discovery.  This is not a specification,
@@ -348,7 +348,7 @@
    <t hangText="-">What must transport and higher layers do?</t>
    </list></t>
 
-<section title="Layering">
+<section title="Layering" anchor="Layering">
 
    <t>In the IP architecture, the choice of what size packet to send is
    made by a protocol at a layer above IP.  This memo refers to such a
@@ -377,20 +377,21 @@
    headers (if any).
    </t>
    
-   <t>It is possible that a packetization layer, perhaps a UDP application
-   outside the kernel, is unable to change the size of messages it
-   sends.  This may result in a packet size that exceeds the Path MTU.
-   To accommodate such situations, IPv6 defines a mechanism that allows
-   large payloads to be divided into fragments, with each fragment sent
-   in a separate packet (see <xref target="I-D.ietf-6man-rfc2460bis"/> section "Fragment Header").
-   However, packetization layers are encouraged to avoid sending
-   messages that will require fragmentation (for the case against
-   fragmentation, see <xref target="FRAG"/>).
+   <t>It is possible that a packetization layer, perhaps a UDP
+   application outside the kernel, is unable to change the size of
+   messages it sends.  This may result in a packet size that exceeds the
+   Path MTU.  To accommodate such situations, IPv6 defines a mechanism
+   that allows large payloads to be divided into fragments, with each
+   fragment sent in a separate packet (see <xref
+   target="I-D.ietf-6man-rfc2460bis"/> section "Fragment Header").
+   However, packetization layers are encouraged to avoid sending messages
+   that will require fragmentation (for the case against fragmentation,
+   see <xref target="FRAG"/>).
    </t>
    
 </section>
 
-<section title="Storing PMTU information">
+<section title="Storing PMTU information" anchor="Storing">
 
    <t>Ideally, a PMTU value should be associated with a specific path
    traversed by packets exchanged between the source and destination
@@ -431,20 +432,26 @@
    maintained on a per-destination basis.</t>
 
    <t>For source routed packets (i.e. packets containing an IPv6 Routing
-   header <xref target="I-D.ietf-6man-rfc2460bis"/>), the source route may further qualify the local
-   representation of a path.  In particular, a packet containing a type
+   header <xref target="I-D.ietf-6man-rfc2460bis"/>), the source route
+   may further qualify the local representation of a path.</t>
+
+<!--
+   In particular, a packet containing a type
    0 Routing header in which all bits in the Strict/Loose Bit Map are
    equal to 1 contains a complete path specification.  An implementation
    could use source route information in the local representation of a
    path.</t>
+-->
 
    <t><list>
 
     <t>Note: Some paths may be further distinguished by different
-      security classifications.  The details of such classifications are
-      beyond the scope of this memo.</t>
+    security classifications.  The details of such classifications are
+    beyond the scope of this memo.</t>
 
-    </list></t>
+   </list></t>
+
+
 
    <t>Initially, the PMTU value for a path is assumed to be the (known) MTU
    of the first-hop link.</t>
@@ -517,7 +524,7 @@
 
 </section>
 
-<section title="Purging stale PMTU information">
+<section title="Purging stale PMTU information" anchor="Purging">
 
    <t>Internetwork topology is dynamic; routes change over time.  While the
    local representation of a path may remain constant, the actual
@@ -567,7 +574,7 @@
 
 </section>
 
-<section title="TCP layer actions">
+<section title="TCP layer actions" anchor="TCP">
 
    <t>The TCP layer must track the PMTU for the path(s) in use by a
    connection; it should not send segments that would result in packets
@@ -646,7 +653,7 @@
 
 </section>
 
-<section title="Issues for other transport protocols">
+<section title="Issues for other transport protocols" anchor="Transport">
 
   <t>Some transport protocols (such as ISO TP4 <xref target="ISOTP"/>)
   are not allowed to repacketize when doing a retransmission.  That is,
@@ -682,7 +689,7 @@
 
 </section>
 
-<section title="Management interface">
+<section title="Management interface" anchor="Management">
 
    <t>It is suggested that an implementation provide a way for a system
    utility program to:</t>
@@ -706,7 +713,7 @@
 </section>
 </section>
 
-<section title="Security Considerations">
+<section title="Security Considerations" anchor="Security">
 
    <t>This Path MTU Discovery mechanism makes possible two denial-of-
    service attacks, both based on a malicious party sending false Packet
@@ -732,7 +739,7 @@
 
 </section>
 
-<section title="Acknowledgements">
+<section title="Acknowledgements" anchor="Ack">
 
    <t>We would like to acknowledge the authors of and contributors to
    <xref target="RFC1191"/>, from which the majority of this document was
@@ -885,7 +892,7 @@ This RFC describes a standard that Sun Microsystems and others are using, and is
 </references>
 
 
-  <section title="Comparison to RFC 1191">
+  <section title="Comparison to RFC 1191" anchor="Comparison_RFC1191">
 
    <t>This document is based in large part on RFC 1191, which describes
    Path MTU Discovery for IPv4.  Certain portions of RFC 1191 were not
@@ -911,7 +918,7 @@ This RFC describes a standard that Sun Microsystems and others are using, and is
 
   </section>
 
-  <section title="Changes Since RFC 1981">
+  <section title="Changes Since RFC 1981" anchor="Changes_RFC1981">
 
    <t>This document has the following changes from RFC1981.
    Numbers identify the Internet-Draft version
@@ -923,8 +930,12 @@ This RFC describes a standard that Sun Microsystems and others are using, and is
 
    <t><list hangIndent="5" style="hanging">
 
-    <t hangText="02)">Clarified in Section 3. that ICMP Packet Too Big
-    should be sent even if the node doesn't decrement the hop limit</t>
+    <t hangText="03)">Remove text in <xref target="Purging"/>
+    regarding RH0 since it was deprecated by RFC5095</t>
+
+    <t hangText="02)">Clarified in <xref target="Overview"/> that ICMP
+    Packet Too Big should be sent even if the node doesn't decrement the
+    hop limit</t>
 
     <t hangText="01)">Revised the text about PLPMTUD to use the word "path".</t>
 

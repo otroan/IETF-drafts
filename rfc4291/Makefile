@@ -18,6 +18,7 @@
 # Changes for version 02
 # Changes for version 03
 # Changes for version 04
+# Changes for version 05
 
 XML2RFC=xml2rfc
 
@@ -26,7 +27,7 @@ all:	drafts
 rfc4291:	rfc4291.xml
 	$(XML2RFC) $< -o $@-gen.txt
 draft-ietf-6man-rfc4291bis:	draft-ietf-6man-rfc4291bis.xml
-	$(XML2RFC) $< -o $@-04.txt
+	$(XML2RFC) $< -o $@-05.txt
 
 drafts: \
 	draft-ietf-6man-rfc4291bis

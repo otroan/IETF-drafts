@@ -16,11 +16,12 @@
 <!ENTITY rfc4007 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4007.xml">
 <!ENTITY rfc7217 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7217.xml">
 <!ENTITY rfc7721 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7721.xml">
+<!ENTITY rfc7421 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7421.xml">
+
 
 <!--
 <!ENTITY rfc7371 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7371.xml">
 <!ENTITY rfc4291 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4291.xml">
-
 -->
 
 <!ENTITY rfc7428 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7428.xml">
@@ -40,7 +41,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc4291bis-04" obsoletes="4291" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc4291bis-05" obsoletes="4291" ipr="pre5378Trust200902">
 
 <front>
 <title abbrev="IPv6 Addressing Architecture">IP Version 6 Addressing Architecture</title>
@@ -102,7 +103,7 @@
 
 <middle>
 
-<section title=" Introduction">
+<section title=" Introduction" anchor="Intro">
 
    <t>This specification defines the addressing architecture of the IP
    Version 6 protocol.  It includes the basic formats for the various
@@ -110,7 +111,7 @@
 
 </section>
 
-<section title="IPv6 Addressing"> 
+<section title="IPv6 Addressing" anchor="Addr"> 
 
    <t>IPv6 addresses are 128-bit identifiers for interfaces and sets of
    interfaces (where "interface" is as defined in Section 2 of
@@ -152,7 +153,7 @@
    unless specifically excluded.  Specifically, prefixes may contain, or
    end with, zero-valued fields.</t>
 
-<section title="Addressing Model">
+<section title="Addressing Model" anchor="Model">
 
    <t>IPv6 addresses of all types are assigned to interfaces, not nodes.
    An IPv6 unicast address refers to a single interface.  Since each
@@ -160,13 +161,14 @@
    unicast addresses may be used as an identifier for the node.</t>
 
    <t>All interfaces are required to have at least one Link-Local unicast
-   address (see Section 2.8 for additional required addresses).  A
-   single interface may also have multiple IPv6 addresses of any type
-   (unicast, anycast, and multicast) or scope.  Unicast addresses with a
-   scope greater than link-scope are not needed for interfaces that are
-   not used as the origin or destination of any IPv6 packets to or from
-   non-neighbors.  This is sometimes convenient for point-to-point
-   interfaces.  There is one exception to this addressing model:</t>
+   address (see <xref target="Node_Required" /> for additional required
+   addresses).  A single interface may also have multiple IPv6 addresses
+   of any type (unicast, anycast, and multicast) or scope.  Unicast
+   addresses with a scope greater than link-scope are not needed for
+   interfaces that are not used as the origin or destination of any IPv6
+   packets to or from non-neighbors.  This is sometimes convenient for
+   point-to-point interfaces.  There is one exception to this addressing
+   model:</t>
 
    <t><list>
 
@@ -184,9 +186,9 @@
 
 </section>
 
-<section title="Text Representation of IPv6 Addresses"> 
+<section title="Text Representation of IPv6 Addresses" anchor="Rep"> 
 
- <section title="Text Representation of Addresses"> 
+ <section title="Text Representation of Addresses" anchor="Text"> 
 
    <t>There are three conventional forms for representing IPv6 addresses as
    text strings:</t>
@@ -270,7 +272,7 @@
 
 </section>
 
-<section title="Text Representation of Address Prefixes">
+<section title="Text Representation of Address Prefixes" anchor="Addr_Prefix">
 
    <t>The text representation of IPv6 address prefixes is similar to the
    way IPv4 address prefixes are written in Classless Inter-Domain
@@ -288,7 +290,7 @@
   <t><list hangIndent="14" style="hanging">
 
     <t hangText="ipv6-address">is an IPv6 address in any of the notations listed
-     in Section 2.2.</t>
+     in <xref target="Rep"/>.</t>
 
      <t hangText="prefix-length">is a decimal value specifying how many of the
      leftmost contiguous bits of the address comprise the prefix.</t>
@@ -336,7 +338,7 @@
 
     </section>
 
-  <section title="Recommendation for outputting IPv6 addresses"> 
+  <section title="Recommendation for outputting IPv6 addresses" anchor="Output"> 
 
    <t>This section provides a recommendation for systems generating and
    outputting IPv6 addresses as text.  Note, all implementations must
@@ -466,7 +468,7 @@
   </section>
  </section>
 
- <section title="Address Type Identification"> 
+ <section title="Address Type Identification" anchor="Addr_Type"> 
 
    <t>The type of an IPv6 address is identified by the high-order bits of
    the address, as follows:</t>
@@ -474,10 +476,10 @@
 <figure><artwork align="left"><![CDATA[
    Address type         Binary prefix        IPv6 notation   Section
    ------------         -------------        -------------   -------
-   Unspecified          00...0  (128 bits)   ::/128          2.5.2
-   Loopback             00...1  (128 bits)   ::1/128         2.5.3
-   Multicast            11111111             ff00::/8        2.7
-   Link-Local unicast   1111111010           fe80::/10       2.5.6
+   Unspecified          00...0  (128 bits)   ::/128          2.4.2
+   Loopback             00...1  (128 bits)   ::1/128         2.4.3
+   Multicast            11111111             ff00::/8        2.6
+   Link-Local unicast   1111111010           fe80::/10       2.4.6
    Global Unicast       (everything else)
   ]]></artwork></figure>
 
@@ -487,9 +489,10 @@
    addresses.</t>
 
    <t>The general format of Global Unicast addresses is described in
-   Section 2.5.4.  Some special-purpose subtypes of Global Unicast
-   addresses that contain embedded IPv4 addresses (for the purposes of
-   IPv4-IPv6 interoperation) are described in Section 2.5.5.</t>
+   <xref target="Global"/>.  Some special-purpose subtypes of Global
+   Unicast addresses that contain embedded IPv4 addresses (for the
+   purposes of IPv4-IPv6 interoperation) are described in <xref
+   target="Embedded"/>.</t>
 
    <t>Future specifications may redefine one or more sub-ranges of the
    Global Unicast space for other purposes, but unless and until that
@@ -503,18 +506,17 @@
 
 </section>
 
-<section title="Unicast Addresses"> 
+<section title="Unicast Addresses" anchor="Unicast"> 
 
    <t>IPv6 unicast addresses are aggregatable with prefixes of arbitrary
    bit-length, similar to IPv4 addresses under Classless Inter-Domain
    Routing.</t>
 
-   <t>There are several types of unicast addresses in IPv6, in particular,
-   Global Unicast, site-local unicast (deprecated, see Section 2.5.7),
-   and Link-Local unicast.  There are also some special-purpose subtypes
-   of Global Unicast, such as IPv6 addresses with embedded IPv4
-   addresses.  Additional address types or subtypes can be defined in
-   the future.</t>
+   <t>There are several types of unicast addresses in IPv6, in
+   particular, Global Unicast, Local unicast, and Link-Local unicast.
+   There are also some special-purpose subtypes of Global Unicast, such
+   as IPv6 addresses with embedded IPv4 addresses.  Additional address
+   types or subtypes can be defined in the future.</t>
 
    <t>IPv6 nodes may have considerable or little knowledge of the internal
    structure of the IPv6 address, depending on the role the node plays
@@ -552,7 +554,7 @@
    previous paragraphs, nodes should not make any assumptions about the
    structure of an IPv6 address.</t>
 
-  <section title="Interface Identifiers">
+  <section title="Interface Identifiers" anchor="II">
 
    <t>Interface identifiers in IPv6 unicast addresses are used to
    identify interfaces on a link.  They are required to be unique within
@@ -573,7 +575,8 @@
    with interface identifier that is unique over multiple subnets.</t>
    
    <t>For all unicast addresses, except those that start with the binary
-   value 000, Interface IDs are required to be 64 bits long.</t>
+   value 000, Interface IDs are required to be 64 bits long.  Background
+   on the 64 bit boundary can be bound in <xref target="RFC7421"/>.</t>
 
    <t>The details of forming interface identifiers are defined in other
    specifications, such as "Privacy Extensions for Stateless Address
@@ -594,7 +597,7 @@
 
   </section>
 
-  <section title="The Unspecified Address">
+  <section title="The Unspecified Address" anchor="Unspecified">
 
    <t>The address 0:0:0:0:0:0:0:0 is called the unspecified address.  It
    must never be assigned to any node.  It indicates the absence of an
@@ -608,7 +611,7 @@
    router.</t>
   </section>
 
-  <section title="The Loopback Address">
+  <section title="The Loopback Address" anchor="Loopback">
 
 
    <t >The unicast address 0:0:0:0:0:0:0:1 is called the loopback address.
@@ -627,7 +630,7 @@
 
   </section>
 
-  <section title="Global Unicast Addresses">
+  <section title="Global Unicast Addresses" anchor="Global">
 
    <t>The general format for IPv6 Global Unicast addresses is as follows:</t>
 
@@ -639,31 +642,31 @@
 ]]></artwork></figure>
 
    <t>where the global routing prefix is a (typically hierarchically-
-   structured) value assigned to a site (a cluster of subnets/links),
-   the subnet ID is an identifier of a link within the site, and the
-   interface ID is as defined in Section 2.5.1.</t>
+   structured) value assigned to a site (a cluster of subnets/links), the
+   subnet ID is an identifier of a link within the site, and the
+   interface ID is as defined in <xref target="II"/>.</t>
 
-   <t>All Global Unicast addresses other than those that start with binary
-   000 have a 64-bit interface ID field (i.e., n + m = 64), formatted as
-   described in Section 2.5.1.  Global Unicast addresses that start with
-   binary 000 have no such constraint on the size or structure of the
-   interface ID field.</t>
+   <t>All Global Unicast addresses other than those that start with
+   binary 000 have a 64-bit interface ID field (i.e., n + m = 64),
+   formatted as described in <xref target="II"/>.  Global Unicast
+   addresses that start with binary 000 have no such constraint on the
+   size or structure of the interface ID field.</t>
 
    <t>Examples of Global Unicast addresses that start with binary 000 are
-   the IPv6 address with embedded IPv4 addresses described in Section
-   2.5.5.  An example of global addresses starting with a binary value
-   other than 000 (and therefore having a 64-bit interface ID field) can
-   be found in <xref target="RFC3587"/>.</t>
+   the IPv6 address with embedded IPv4 addresses described in <xref
+   target="Embedded"/>.  An example of global addresses starting with a
+   binary value other than 000 (and therefore having a 64-bit interface
+   ID field) can be found in <xref target="RFC3587"/>.</t>
 
   </section>
 
-  <section title="IPv6 Addresses with Embedded IPv4 Addresses">
+  <section title="IPv6 Addresses with Embedded IPv4 Addresses" anchor="Embedded">
 
    <t>Two types of IPv6 addresses are defined that carry an IPv4 address in
    the low-order 32 bits of the address.  These are the "IPv4-Compatible
    IPv6 address" and the "IPv4-mapped IPv6 address".</t>
 
-  <section title="IPv4-Compatible IPv6 Address">
+  <section title="IPv4-Compatible IPv6 Address" anchor="IPv4_Compatible">
 
    <t>The "IPv4-Compatible IPv6 address" was defined to assist in the IPv6
    transition.  The format of the "IPv4-Compatible IPv6 address" is as
@@ -686,7 +689,7 @@
 
   </section>
   
-  <section title="IPv4-Mapped IPv6 Address">
+  <section title="IPv4-Mapped IPv6 Address" anchor="Mapped">
 
    <t>A second type of IPv6 address that holds an embedded IPv4 address is
    defined.  This address type is used to represent the addresses of
@@ -707,7 +710,7 @@
    
   </section>
 
-  <section title="Link-Local IPv6 Unicast Addresses">
+  <section title="Link-Local IPv6 Unicast Addresses" anchor="Link-Local">
 
    <t>Link-Local addresses are for use on a single link.  Link-Local
    addresses have the following format:</t>
@@ -730,8 +733,28 @@
   </section>
 
 
-  <section title="Site-Local IPv6 Unicast Addresses">
+  <section title="Other Local Unicast IPv6 Addresses" anchor="Other">
 
+  <t>Unique Local Addresses (ULA) <xref target="RFC4193"/>, the current
+  form of Local IPv6 Addresses, are intended to be used for local
+  communications, have global unicast scope, and are not expected to be
+  routable on the global Internet.</t>
+
+  <t>Site-Local addresses, deprecated by <xref target="RFC3879"/>, the
+  previous form of Local IPv6 Addresses, were originally designed to be
+  used for addressing inside of a site without the need for a global
+  prefix.</t>
+
+  <t>The special behavior of Site-Local defined in <xref
+  target="RFC3513"/> must no longer be supported in new implementations
+  (i.e., new implementations must treat this prefix as Global Unicast).
+  Existing implementations and deployments may continue to use this
+  prefix.</t>
+
+  <!--
+
+  <section title="Site-Local IPv6 Unicast Addresses">
+      
    <t>Site-Local addresses were originally designed to be used for
    addressing inside of a site without the need for a global prefix.
    Site-local addresses are now deprecated as defined in
@@ -739,20 +762,11 @@
 
    <t>Site-Local addresses have the following format:</t>
 
-   <figure><artwork align="left"><![CDATA[
-|   10     |
-|  bits    |         54 bits         |         64 bits            |
-+----------+-------------------------+----------------------------+
-|1111111011|        subnet ID        |       interface ID         |
-+----------+-------------------------+----------------------------+
-]]></artwork></figure>
-   
    <t>The special behavior of this prefix defined in <xref
    target="RFC3513"/> must no longer be supported in new implementations
    (i.e., new implementations must treat this prefix as Global
-   Unicast).</t>
-
-   <t>Existing implementations and deployments may continue to use this
+   Unicast).
+   Existing implementations and deployments may continue to use this
    prefix.</t>
 
    <t>A new type of address has been defined that can be generated
@@ -760,10 +774,13 @@
    addresses.  These are called Unique Local Addresses (ULA) <xref
    target="RFC4193"/>.</t>
 
+-->   
+
+
   </section>
   </section>
 
- <section title="Anycast Addresses">
+<section title="Anycast Addresses" anchor="Anycast">
 
    <t>An IPv6 anycast address is an address that is assigned to more than
    one interface (typically belonging to different nodes), with the
@@ -805,7 +822,7 @@
    to a particular subnet, or the set of routers providing entry into a
    particular routing domain.</t>
 
-  <section title="Required Anycast Address">
+  <section title="Required Anycast Address" anchor="Required_AC">
 
    <t>The Subnet-Router anycast address is predefined.  Its format is as
    follows:</t>
@@ -833,7 +850,7 @@
   </section>
   </section>
 
-  <section title="Multicast Addresses">
+  <section title="Multicast Addresses" anchor="Multicast">
 
    <t>An IPv6 multicast address is an identifier for a group of interfaces
    (typically on different nodes).  An interface may belong to any
@@ -993,7 +1010,7 @@
    such a packet is sent or received, it must be treated the same as
    packets destined to a global (scop E) multicast address.</t>
 
-  <section title="Pre-Defined Multicast Addresses">
+  <section title="Pre-Defined Multicast Addresses" anchor="Predefinded_MC">
 
    <t>The following well-known multicast addresses are pre-defined.  The
    group IDs defined in this section are defined for explicit scope
@@ -1090,7 +1107,7 @@
   </section>
   </section>
 
-  <section title="A Node's Required Addresses">
+  <section title="A Node's Required Addresses" anchor="Node_Required">
 
    <t>A host is required to recognize the following addresses as
    identifying itself:</t>
@@ -1105,7 +1122,8 @@
 
    <t  hangText="o">The loopback address.</t>
 
-   <t  hangText="o">The All-Nodes multicast addresses defined in Section 2.7.1.</t>
+   <t hangText="o">The All-Nodes multicast addresses defined in <xref
+   target="Predefinded_MC"/>.</t>
 
    <t  hangText="o">The Solicited-Node multicast address for each of its unicast and
    anycast addresses.</t>
@@ -1129,8 +1147,8 @@
    <t  hangText="o">All other Anycast addresses with which the router has been
    configured.</t>
 
-   <t  hangText="o">The All-Routers multicast addresses defined in Section
-   2.7.1.</t>
+   <t hangText="o">The All-Routers multicast addresses defined in <xref
+   target="Predefinded_MC"/>.</t>
 
    </list></t>
    </list></t>
@@ -1140,22 +1158,96 @@
   </section>
 
 
-   <section anchor="IANA" title="IANA Considerations">
+   <section title="IANA Considerations" anchor="IANA">
 
-   <t>This document does not contain any IANA Considerations.</t>
+   <t>RFC4291 is referenced in a number of IANA registries.  These
+   include:</t>
+
+   <t><list>
+   <t><list style="hanging" hangIndent="3">
+
+     <t hangText="o">Internet Protocol Version 6 Address Space
+     <xref target="IANA-AD"/></t>
+
+     <t hangText="o">IPv6 Global Unicast Address Assignments
+     <xref target="IANA-GU"/></t>
+
+     <t hangText="o">IPv6 Multicast Address Space Registry
+     <xref target="IANA-MC"/></t>
+
+     <t hangText="o">Application for an IPv6 Multicast Address
+     <xref target="IANA-MA"/></t>
+
+
+     <t hangText="o">Internet Protocol Version 6 (IPv6) Anycast Addresses
+     <xref target="IANA-AC"/></t>
+
+    <t hangText="o">IANA IPv6 Special-Purpose Address Registry
+    <xref target="IANA-SP"/></t>
+
+    <t hangText="o">Reserved IPv6 Interface Identifiers
+    <xref target="IANA-ID"/></t>
+
+   <t hangText="o">Number Resources
+    <xref target="IANA-NR"/></t>
+
+   <t hangText="o">Protocol Registries
+    <xref target="IANA-PR"/></t>
+
+   <t hangText="o">Technical requirements for authoritative name servers
+   <xref target="IANA-NS"/></t>
+
+   <t hangText="o">IP Flow Information Export (IPFIX) Entities
+   <xref target="IANA-FE"/></t>
+
+    
+   </list></t>
+   </list></t>
+
+   <t>The IANA should update these references to point to this document.
+   There is a reference to RFC4291 (and RFC3307) that appears to be incorrect and
+   should be removed in:</t>
+
+   <t><list>
+   <t><list style="hanging" hangIndent="3">
+
+     <t hangText="o">Modify a Port Number assignment
+     <xref target="IANA-PN"/></t>
+   
+   </list></t>
+   </list></t>
+
+   <t>There are also other references in IANA procedures documents that
+   the IANA should investigate to see if they should be updated.</t>
+
 
    </section>
 
 
-  <section title="Security Considerations">
+  <section title="Security Considerations" anchor="Security">
 
    <t>IPv6 addressing documents do not have any direct impact on Internet
    infrastructure security.  Authentication of IPv6 packets is defined
    in <xref target="RFC4302"/>.</t>
 
-     </section>
 
-  <section title="Acknowledgments">
+   <t>One area relavant to IPv6 addressing is privacy.  IPv6 addresses
+   can be created using interface identifiers constructed with unique
+   stable tokens.  The addresses created in this manner can be used to
+   track the movement of devices across the Internet.  Since earlier
+   versions of this document were published, several approaches have been
+   developed that mitigate these problems.  These are described in
+   "Security and Privacy Considerations for IPv6 Address Generation
+   Mechanisms" <xref target="RFC7721"/>, "Privacy Extensions for
+   Stateless Address Autoconfiguration in IPv6" <xref target="RFC4941"/>,
+   and "A Method for Generating Semantically Opaque Interface Identifiers
+   with IPv6 Stateless Address Autoconfiguration (SLAAC)"<xref
+   target="RFC7217"/>.
+   </t>
+
+   </section>
+
+  <section title="Acknowledgments" anchor="Ack">
 
    <t>The authors would like to acknowledge the contributions of Paul
    Francis, Scott Bradner, Jim Bound, Brian Carpenter, Matt Crawford,
@@ -1203,6 +1295,8 @@
     &rfc4193;
     &rfc7217;
     &rfc7721;
+    &rfc7421;
+
 
 <!--
     &rfc7371; 
@@ -1221,6 +1315,16 @@
     </front>
   </reference>
 
+  <reference anchor="IANA-GU"
+       target="http://www.iana.org/assignments/ipv6-unicast-address-assignments/ipv6-unicast-address-assignments.xhtml">
+     <front>
+     <title>IPv6 Global Unicast Address Assignments</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+  
+
     <reference anchor="IANA-SP"
        target="https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry.xhtml">
      <front>
@@ -1228,9 +1332,94 @@
      <author/>
      <date/>
     </front>
+    </reference>
+
+   <reference anchor="IANA-MC"
+       target="http://www.iana.org/assignments/ipv6-multicast-addresses/ipv6-multicast-addresses.xhtml">
+     <front>
+     <title>IPv6 Multicast Address Space Registry</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+
+   <reference anchor="IANA-MA"
+       target="https://www.iana.org/form/multicast-ipv6">
+     <front>
+     <title>Application for an IPv6 Multicast Address</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+
+  <reference anchor="IANA-AC"
+     target="http://www.iana.org/assignments/ipv6-anycast-addresses/ipv6-anycast-addresses.xhtml">
+     <front>
+     <title>Internet Protocol Version 6 (IPv6) Anycast Addresses</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+
+  <reference anchor="IANA-ID"
+     target="http://www.iana.org/assignments/ipv6-interface-ids/ipv6-interface-ids.xhtml">
+     <front>
+     <title>IANA IPv6 Special-Purpose Address Registry</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+
+  <reference anchor="IANA-NR"
+     target="http://https://www.iana.org/numbers">
+     <front>
+     <title>Number Resources</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+
+  <reference anchor="IANA-PR"
+     target="https://www.iana.org/protocols">
+     <front>
+     <title>Protocol Registries</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+
+  <reference anchor="IANA-NS"
+     target="https://www.iana.org/help/nameserver-requirements">
+     <front>
+     <title>Technical requirements for authoritative name servers</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+
+  <reference anchor="IANA-PN"
+     target="https://www.iana.org/form/port-modification">
+     <front>
+     <title>Modify a Port Number assignment</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+
+  <reference anchor="IANA-FE"
+      target="http://www.iana.org/assignments/ipfix/ipfix.xhtml">
+     <front>
+     <title>IP Flow Information Export (IPFIX) Entities</title>
+     <author/>
+     <date/>
+    </front>
   </reference>
   
-    <reference anchor="EUI64"
+
+
+  
+
+   <reference anchor="EUI64"
        target="http://standards.ieee.org/regauth/oui/tutorials/EUI64.html">
     <front>
     <title>IEEE, "Guidelines for 64-bit Global Identifier (EUI-64)
@@ -1240,14 +1429,14 @@
    </front>
    </reference>
 
-
+   
 
 
 
     
   </references>    
 
-  <section title="Modified EUI-64 Format Interface Identifiers">
+  <section title="Modified EUI-64 Format Interface Identifiers" anchor="Modified">
 
    <t>Modified EUI-64 format-based interface identifiers may have
    universal scope when derived from a universal token (e.g., IEEE 802
@@ -1290,7 +1479,8 @@
    created with modified EUI-64 tokens with the "u" bit set to universal
    are unique.</t>
 
-  <section title="Creating Modified EUI-64 Format Interface Identifiers">
+  <section title="Creating Modified EUI-64 Format Interface Identifiers"
+	   anchor="Creating_M_EUI">
 
    <t>Depending on the characteristics of a specific link or node, there
    are a number of approaches for creating Modified EUI-64 format
@@ -1441,7 +1631,7 @@
   </section>
 
 
-  <section title="CHANGES SINCE RFC 4291">
+  <section title="CHANGES SINCE RFC 4291" anchor="Changes">
 
    <t>This document has the following changes from RFC4291, "IP Version 6
    Addressing Architecture".  Numbers identify the Internet-Draft version
@@ -1453,7 +1643,30 @@
 
     <t><list hangIndent="5" style="hanging">
 
-    <t hangText="04)">Added text and a pointer to the ULA specification in Section 2.4.7</t>
+     <t hangText="05)">Expanded Security Considerations Section to
+     discuss privacy issues related to using stable interface identifiers
+     to create IPv6 addresses, and reference solutions that mitigate
+     these issues such as RFC7721, RFC4941, RFC7271.
+    </t>
+
+    <t hangText="05)">Added instructions in IANA Considerations to update
+    references in the IANA registries that currently point to RFC4291 to
+    point to this document.
+    </t>
+
+    <t hangText="05)">Rename <xref target="Other"/> to "Other Local
+    Unicast Addresses" and rewrote the text to point to ULAs and say that
+    Site-Local addresses were deprecated by RFC3879.  The format of
+    Site-Local was removed.</t>
+
+    <t hangText="05)">Added to <xref target="II"/> a reference to RFC7421
+    regarding the background on the 64 bit boundary in Interface
+    Identifiers.</t>
+
+    <t hangText="05)">Editorial changes.</t>
+
+    <t hangText="04)">Added text and a pointer to the ULA specification in
+    <xref target="Other"/></t>
 
     <t hangText="04)">Removed old IANA Considerations text, this was left
     from the baseline text from RFC4291 and should have been removed earlier.
@@ -1461,16 +1674,16 @@
 
     <t hangText="04)">Editorial changes.</t>
 
-    <t hangText="03)">Changes references in Section 2.4.1 that describes
+    <t hangText="03)">Changes references in <xref target="II"/> that describes
     the details of forming IIDs to RFC7271 and RFC7721.</t>
 
     <t hangText="02)">Remove changes made by RFC7371 because there isn't
     any known implementation experience.</t>
 
-    <t hangText="01)">Revised Section 2.4.1 on Interface Identifiers to
-    reflect current approach, this included saying Modified EUI-64
-    identifiers not recommended and moved the text describing the format
-    to Appendix A.</t>
+    <t hangText="01)">Revised <xref target="II"/> on Interface
+    Identifiers to reflect current approach, this included saying
+    Modified EUI-64 identifiers not recommended and moved the text
+    describing the format to Appendix A.</t>
 
     <t hangText="01)">Editorial changes.</t>
 
@@ -1488,17 +1701,18 @@
     <t><list hangIndent="5" style="hanging">
 
      <t hangText="06)">Incorporate the updates made by RFC7371. The
-     changes were to the flag bits and their definitions in Section
-     2.6.</t>
+     changes were to the flag bits and their definitions in <xref
+     target="Multicast"/>.</t>
 
      <t hangText="05)">Incorporate the updates made by RFC7346. The
      change was to add Realm-Local scope to the multicast scope table in
-     Section 2.6, and add the updating text to the same section.</t>
+     <xref target="Multicast"/>, and add the updating text to the same
+     section.</t>
 
      <t hangText="04)">Incorporate the updates made by RFC6052.  The
-     change was to add a text in Section 2.3 that points to the IANA
-     registries that records the prefix defined in RFC6052 and a number
-     of other special use prefixes.</t>
+     change was to add a text in <xref target="Addr_Type"/> that points
+     to the IANA registries that records the prefix defined in RFC6052
+     and a number of other special use prefixes.</t>
 
      <t hangText="03)">Incorporate the updates made by RFC7136 to deprecate
      the U and G bits in Modified EUI-64 format Internet IDs.</t>
@@ -1517,7 +1731,8 @@
        multicast scope to also state that packets with interface-local
        scope received from another node must be discarded.</t>
 
-      <t> Errata ID: 1627: Remove extraneous "of" in Section 2.7.</t>
+      <t> Errata ID: 1627: Remove extraneous "of" in <xref
+      target="Node_Required"/>.</t>
 
       <t>Errata ID: 2702: This errata is marked rejected.  No change
        is required.</t>

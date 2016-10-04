@@ -32,7 +32,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc2460bis-06" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc2460bis-07" obsoletes="2460" ipr="pre5378Trust200902">
 
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
@@ -84,7 +84,7 @@
 
 <middle>
 
-<section title=" Introduction"> <!-- 1, line 83-->
+<section title=" Introduction" anchor="Intro"> <!-- 1, line 83-->
   <t>IP version 6 (IPv6) is a new version of the Internet Protocol,
   designed as the successor to IP version 4 (IPv4) <xref
   target="RFC0791"/>.  The changes from IPv4 to IPv6 fall primarily
@@ -141,7 +141,7 @@
 
 
 </section> <!-- ends: "1 from line 83-->
-<section title=" Terminology"> <!-- 2, line 143-->
+<section title=" Terminology" anchor="Terminology"> <!-- 2, line 143-->
   <t><list hangIndent="13" style="hanging">
 
     <t hangText="node">a device that implements IPv6.</t>
@@ -191,7 +191,7 @@
   the latter (non-forwarding) interfaces.</t>
 </section> <!-- ends: "2 from line 143-->
 
-<section title=" IPv6 Header Format">
+<section title="IPv6 Header Format" anchor="Header">
 
 
   <figure><artwork align="left"><![CDATA[
@@ -252,7 +252,10 @@
 
 </section> <!-- ends: "3 from line 202-->
 
-<section title="IPv6 Extension Headers"> <!-- 4, line 268-->
+<section title="IPv6 Extension Headers" anchor="Ext_Hdr"> <!-- 4, line 268-->
+
+<!-- ends: "3 from line 202
+
   <t>In IPv6, optional internet-layer information is encoded in
   separate headers that may be placed between the IPv6 header and the
   upper-layer header in a packet.  There are a small number of such
@@ -260,6 +263,27 @@
   As illustrated in these examples, an IPv6 packet may carry zero,
   one, or more extension headers, each identified by the Next Header
   field of the preceding header:</t>
+
+-->
+
+  <t>In IPv6, optional internet-layer information is encoded in separate
+  headers that may be placed between the IPv6 header and the upper-layer
+  header in a packet.  There is a small number of such extension
+  headers, each one identified by a distinct Next Header value.</t>
+
+  <t>Extension Headers are numbered from IANA IP Protocol Numbers <xref
+  target="IANA-PN"/>, the same values used for IPv4 and IPv6.  When
+  processing a sequence of Next Header values in a packet, the first one
+  that is not an Extension Header <xref target="IANA-EH"/> indicates that
+  the next item in the packet is the corresponding upper-layer header. A
+  special "No Next Header" value is used if there is no upper-layer
+  header.</t>
+
+  <t>As illustrated in these examples, an IPv6 packet may carry zero,
+  one, or more extension headers, each identified by the Next Header
+  field of the preceding header:</t>
+
+
 
   <figure><artwork align="left"><![CDATA[
 +---------------+------------------------
@@ -381,15 +405,15 @@
   hop-by-hop option need to be aware of this likely behaviour.</t>
 -->
   
-  <t>If, as a result of processing a header, a node is required to
-  proceed to the next header but the Next Header value in the current
-  header is unrecognized by the node, it should discard the packet and
-  send an ICMP Parameter Problem message to the source of the packet,
-  with an ICMP Code value of 1 ("unrecognized Next Header type
-  encountered") and the ICMP Pointer field containing the offset of
-  the unrecognized value within the original packet.  The same action
-  should be taken if a node encounters a Next Header value of zero in
-  any header other than an IPv6 header.</t>
+  <t>If, as a result of processing a header, the destination node is
+  required to proceed to the next header but the Next Header value in the
+  current header is unrecognized by the node, it should discard the
+  packet and send an ICMP Parameter Problem message to the source of the
+  packet, with an ICMP Code value of 1 ("unrecognized Next Header type
+  encountered") and the ICMP Pointer field containing the offset of the
+  unrecognized value within the original packet.  The same action should
+  be taken if a node encounters a Next Header value of zero in any header
+  other than an IPv6 header.</t>
 
   <t>Each extension header is an integer multiple of 8 octets long, in
   order to retain 8-octet alignment for subsequent headers.
@@ -418,7 +442,7 @@
   at <xref target="IANA-EH"/>.
   </t>
 
-  <section title="Extension Header Order">
+  <section title="Extension Header Order" anchor="Order">
 
     <t>When more than one extension header is used in the same packet,
     it is recommended that those headers appear in the following
@@ -471,7 +495,7 @@
     revise that recommendation.</t>
   </section>
 
-  <section title="Options">
+  <section title="Options" anchor="Options">
 
     <t>Two of the currently-defined extension headers defined in this
     document -- the Hop-by-Hop Options header and the Destination Options
@@ -606,7 +630,7 @@
     <t>Appendix A contains formatting guidelines for designing new options.</t>
   </section>
 
-  <section title="Hop-by-Hop Options Header">
+  <section title="Hop-by-Hop Options Header" anchor="HBH">
 
     <t>The Hop-by-Hop Options header is used to carry optional
     information that may be examined and processed by every node along a
@@ -647,7 +671,7 @@
 
   </section>
 
-  <section title="Routing Header">
+  <section title="Routing Header" anchor="RH">
 
     <t>The Routing header is used by an IPv6 source to list one or
     more intermediate nodes to be "visited" on the way to a packet's
@@ -719,7 +743,7 @@
    </t>
   </section>
 
-  <section title="Fragment Header">
+  <section title="Fragment Header" anchor="FH">
 
     <t>The Fragment header is used by an IPv6 source to send a packet
     larger than would fit in the path MTU to its destination.  (Note:
@@ -1015,14 +1039,14 @@
      packet must be abandoned and all the fragments that have been
      received for that packet must be discarded.
      </t>
--->
 
      <t>It should be noted that fragments may be duplicated in
      the network. These exact duplicate fragments will be treated as
      overlapping fragments and handled as described in the previous
      paragraph.  An implementation may choose to detect this case and not
      drop the other fragments of the same packet.</t>
-
+-->
+     
      <t>If the fragment is a whole datagram (that is, both the Fragment
      Offset field and the M flag are zero), then it does not need any
      further reassembly and should be processed as a fully reassembled
@@ -1038,8 +1062,10 @@
       <t>The following error conditions may arise when reassembling
       fragmented packets:</t>
 
+
       <t><list>
-      <t>If insufficient fragments are received to complete reassembly
+      <t><list style="hanging" hangIndent="3">
+      <t hangText="o">If insufficient fragments are received to complete reassembly
       of a packet within 60 seconds of the reception of the
       first-arriving fragment of that packet, reassembly of that
       packet must be abandoned and all the fragments that have been
@@ -1048,32 +1074,50 @@
       received, an ICMP Time Exceeded -- Fragment Reassembly Time
       Exceeded message should be sent to the source of that fragment.</t>
 
-      <t>If the length of a fragment, as derived from the fragment
+      <t hangText="o">If the length of a fragment, as derived from the fragment
       packet's Payload Length field, is not a multiple of 8 octets and
       the M flag of that fragment is 1, then that fragment must be
       discarded and an ICMP Parameter Problem, Code 0, message should
       be sent to the source of the fragment, pointing to the Payload
       Length field of the fragment packet.</t>
 
-      <t>If the length and offset of a fragment are such that the
+      <t hangText="o">If the length and offset of a fragment are such that the
       Payload Length of the packet reassembled from that fragment
       would exceed 65,535 octets, then that fragment must be discarded
       and an ICMP Parameter Problem, Code 0, message should be sent to
       the source of the fragment, pointing to the Fragment Offset
       field of the fragment packet.</t>
 
-      <t>If the first fragment does not include all headers through an
+      <t hangText="o">If the first fragment does not include all headers through an
       Upper-Layer header, then that fragment should be discarded and an
       ICMP Parameter Problem, Code 3, message should be sent to the
       source of the fragment, with the Pointer field set to zero.</t>
 
-      <t>If any of the fragments being reassembled overlaps with any
+      <t hangText="o">If any of the fragments being reassembled overlaps with any
       other fragments being reassembled for the same packet, reassembly
       of that packet must be abandoned and all the fragments that have
-      been received for that packet must be discarded.
-     </t>
-      
-      </list></t>
+      been received for that packet must be discarded and no ICMP error
+      messages should be sent.</t>
+
+<!--
+
+     <t>It should be noted that fragments may be duplicated in
+     the network. These exact duplicate fragments will be treated as
+     overlapping fragments and handled as described in the previous
+     paragraph.  An implementation may choose to detect this case and not
+     drop the other fragments of the same packet.</t>
+
+-->
+
+     <t>It should be noted that fragments may be duplicated in the
+     network.  Instead of treating these exact duplicate fragments as an
+     overlapping fragments, an implementation may choose to detect
+     this case and drop exact duplicate fragments while keeping the other
+     fragments belonging to the same packet.</t>
+
+
+     </list></t>
+     </list></t>
       
       <t>The following conditions are not expected to occur, but are
       not considered errors if they do:</t>
@@ -1096,7 +1140,7 @@
 
     </section>
 
-    <section title="Destination Options Header">
+    <section title="Destination Options Header" anchor="Dst-OH">
 
       <t>The Destination Options header is used to carry optional
       information that need be examined only by a packet's destination
@@ -1143,7 +1187,7 @@
       depends on what action is desired of a destination node that
       does not understand the optional information:</t>
 
-      <t><list>
+      <t><list> 
       <t><list style="hanging" hangIndent="3">
 	<t hangText="o">If the desired action is for the destination node to
 	discard the packet and, only if the packet's Destination
@@ -1165,7 +1209,7 @@
     
     </section>
 
-    <section title="No Next Header">
+    <section title="No Next Header" anchor="NNH">
 
       <t>The value 59 in the Next Header field of an IPv6 header or
       any extension header indicates that there is nothing following
@@ -1176,19 +1220,19 @@
     </section>
 
 
-     <section title="Defining New Extension Headers and Options">
+     <section title="Defining New Extension Headers and Options" anchor="New_EH">
 
-      <t>No new extension headers that require hop-by-hop behavior should
-      be defined because as specified in Section 4 of this document, the
-      only Extension Header that has hop-by-hop behavior is the
-      Hop-by-Hop Options header.</t>
+      <t>New extension headers that require hop-by-hop behavior must not
+      be defined because as specified in <xref target="Ext_Hdr"/> of this
+      document, the only Extension Header that has hop-by-hop behavior is
+      the Hop-by-Hop Options header.</t>
 
+<!--
       <t>New hop-by-hop options are not recommended because it is
       expected that nodes along a packet's delivery path will only
       examine and process the hop-by-hop option header if explicitly
       configured to do so.</t>
 
-<!--
       <t>Defining new IPv6 extension headers is not
       recommended.  There has to a very clear justification why any new
       extension header is needed before it is standardized.
@@ -1197,13 +1241,29 @@
       information that need be examined only by a packet's destination
       node(s), because they provide better handling and backward
       compatibility. </t>
--->
 
       <t>Defining new IPv6 extension headers is not recommended.  Instead
       of defining new Extension Headers, it is recommended that the
       Destination Options header is used to carry optional information
       that need be examined only by a packet's destination node(s).</t>
-      
+-->
+
+      <t>New hop-by-hop options are not recommended because nodes may be
+      configured to ignore the Hop-by-Hop Option header, drop packets
+      containing a hop-by-hop header, or assign packets containing a
+      hop-by-hop header to a slow processing path.  Designers considering
+      defining new hop-by-hop options need to be aware of this likely
+      behaviour.  There has to a very clear justification why any new
+      hop-by-hop option is needed before it is standardized.</t>
+
+      <t>Defining new IPv6 extension headers is not recommended.  There
+      has to a very clear justification why any new extension header is
+      needed before it is standardized.  Instead of defining new
+      Extension Headers, it is recommended that the Destination Options
+      header is used to carry optional information that need be examined
+      only by a packet's destination node(s), because they provide better
+      handling and backward compatibility.</t>
+
       <t>If new Extension Headers are defined, they need to use the
       following format:</t>
 
@@ -1237,7 +1297,7 @@
 
   </section> <!-- ends: "4 from line 268-->
 
-  <section title="Packet Size Issues"> <!-- 5, line 1205-->
+  <section title="Packet Size Issues" anchor="Pkt_Size"> <!-- 5, line 1205-->
 
     <t>IPv6 requires that every link in the internet have an MTU of
     1280 octets or greater.  On any link that cannot convey a
@@ -1295,7 +1355,7 @@
 
   </section> <!-- ends: "5 from line 1205-->
 
-  <section title=" Flow Labels"> <!-- 6, line 1257-->
+  <section title=" Flow Labels" anchor="Flow_Label"> <!-- 6, line 1257-->
 
     <t>The 20-bit Flow Label field in the IPv6 header is used by a
     source to label sequences of packets to be treated in the network
@@ -1307,7 +1367,7 @@
  
   </section> <!-- ends: "6 from line 1257-->
 
-  <section title="Traffic Classes"> <!-- 7, line 1274-->
+  <section title="Traffic Classes" anchor="Traffic"> <!-- 7, line 1274-->
 
   <t>The 8-bit Traffic Class field in the IPv6 header is used by the network
    for traffic management.  The value of the Traffic Class bits in a received
@@ -1320,9 +1380,9 @@
 
   </section> <!-- ends: "7 from line 1274-->
 
-  <section title="Upper-Layer Protocol Issues"> <!-- 8, line 1317-->
+  <section title="Upper-Layer Protocol Issues" anchor="UL"> <!-- 8, line 1317-->
 
-    <section title="Upper-Layer Checksums">
+    <section title="Upper-Layer Checksums" anchor="UL_Chk">
 
       <t>Any transport or other upper-layer protocol that includes the
       addresses from the IP header in its checksum computation must be
@@ -1415,7 +1475,7 @@
 
     </section>
 
-    <section title="Maximum Packet Lifetime">
+    <section title="Maximum Packet Lifetime" anchor="Lifetime">
 
       <t>Unlike IPv4, IPv6 nodes are not required to enforce maximum
       packet lifetime.  That is the reason the IPv4 "Time to Live"
@@ -1428,7 +1488,7 @@
       discarding obsolete packets.</t>
 
     </section>
-    <section title="Maximum Upper-Layer Payload Size">
+    <section title="Maximum Upper-Layer Payload Size" anchor="Max_PS">
 
       <t>When computing the maximum payload size available for
       upper-layer data, an upper-layer protocol must take into account
@@ -1445,7 +1505,7 @@
 
     </section>
 
-    <section title="Responding to Packets Carrying Routing Headers">
+    <section title="Responding to Packets Carrying Routing Headers" anchor="Resp_RH">
 
       <t>When an upper-layer protocol sends one or more packets in
       response to a received packet that included a Routing header,
@@ -1483,10 +1543,28 @@
 
    <t><list>
    <t><list style="hanging" hangIndent="3">
+
      <t hangText="o">Internet Protocol Version 6 (IPv6) Parameters
      <xref target="IANA-6P"/></t>
+
      <t hangText="o">Assigned Internet Protocol Numbers
      <xref target="IANA-PN"/></t>
+
+     <t hangText="o">ONC RPC Network Identifiers (netids)
+     <xref target="IANA-NI"/></t>
+     
+    <t hangText="o">Technical requirements for authoritative name servers
+    <xref target="IANA-NS"/></t>
+
+    <t hangText="o">Network Layer Protocol Identifiers (NLPIDs) of Interest
+    <xref target="IANA-NL"/></t>
+
+   <t hangText="o">Protocol Registries
+    <xref target="IANA-PR"/></t>
+
+   <t hangText="o">Structure of Management Information (SMI) Numbers (MIB Module Registrations)
+    <xref target="IANA-MI"/></t>
+
    </list></t>
    </list></t>
 
@@ -1495,15 +1573,23 @@
    </section>
 
 
-  <section title="Security Considerations">
+  <section title="Security Considerations" anchor="Security">
 
+<!--
     <t>The security features of IPv6 are described in the Security
     Architecture for the Internet Protocol <xref
     target="RFC4301"/>.</t>
+-->
+
+<t>IPv6, from the viewpoint of the basic format and transmission of packets, has
+security properties similar to IPv4.  Risks of corruption, forgery, and 
+interception of packets, resulting in the exposure of private information, may 
+may be mitigated by use of the Security Architecture for the Internet Protocol 
+<xref target="RFC4301"/> or encryption at higher layers of the protocol stack.</t>
 
   </section>
 
-  <section title="Acknowledgments">
+  <section title="Acknowledgments" anchor="Ack">
 
     <t>The authors gratefully acknowledge the many helpful suggestions
     of the members of the IPng working group, the End-to-End Protocols
@@ -1601,10 +1687,59 @@
    </front>
  </reference>
 
+ <reference anchor="IANA-NI"
+      target="http://www.iana.org/assignments/rpc-netids/rpc-netids.xhtml">
+    <front>
+    <title>ONC RPC Network Identifiers (netids)</title>
+    <author/>
+    <date/>
+   </front>
+ </reference>
 
+  <reference anchor="IANA-NS"
+     target="https://www.iana.org/help/nameserver-requirements">
+     <front>
+     <title>Technical requirements for authoritative name servers</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+
+  <reference anchor="IANA-NL"
+     target="http://www.iana.org/assignments/nlpids/nlpids.xhtml">
+     <front>
+     <title>Network Layer Protocol Identifiers (NLPIDs) of Interest</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+  
+  <reference anchor="IANA-PR"
+     target="https://www.iana.org/protocols">
+     <front>
+     <title>Protocol Registries</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+
+  <reference anchor="IANA-MI"
+     target="  http://www.iana.org/assignments/smi-numbers/smi-numbers.xhtml">
+     <front>
+     <title>Structure of Management Information (SMI) Numbers (MIB Module Registrations)</title>
+     <author/>
+     <date/>
+    </front>
+  </reference>
+  
+
+  
+
+
+  
   </references>    
 
-  <section title="Formatting Guidelines for Options">
+  <section title="Formatting Guidelines for Options" anchor="Format_Options">
 
     <t>This appendix gives some advice on how to lay out the fields
     when designing new options to be used in the Hop-by-Hop Options
@@ -1753,7 +1888,7 @@
 
   </section>
 
-  <section title="CHANGES SINCE RFC2460">
+  <section title="CHANGES SINCE RFC2460" anchor="Changes">
 
     <t>This memo has the following changes from RFC2460.  Numbers
     identify the Internet-Draft version in which the change was made.</t>
@@ -1764,16 +1899,39 @@
 
      <t><list hangIndent="5" style="hanging">
 
+     <t hangText="07)">Expanded Security Considerations section to
+     include both IPSEC and encryption at higher levels in the protocol stack
+     as ways to mitigate IP level security issues.</t>     
+
+     <t hangText="07)">Added paragraph to <xref target="Ext_Hdr"/> to
+     clarify how Extension Headers are numbered and which are upper-layer
+     headers.</t>
+
+     <t hangText="07)">Moved the text regarding network duplicated
+     fragments to the received fragment error section.</t>     
+
+     <t hangText="07)">Added clarification that no ICMP error message
+     should be sent if overlapping fragments are received.</t>     
+
+     <t hangText="07)">Revised the text in <xref target="New_EH"/> regarding new
+     hop-by-hop options and new Extension headers to be closer to the -05
+     version.</t>
+
+     <t hangText="07)">Added additional registries to the IANA
+     Considerations section that IANA needs to update.</t>     
+     
+     <t hangText="07)">Editorial changes.</t>     
+
      <t hangText="06)">Added the Routing Header to the list required
      extension headers that a full implementation includes.</t>
 
-     <t hangText="06)">Moved the text in Section 4.5 regarding the
+     <t hangText="06)">Moved the text in <xref target="FH"/> regarding the
      handling of received overlapping fragments to the list of error
      conditions</t>
 
-     <t hangText="06)">Rewrote the text in Section 4.8 "Defining New
-     Extension Headers and Options" to be clearer and remove redundant
-     text.
+     <t hangText="06)">Rewrote the text in <xref target="New_EH"/>
+     "Defining New Extension Headers and Options" to be clearer and
+     remove redundant text.
      </t>
 
      <t hangText="06)">Editorial changes.</t>     
@@ -1805,12 +1963,12 @@
 
      <t hangText="03)">Removed IP Next Generation from the Abstract.</t>
 
-     <t hangText="03)">Add reference to the end of Section 4 to IPv6
-     Extension Header IANA registry.</t>
+     <t hangText="03)">Add reference to the end of <xref
+     target="Ext_Hdr"/> to IPv6 Extension Header IANA registry.</t>
 
      <t hangText="03)">Editorial changes.</t>
 
-     <t hangText="02)">Added text to Section 4.8 "Defining New Extension
+     <t hangText="02)">Added text to <xref target="New_EH"/> "Defining New Extension
      Headers and Options" clarifying why no new hop by hop extension
      headers should be defined.</t>
 
@@ -1823,8 +1981,8 @@
      <t hangText="01)">Added text that Extension headers must never be
      inserted by any node other than the source of the packet.</t>
 
-     <t hangText="01)">Change "must" to "should" in Section 4.3 on the
-     Hop-by-Hop header.</t>
+     <t hangText="01)">Change "must" to "should" in <xref target="HBH"/>
+     on the Hop-by-Hop header.</t>
 
      <t hangText="01)">Added text that the Data Transmission Order is the
      same as IPv4 as defined in RFC791.</t>
@@ -1835,10 +1993,10 @@
      <t hangText="01)">Change terminology in Fragment header section from
      "Unfragmentable Headers" to "Per-Fragment Headers".</t>
 
-     <t hangText="01)">Removed paragraph in Section 5 that required
-     including a fragment header to outgoing packets if a ICMP Packet Too
-     Big message reporting a Next-Hop MTU less than 1280.  This is based
-     on the update in
+     <t hangText="01)">Removed paragraph in <xref target="Pkt_Size"/>
+     that required including a fragment header to outgoing packets if a
+     ICMP Packet Too Big message reporting a Next-Hop MTU less than 1280.
+     This is based on the update in
      draft-ietf-6man-deprecate-atomfrag-generation.</t>
 
      <t hangText="01)">Changed to Fragmentation Header section to clarify
@@ -1853,8 +2011,9 @@
      <t hangText="00)">Add a paragraph to the acknowledgement section acknowledging the
      authors of the updating documents</t>
 
-     <t hangText="00)">Remove old paragraph in Section 4 that should have
-     been removed when incorporating the update from RFC7045.</t>
+     <t hangText="00)">Remove old paragraph in <xref target="Ext_Hdr"/>
+     that should have been removed when incorporating the update from
+     RFC7045.</t>
 
      <t hangText="00)">Editorial changes.</t>
 
@@ -1888,15 +2047,15 @@
 
      <t><list>
 
-     <t>RFC6564: Added new Section 4.8 that describe recommendations for
-     defining new Extension headers and options</t>
+     <t>RFC6564: Added new <xref target="New_EH"/> that describe
+     recommendations for defining new Extension headers and options</t>
 
      <t>RFC7045: The changes were to add a reference to RFC7045, change
      the requirement for processing the hop-by-hop option to a should,
      and added a note that due to performance restrictions some nodes	
      won't process the Hop-by-Hop Option header.</t>
      
-     <t>RFC7112: The changes were to revise the Fragmentation Section to
+     <t>RFC7112: The changes were to revise the Fragmentation Section (<xref target="FH"/>) to
      require that all headers through the first Upper-Layer Header are in
      the first fragment.  This changed the text describing how packets
      are fragmented and reassembled and added a new error case.</t>
@@ -1919,8 +2078,8 @@
     duplicate fragments identified on the mailing list is left open.
     </t>
 
-     <t hangText="05)">Fix text in the end of Section 4.0 to correct the
-     number of extension headers defined in this document.
+     <t hangText="05)">Fix text in the end of <xref target="Ext_Hdr"/> to
+     correct the number of extension headers defined in this document.
      </t>
 
      <t hangText="05)">Editorial changes.
@@ -1977,8 +2136,9 @@
 
        <t> Errata ID: 4279: This errata noted that the specification
        doesn't handle the case of a forwarding node receiving a packet
-       with a zero Hop Limit.  This is fixed in Section 3.0 of  this
-       draft.   Note:  No change was made regarding host behaviour.</t>
+       with a zero Hop Limit.  This is fixed in <xref target="Header"/>
+       of this draft.  Note: No change was made regarding host
+       behaviour.</t>
 
       <t>Errata ID: 2843: This errata is marked rejected.  No change
        is required.</t>
