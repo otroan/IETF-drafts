@@ -32,7 +32,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc2460bis-07" obsoletes="2460" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc2460bis-08" obsoletes="2460" ipr="pre5378Trust200902">
 
 <front>
 <title abbrev="IPv6 Specification">Internet Protocol, Version 6 (IPv6) Specification</title>
@@ -1581,11 +1581,12 @@
     target="RFC4301"/>.</t>
 -->
 
-<t>IPv6, from the viewpoint of the basic format and transmission of packets, has
-security properties similar to IPv4.  Risks of corruption, forgery, and 
-interception of packets, resulting in the exposure of private information, may 
-may be mitigated by use of the Security Architecture for the Internet Protocol 
-<xref target="RFC4301"/> or encryption at higher layers of the protocol stack.</t>
+<t>IPv6, from the viewpoint of the basic format and transmission of
+packets, has security properties similar to IPv4.  Risks of corruption,
+forgery, and interception of packets, resulting in the exposure of
+private information, may be mitigated by use of the Security Architecture
+for the Internet Protocol <xref target="RFC4301"/> or encryption at
+higher layers of the protocol stack.</t>
 
   </section>
 
@@ -1898,6 +1899,8 @@ may be mitigated by use of the Security Architecture for the Internet Protocol
      <t><list>
 
      <t><list hangIndent="5" style="hanging">
+
+     <t hangText="08)">Editorial changes.</t>     
 
      <t hangText="07)">Expanded Security Considerations section to
      include both IPSEC and encryption at higher levels in the protocol stack
