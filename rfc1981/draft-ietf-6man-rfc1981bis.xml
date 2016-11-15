@@ -263,9 +263,9 @@
 
 <section title="Protocol Requirements" anchor="Req"> 
 
-   <t>As discussed in section 1, IPv6 nodes are not required to implement
-   Path MTU Discovery.  The requirements in this section apply only to
-   those implementations that include Path MTU Discovery.
+   <t>As discussed in <xref target="Intro"/>, IPv6 nodes are not required
+   to implement Path MTU Discovery.  The requirements in this section
+   apply only to those implementations that include Path MTU Discovery.
    </t>
    
    <t>When a node receives a Packet Too Big message, it MUST reduce its

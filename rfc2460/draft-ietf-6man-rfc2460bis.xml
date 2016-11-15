@@ -308,62 +308,38 @@
 +---------------+----------------+-----------------+-----------------
 ]]></artwork></figure>
 
-<!--
-
-  [New proposed text, not ready to release]
 
   <t>The insertion of Extension Headers by any node other than the source
   of the packet causes serious problems.  Two examples include breaking
   the integrity checks provided by the Authentication Header Integrity
-  <xref target="RFC4302"/>, and breaking Path MTU Discovery and can
+  <xref target="RFC4302"/>, and breaking Path MTU Discovery which can
   result in ICMP error messages being sent to the source of the packet
-  that did not insert the header.</t>
-  
+  that did not insert the header, rather than the node that inserted the
+  header.
+  </t>
+
   <t>One approach to avoid these problems is to encapsulate the packet
   using another IPv6 header and including the additional extension header
   after the first IPv6 header, for example, as defined in <xref
-  target="RFC2473"/>.</t>
-
--->
-  
-  <t>The insertion of Extension Headers by any node other than the source
-  of the packet breaks PMTU-discovery and can result in ICMP error
-  messages being sent to the source of the packet that did not insert the
-  header.</t>
-
+  target="RFC2473"/></t>
 
 <!-- 
+
+  It will also make troubleshooting harder because it can not be assumed
+  that the packet was solely created by the source host indicated by the
+  source address in the packet.
+
   <t>The insertion or deletion of Extension Headers by any node other
   than the source of the packet is incompatible with Authentication
   Header Integrity validation [RFC4302] and breaks PMTU-discovery and can
   result in ICMP error messages being sent to the source of the packet
   that did not insert the header.</t>
--->
+
   
   <t>The current approach to allowing a header to be inserted is to encapsulate
   the packet using another IPv6 header and including the additional
   extension header after the first IPv6 header, for example, as defined
   in <xref target="RFC2473"/>.</t>
-
-
-<!-- 
-     reasons for rejection: insertion of extension headers en-route breaks
-     PMTU-discovery and can result in ICMP error messages being sent to
-     non-guilty parties.  The desired effect can be achieved, and those
-     problems avoided, by using en-route encapsulation (with optional
-     Routing Header) rather than header insertion.
-
-  <t>Extension headers must never be inserted by any node other than the
-  source of the packet.  One approach to meet a requirement to add
-  extension headers is to use IP Encapsulation, for example, as defined in
-  <xref target="RFC2473"/>.</t>
-
-  <t>Extension headers must never be deleted or changed in size by any
-  node on the path the packet takes.</t>
-
-  <t>The contents of an Extension header or Option in an Extension
-  header may be modified if this is permitted by the definition of the
-  Extension header or option.</t>
 
 -->
 
@@ -1899,6 +1875,10 @@ higher layers of the protocol stack.</t>
      <t><list>
 
      <t><list hangIndent="5" style="hanging">
+
+     <t hangText="08)">Revised header insertion text in Section 4 based
+     on the results of w.g. survey that concluded to describe the
+     problems with header insertion.</t>
 
      <t hangText="08)">Editorial changes.</t>     
 

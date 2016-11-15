@@ -41,7 +41,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-6man-rfc4291bis-05" obsoletes="4291" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-ietf-6man-rfc4291bis-06" obsoletes="4291" ipr="pre5378Trust200902">
 
 <front>
 <title abbrev="IPv6 Addressing Architecture">IP Version 6 Addressing Architecture</title>
@@ -576,7 +576,8 @@
    
    <t>For all unicast addresses, except those that start with the binary
    value 000, Interface IDs are required to be 64 bits long.  Background
-   on the 64 bit boundary can be bound in <xref target="RFC7421"/>.</t>
+   on the 64 bit boundary in IPv6 addresses can be found in <xref
+   target="RFC7421"/>.</t>
 
    <t>The details of forming interface identifiers are defined in other
    specifications, such as "Privacy Extensions for Stateless Address
@@ -1642,6 +1643,8 @@
     <t><list>
 
     <t><list hangIndent="5" style="hanging">
+
+    <t hangText="06)">Editorial changes.</t>
 
      <t hangText="05)">Expanded Security Considerations Section to
      discuss privacy issues related to using stable interface identifiers
