@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+
+<!ENTITY rfc2119 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+
+<!ENTITY I-D.ietf-6man-rfc2460bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6man-rfc2460bis.xml">
+
+<!ENTITY I-D.ietf-6man-rfc4291bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6man-rfc4291bis.xml">
+
+]>
+
+<?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
+<?rfc toc="yes"?>
+<?rfc tocdepth="4"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes" ?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
+<rfc category="std" docName="draft-hinden-6man-rfc2464bis-00" obsoletes="2464" ipr="pre5378Trust200902">
+
+  <front>
+    
+<title abbrev="IPv6 Packets over Ethernet">Transmission of IPv6 Packets over Ethernet Networks</title>
+
+
+<author fullname="Matt Crawford" initials="M"
+            surname="Crawford">
+      <organization>Fermilab</organization>
+      <address>
+        <postal>
+          <street>PO Box 500</street>
+          <!-- Reorder these if your country does things differently -->
+          <city>Batavia</city>
+          <region>IL</region>
+          <code>60510</code>
+          <country>USA</country>
+        </postal>
+        <phone></phone>
+	<facsimile></facsimile>
+        <email>crawdad@fnal.gov</email>
+        <!-- uri and facsimile elements may also be added -->
+      </address>
+</author>
+
+<author fullname="Robert M. Hinden" initials="R"
+            surname="Hinden" role="editor">
+      <organization>Check Point Software</organization>
+      <address>
+        <postal>
+          <street>959 Skyway Road</street>
+          <!-- Reorder these if your country does things differently -->
+          <city>San Carlos</city>
+          <region>CA</region>
+          <code>94070</code>
+          <country>USA</country>
+        </postal>
+        <phone></phone>
+	<facsimile></facsimile>
+        <email>bob.hinden@gmail.com</email>
+        <!-- uri and facsimile elements may also be added -->
+      </address>
+</author>
+
+<date day="" month="" year="" />
+
+<abstract>
+
+<t>This document specifies the frame format for transmission of IPv6
+packets and the method of forming IPv6 link-local addresses and
+statelessly autoconfigured addresses on Ethernet networks.  It also
+specifies the content of the Source/Target Link-layer Address option used
+in Router Solicitation, Router Advertisement, Neighbor Solicitation,
+Neighbor Advertisement and Redirect messages when those messages are
+transmitted on an Ethernet.</t>
+
+<t>This document replaces RFC 2464 "Transmission of IPv6 Packets over
+Ethernet Networks", which will become historic.</t>
+
+</abstract>
+
+</front>
+
+<middle>
+
+<section title="Introduction" anchor="Intro">
+
+<t>This document specifies the frame format for transmission of IPv6
+packets and the method of forming IPv6 link-local addresses and
+statelessly autoconfigured addresses on Ethernet networks.  It also
+specifies the content of the Source/Target Link-layer Address option used
+in Router Solicitation, Router Advertisement, Neighbor Solicitation,
+Neighbor Advertisement and Redirect messages when those messages are
+transmitted on an Ethernet.</t>
+
+<t>This document replaces RFC 2464 "Transmission of IPv6 Packets over
+Ethernet Networks", which will become historic.</t>
+
+<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+document are to be interpreted as described in
+<xref target="RFC2119"/>.</t>
+
+</section>
+
+<section title="Maximum Transmission Unit" anchor="MTU"> 
+
+<t>The default MTU size for IPv6
+<xref target="I-D.ietf-6man-rfc2460bis"/>
+packets on an Ethernet is 1500
+octets.  This size may be reduced by a Router Advertisement
+<xref target="DISC"/>
+containing an MTU option which specifies a smaller MTU, or by manual
+configuration of each node.  If a Router Advertisement received on
+an Ethernet interface has an MTU option specifying an MTU larger
+than 1500, or larger than a manually configured value, that MTU
+option may be logged to system management but must be otherwise
+ignored.
+</t>
+
+<t>For purposes of this document, information received from DHCP is
+considered "manually configured" and the term Ethernet includes
+CSMA/CD and full-duplex subnetworks based on ISO/IEC 8802-3, with
+various data rates.
+</t>
+
+</section>
+
+<section title="Frame Format" anchor="Frame"> 
+
+<t>IPv6 packets are transmitted in standard Ethernet frames.  The
+Ethernet header contains the Destination and Source Ethernet
+addresses and the Ethernet type code, which must contain the value
+86DD hexadecimal.  The data field contains the IPv6 header followed
+immediately by the payload, and possibly padding octets to meet the
+minimum frame size for the Ethernet link.
+</t>
+
+<figure><artwork align="left"><![CDATA[
+
+                  0                   1
+                  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+                 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                 |          Destination          |
+                 +-                             -+
+                 |            Ethernet           |
+                 +-                             -+
+                 |            Address            |
+                 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                 |             Source            |
+                 +-                             -+
+                 |            Ethernet           |
+                 +-                             -+
+                 |            Address            |
+                 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                 |1 0 0 0 0 1 1 0 1 1 0 1 1 1 0 1|
+                 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                 |             IPv6              |
+                 +-                             -+
+                 |            header             |
+                 +-                             -+
+                 |             and               |
+                 +-                             -+
+                 /            payload ...        /
+                 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+                 (Each tic mark represents one bit.)
+
+  ]]></artwork></figure>
+
+
+</section>
+
+<section title="Stateless Autoconfiguration" anchor="Stateless"> 
+
+
+<t>The Interface Identifier
+<xref target="I-D.ietf-6man-rfc4291bis"/>
+for an Ethernet interface is based
+on the EUI-64 identifier
+<xref target="EUI64"/>
+derived from the interface's
+built-in 48-bit IEEE 802 address.  The EUI-64 is formed as follows.
+(Canonical bit order is assumed throughout.)
+</t>
+
+<t>The OUI of the Ethernet address (the first three octets) becomes the
+company_id of the EUI-64 (the first three octets).  The fourth and
+fifth octets of the EUI are set to the fixed value FFFE hexadecimal.
+The last three octets of the Ethernet address become the last three
+octets of the EUI-64.
+</t>
+
+<t>The Interface Identifier is then formed from the EUI-64 by
+complementing the "Universal/Local" (U/L) bit, which is the
+next-to-lowest order bit of the first octet of the EUI-64.  Complementing
+this bit will generally change a 0 value to a 1, since an interface's
+built-in address is expected to be from a universally administered
+address space and hence have a globally unique value.  A universally
+administered IEEE 802 address or an EUI-64 is signified by a 0 in the U/L
+bit position, while a globally unique IPv6 Interface Identifier is
+signified by a 1 in the corresponding position.  For further discussion
+on this point, see 
+<xref target="I-D.ietf-6man-rfc4291bis"/>.
+
+</t>
+
+<t>For example, the Interface Identifier for an Ethernet interface
+whose built-in address is, in hexadecimal, </t>
+
+
+<figure><artwork align="center"><![CDATA[
+34-56-78-9A-BC-DE
+]]></artwork></figure>
+
+<t>would be</t>
+
+<figure><artwork align="center"><![CDATA[
+36-56-78-FF-FE-9A-BC-DE.
+]]></artwork></figure>
+
+<t>A different MAC address set manually or by software should not be
+used to derive the Interface Identifier.  If such a MAC address must
+be used, its global uniqueness property should be reflected in the
+value of the U/L bit.
+</t>
+
+<t>An IPv6 address prefix used for stateless autoconfiguration
+<xref target="ACONF"/>
+of an Ethernet interface must have a length of 64 bits.
+</t>
+
+</section>
+
+<section title="Link-Local Addresses" anchor="Link-Local"> 
+
+<t>The IPv6 link-local address
+<xref target="I-D.ietf-6man-rfc4291bis"/>
+for an Ethernet interface is
+formed by appending the Interface Identifier, as defined above, to
+the prefix FE80::/64.
+</t>
+
+<figure><artwork align="left"><![CDATA[
+    10 bits            54 bits                  64 bits
+  +----------+-----------------------+----------------------------+
+  |1111111010|         (zeros)       |    Interface Identifier    |
+  +----------+-----------------------+----------------------------+
+  ]]></artwork></figure>
+
+</section>
+
+<section title="Address Mapping -- Unicast" anchor="Unicast"> 
+
+<t>The procedure for mapping IPv6 unicast addresses into Ethernet
+link-layer addresses is described in
+<xref target="DISC"/>.  The Source/Target
+Link-layer Address option has the following form when the link layer
+is Ethernet.
+</t>
+
+<figure><artwork align="left"><![CDATA[
+                 0                   1
+                 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+                +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                |     Type      |    Length     |
+                +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                |                               |
+                +-          Ethernet           -+
+                |                               |
+                +-           Address           -+
+                |                               |
+                +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  ]]></artwork></figure>
+
+<t>Option fields:</t>
+
+<?rfc subcompact="yes" ?>
+<t><list hangIndent="20" style="hanging">
+<t hangText="Type">1 for Source Link-layer address.</t>
+<t hangText="">2 for Target Link-layer address.</t>
+</list></t>
+
+
+<t><list hangIndent="20" style="hanging">
+<t hangText="Length">1 (in units of 8 octets).</t>
+</list></t>
+
+<t><list hangIndent="20" style="hanging">
+<t hangText="Ethernet Address">
+The 48 bit Ethernet IEEE 802 address, in canonical bit
+order.  This is the address the interface currently
+responds to, and may be different from the built-in
+address used to derive the Interface Identifier.</t>
+</list></t>
+<?rfc subcompact="no" ?>
+
+</section>
+
+<section title="Address Mapping -- Multicast" anchor="Multicast"> 
+
+
+<t>An IPv6 packet with a multicast destination address DST, consisting
+of the sixteen octets DST[1] through DST[16], is transmitted to the
+Ethernet multicast address whose first two octets are the value 3333
+hexadecimal and whose last four octets are the last four octets of
+DST.</t>
+
+
+<figure><artwork align="left"><![CDATA[
+               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+               |0 0 1 1 0 0 1 1|0 0 1 1 0 0 1 1|
+               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+               |   DST[13]     |   DST[14]     |
+               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+               |   DST[15]     |   DST[16]     |
+               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ ]]></artwork></figure>
+
+
+</section>
+
+<section title="Differences From RFC 1972" anchor="Diff"> 
+
+
+<t>The following are the functional differences between this
+specification and RFC 1972.</t>
+
+<t><list>
+
+<t>The Address Token, which was a node's 48-bit MAC address, is
+replaced with the Interface Identifier, which is 64 bits in
+length and based on the EUI-64 format [EUI64].  An IEEE-defined
+mapping exists from 48-bit MAC addresses to EUI-64 form.</t>
+
+<t>A prefix used for stateless autoconfiguration must now be 64
+bits long rather than 80.  The link-local prefix is also
+shortened to 64 bits.</t>
+
+</list></t>
+
+</section>
+
+<section title="IANA Considerations" anchor="IANA">
+
+<t>This document does not have any IANA actions.</t>
+
+
+</section>
+
+
+<section title="Security Considerations" anchor="Security"> 
+
+<t>The method of derivation of Interface Identifiers from MAC addresses
+is intended to preserve global uniqueness when possible.  However,
+there is no protection from duplication through accident or forgery.
+</t>
+
+</section>
+
+</middle>
+
+<back>
+
+<references title="Normative References">
+
+   &I-D.ietf-6man-rfc2460bis;
+   &rfc2119;
+   &I-D.ietf-6man-rfc4291bis;
+
+<reference anchor="ACONF" target="http://www.rfc-editor.org/info/rfc4862">
+<front>
+<title>IPv6 Stateless Address Autoconfiguration</title>
+<author initials="S." surname="Thomson" fullname="S. Thomson">
+<organization/>
+</author>
+<author initials="T." surname="Narten" fullname="T. Narten">
+<organization/>
+</author>
+<author initials="T." surname="Jinmei" fullname="T. Jinmei">
+<organization/>
+</author>
+<date year="2007" month="September"/>
+<abstract>
+<t>
+This document specifies the steps a host takes in deciding how to autoconfigure its interfaces in IP version 6. The autoconfiguration process includes generating a link-local address, generating global addresses via stateless address autoconfiguration, and the Duplicate Address Detection procedure to verify the uniqueness of the addresses on a link. [STANDARDS-TRACK]
+</t>
+</abstract>
+</front>
+<seriesInfo name="RFC" value="4862"/>
+<seriesInfo name="DOI" value="10.17487/RFC4862"/>
+</reference>
+
+<reference anchor="DISC" target="http://www.rfc-editor.org/info/rfc4861">
+<front>
+<title>Neighbor Discovery for IP version 6 (IPv6)</title>
+<author initials="T." surname="Narten" fullname="T. Narten">
+<organization/>
+</author>
+<author initials="E." surname="Nordmark" fullname="E. Nordmark">
+<organization/>
+</author>
+<author initials="W." surname="Simpson" fullname="W. Simpson">
+<organization/>
+</author>
+<author initials="H." surname="Soliman" fullname="H. Soliman">
+<organization/>
+</author>
+<date year="2007" month="September"/>
+<abstract>
+<t>
+This document specifies the Neighbor Discovery protocol for IP Version
+6. IPv6 nodes on the same link use Neighbor Discovery to discover each
+other's presence, to determine each other's link-layer addresses, to find
+routers, and to maintain reachability information about the paths to
+active neighbors. [STANDARDS-TRACK]
+</t>
+</abstract>
+</front>
+<seriesInfo name="RFC" value="4861"/>
+<seriesInfo name="DOI" value="10.17487/RFC4861"/>
+</reference>
+
+</references>
+
+
+<references title="Informative References">
+
+   <reference anchor="EUI64"
+       target="http://standards.ieee.org/regauth/oui/tutorials/EUI64.html">
+    <front>
+    <title>IEEE, "Guidelines for 64-bit Global Identifier (EUI-64)
+      Registration Authority"</title>
+    <author/>
+    <date month="March" year="1997" />
+   </front>
+   </reference>
+
+</references>
+    
+ <section title="CHANGES SINCE RFC 4291" anchor="Changes">
+
+   <t>This document has the following changes from RFC2464, "Transmission
+   of IPv6 Packets over Ethernet Networks ".  Numbers identify the Internet-Draft version
+   that the change was made.:</t>
+
+
+<!--
+    <t>Working Group Internet Drafts</t>
+
+    <t><list>
+
+    <t><list hangIndent="5" style="hanging">
+
+   <t hangText="00)">TBD.</t>
+
+
+    </list></t>
+
+    </list></t>
+
+-->
+
+    <t>Individual Internet Drafts</t>
+
+    <t><list>
+
+    <t><list hangIndent="5" style="hanging">
+
+   <t hangText="00)">Establish a baseline from RFC2464.  The only
+     intended changes are formatting (XML is slightly different from
+     .nroff), differences between an RFC and Internet Draft, fixing a few
+     ID Nits, and updates to the authors information.  There should not
+     be any content changes to the specification.</t>
+
+    </list></t>
+
+    </list></t>    
+
+  </section>
+
+</back>
+
+</rfc>
+
+
+<!-- Created by hand from RFC2464 by Bob Hinden, December 2016 -->
