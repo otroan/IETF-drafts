@@ -7,6 +7,8 @@
 
 <!ENTITY I-D.ietf-6man-rfc4291bis SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-6man-rfc4291bis.xml">
 
+<!ENTITY rfc7217 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7217.xml">
+
 ]>
 
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?><?rfc strict="yes" ?>
@@ -16,7 +18,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc2464bis-00" obsoletes="2464" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc2464bis-01" obsoletes="2464" ipr="pre5378Trust200902">
 
   <front>
     
@@ -172,16 +174,36 @@ minimum frame size for the Ethernet link.
 
 <section title="Stateless Autoconfiguration" anchor="Stateless"> 
 
+<t>
+The default approach to create stable Interface Identifiers <xref
+target="I-D.ietf-6man-rfc4291bis"/> for use with SLAAC on an Ethernet
+interface should be based on <xref target="RFC7217"/>.
 
-<t>The Interface Identifier
-<xref target="I-D.ietf-6man-rfc4291bis"/>
-for an Ethernet interface is based
-on the EUI-64 identifier
-<xref target="EUI64"/>
-derived from the interface's
-built-in 48-bit IEEE 802 address.  The EUI-64 is formed as follows.
-(Canonical bit order is assumed throughout.)
+<!--
+It is recommended
+that it should be configurable whether to enable the security and privacy
+preserving mechanisms.
+-->
+
 </t>
+   
+<t>
+It is not recommended that Interface Identifiers for an Ethernet
+interface be based on IEEE MAC-layer addresses.  Earlier versions of this
+document described a method of forming interface identifiers derived from
+IEEE MAC-layer addresses called Modified EUI-64 format.  This is
+described in Appendix A of <xref target="I-D.ietf-6man-rfc4291bis"/> and
+is no longer recommended.
+</t>
+
+
+<!--
+
+<t>The Interface Identifier <xref target="I-D.ietf-6man-rfc4291bis"/> for
+an Ethernet interface is based on the EUI-64 identifier <xref
+target="EUI64"/> derived from the interface's built-in 48-bit IEEE 802
+address.  The EUI-64 is formed as follows.  (Canonical bit order is
+assumed throughout.)  </t>
 
 <t>The OUI of the Ethernet address (the first three octets) becomes the
 company_id of the EUI-64 (the first three octets).  The fourth and
@@ -218,11 +240,14 @@ whose built-in address is, in hexadecimal, </t>
 36-56-78-FF-FE-9A-BC-DE.
 ]]></artwork></figure>
 
+
 <t>A different MAC address set manually or by software should not be
 used to derive the Interface Identifier.  If such a MAC address must
 be used, its global uniqueness property should be reflected in the
 value of the U/L bit.
 </t>
+
+-->
 
 <t>An IPv6 address prefix used for stateless autoconfiguration
 <xref target="ACONF"/>
@@ -252,10 +277,9 @@ the prefix FE80::/64.
 <section title="Address Mapping -- Unicast" anchor="Unicast"> 
 
 <t>The procedure for mapping IPv6 unicast addresses into Ethernet
-link-layer addresses is described in
-<xref target="DISC"/>.  The Source/Target
-Link-layer Address option has the following form when the link layer
-is Ethernet.
+link-layer addresses is described in <xref target="DISC"/>.  The
+Source/Target Link-layer Address option has the following form when the
+link layer is Ethernet.
 </t>
 
 <figure><artwork align="left"><![CDATA[
@@ -317,7 +341,86 @@ DST.</t>
  ]]></artwork></figure>
 
 
+<t>An IPv6 multicast packet may also be mapped to a unicast Ethernet Link
+layer address as defined in <xref target="Unicast"/>.</t>
+
+<t>An IPv6 node receiving an IPv6 packet with a multicast destination
+address and an Ethernet link-layer unicast address must not drop the
+packet as a result using of this form of address mapping.</t>
+
 </section>
+
+<section title="Differences from RFC 4291" anchor="Changes">
+
+   <t>This document has the following changes from RFC2464, "Transmission
+   of IPv6 Packets over Ethernet Networks ".  Numbers identify the Internet-Draft version
+   that the change was made.:</t>
+
+<!--
+    <t>Working Group Internet Drafts</t>
+
+    <t><list>
+
+    <t><list hangIndent="5" style="hanging">
+
+   <t hangText="00)">TBD.</t>
+
+
+    </list></t>
+
+    </list></t>
+
+-->
+
+    <t>Individual Internet Drafts</t>
+
+    <t><list>
+
+    <t><list hangIndent="5" style="hanging">
+
+    <t hangText="01)">Incorporate update from
+    draft-ietf-6man-default-iids (currently in RFC Editor queue).
+    Revised <xref target="Stateless"/> to say IIDs should be formed based
+    on RFC7217 and that it not recommended to use hardware based
+    IIDs. </t>
+
+    <t hangText="01)">Incorporate update from RFC6085.  Added to 
+    <xref target="Multicast"/>
+    that an IPv6 multicast packet may be mapped to a unicast Ethernet
+    Link layer address and that nodes receiving packets with this address
+    mapping should not drop these packets.</t>
+
+    <t hangText="01)">Updates to resolve the open Errata on RFC2464.
+     These are: </t>
+
+    <t><list>
+
+      <t>Errata ID: 430: Correct reference to EUI-64.  Note, the
+      corrected URL specified in the Errata isn't working, the reference
+      now points to one that does work.
+      </t>
+
+      <t> Errata ID: 4855: This errata is not correct, and will be marked
+      as rejected.  No change is required.  Also, the text that this
+      Errata proposed to change was removed when the update from
+      draft-ietf-6man-default-iids was incorporated.</t>
+
+    </list></t>
+
+    <t hangText="01)">Editorial changes.</t>
+
+   <t hangText="00)">Establish a baseline from RFC2464.  The only
+     intended changes are formatting (XML is slightly different from
+     .nroff), differences between an RFC and Internet Draft, fixing a few
+     ID Nits, and updates to the authors information.  There should not
+     be any content changes to the specification.</t>
+
+    </list></t>
+
+    </list></t>    
+
+  </section>
+
 
 <section title="Differences From RFC 1972" anchor="Diff"> 
 
@@ -327,10 +430,10 @@ specification and RFC 1972.</t>
 
 <t><list>
 
-<t>The Address Token, which was a node's 48-bit MAC address, is
-replaced with the Interface Identifier, which is 64 bits in
-length and based on the EUI-64 format [EUI64].  An IEEE-defined
-mapping exists from 48-bit MAC addresses to EUI-64 form.</t>
+<t>The Address Token, which was a node's 48-bit MAC address, is replaced
+with the Interface Identifier, which is 64 bits in length and based on
+the EUI-64 format <xref target="EUI64"/>.  An IEEE-defined mapping exists
+from 48-bit MAC addresses to EUI-64 form.</t>
 
 <t>A prefix used for stateless autoconfiguration must now be 64
 bits long rather than 80.  The link-local prefix is also
@@ -365,6 +468,7 @@ there is no protection from duplication through accident or forgery.
 
    &I-D.ietf-6man-rfc2460bis;
    &rfc2119;
+   &rfc7217;
    &I-D.ietf-6man-rfc4291bis;
 
 <reference anchor="ACONF" target="http://www.rfc-editor.org/info/rfc4862">
@@ -382,7 +486,12 @@ there is no protection from duplication through accident or forgery.
 <date year="2007" month="September"/>
 <abstract>
 <t>
-This document specifies the steps a host takes in deciding how to autoconfigure its interfaces in IP version 6. The autoconfiguration process includes generating a link-local address, generating global addresses via stateless address autoconfiguration, and the Duplicate Address Detection procedure to verify the uniqueness of the addresses on a link. [STANDARDS-TRACK]
+This document specifies the steps a host takes in deciding how to
+autoconfigure its interfaces in IP version 6. The autoconfiguration
+process includes generating a link-local address, generating global
+addresses via stateless address autoconfiguration, and the Duplicate
+Address Detection procedure to verify the uniqueness of the addresses on
+a link. [STANDARDS-TRACK]
 </t>
 </abstract>
 </front>
@@ -422,11 +531,10 @@ active neighbors. [STANDARDS-TRACK]
 
 </references>
 
-
 <references title="Informative References">
 
    <reference anchor="EUI64"
-       target="http://standards.ieee.org/regauth/oui/tutorials/EUI64.html">
+       target="http://standards.ieee.org/develop/regauth/tut/eui64.pdf">
     <front>
     <title>IEEE, "Guidelines for 64-bit Global Identifier (EUI-64)
       Registration Authority"</title>
@@ -436,47 +544,6 @@ active neighbors. [STANDARDS-TRACK]
    </reference>
 
 </references>
-    
- <section title="CHANGES SINCE RFC 4291" anchor="Changes">
-
-   <t>This document has the following changes from RFC2464, "Transmission
-   of IPv6 Packets over Ethernet Networks ".  Numbers identify the Internet-Draft version
-   that the change was made.:</t>
-
-
-<!--
-    <t>Working Group Internet Drafts</t>
-
-    <t><list>
-
-    <t><list hangIndent="5" style="hanging">
-
-   <t hangText="00)">TBD.</t>
-
-
-    </list></t>
-
-    </list></t>
-
--->
-
-    <t>Individual Internet Drafts</t>
-
-    <t><list>
-
-    <t><list hangIndent="5" style="hanging">
-
-   <t hangText="00)">Establish a baseline from RFC2464.  The only
-     intended changes are formatting (XML is slightly different from
-     .nroff), differences between an RFC and Internet Draft, fixing a few
-     ID Nits, and updates to the authors information.  There should not
-     be any content changes to the specification.</t>
-
-    </list></t>
-
-    </list></t>    
-
-  </section>
 
 </back>
 
