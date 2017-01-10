@@ -6,6 +6,7 @@
 #
 # Changes for version 00
 # Changes for version 01
+# Changes for version 02
 #
 # Changes for w.g. Draft
 #
@@ -17,7 +18,7 @@ all:	drafts
 rfc2464:	rfc2464.xml
 	$(XML2RFC) $< -o $@-gen.txt
 draft-hinden-6man-rfc2464bis:	draft-hinden-6man-rfc2464bis.xml
-	$(XML2RFC) $< -o $@-01.txt
+	$(XML2RFC) $< -o $@-02.txt
 
 drafts: \
 	draft-hinden-6man-rfc2464bis

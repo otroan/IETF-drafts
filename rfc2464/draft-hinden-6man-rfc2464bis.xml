@@ -18,7 +18,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-hinden-6man-rfc2464bis-01" obsoletes="2464" ipr="pre5378Trust200902">
+<rfc category="std" docName="draft-hinden-6man-rfc2464bis-02" obsoletes="2464" ipr="pre5378Trust200902">
 
   <front>
     
@@ -377,6 +377,8 @@ packet as a result using of this form of address mapping.</t>
     <t><list>
 
     <t><list hangIndent="5" style="hanging">
+
+    <t hangText="02)">Editorial changes.</t>
 
     <t hangText="01)">Incorporate update from
     draft-ietf-6man-default-iids (currently in RFC Editor queue).
